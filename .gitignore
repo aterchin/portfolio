@@ -41,3 +41,6 @@ next-env.d.ts
 
 # cursor
 .cursor/
+
+# for the dev
+TODO.md

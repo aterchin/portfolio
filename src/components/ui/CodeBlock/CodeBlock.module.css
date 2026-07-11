@@ -1,0 +1,29 @@
+.wrapper {
+  position: relative;
+  margin-bottom: var(--space-6);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-tertiary);
+  background: #161b22; /* matches github-dark background */
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid #30363d;
+}
+
+/* Shiki outputs its own <pre> with background + inline token colors.
+   We reset the margins and let our wrapper handle spacing. */
+.code :global(pre) {
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  line-height: var(--leading-relaxed);
+  border-left: none; /* override the prose styles in the slug page */
+  border-radius: 0;
+}
