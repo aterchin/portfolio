@@ -1,14 +1,18 @@
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { Hero } from "@/components/home/Hero/Hero";
 import { ProjectGrid } from "@/components/home/ProjectGrid/ProjectGrid";
+import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { getProjects } from "@/lib/mdx";
 
-export default function Home() {
+export const metadata = {
+  title: "Work",
+};
+
+export default function WorkPage() {
   const projects = getProjects();
 
   return (
     <PageWrapper>
-      <Hero />
+      <SectionLabel>Work</SectionLabel>
       <ProjectGrid projects={projects} />
     </PageWrapper>
   );
