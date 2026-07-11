@@ -1,0 +1,197 @@
+/*
+ * tokens.css
+ * Canonical design token file — source of truth for all color, type, space, and motion values.
+ * All component CSS Modules reference these variables only. Never hardcode values in components.
+ *
+ * Structure:
+ *   1. Color — foundation, accent, semantic
+ *   2. Typography — families, scale, leading, tracking
+ *   3. Spacing — base unit scale
+ *   4. Layout — max widths, breakpoints (as reference comments)
+ *   5. Motion — duration, easing
+ *   6. Radius
+ *   7. Dark mode overrides
+ */
+
+/* ─────────────────────────────────────────────────────────────────
+   1. COLOR
+───────────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* Foundation — slightly warm near-white / near-black, never pure */
+  --color-bg:          #f5f3ef;  /* page background */
+  --color-bg-2:        #ebe7e0;  /* card, code block, input background */
+  --color-bg-3:        #e0dbd2;  /* deeper surface, hover states on bg-2 */
+
+  --color-ink:         #1c1a17;  /* primary text, headings */
+  --color-ink-2:       #423e38;  /* body text, secondary headings */
+  --color-ink-3:       #6b665d;  /* labels, meta, captions — never below 0.9rem */
+
+  --color-border:      #d8d3c9;  /* dividers, card outlines, input borders */
+  --color-border-2:    #c8c2b8;  /* stronger border when needed */
+
+  /* Primary accent — terracotta */
+  --color-accent:           #b56330;  /* primary use: buttons, active states, accent text on light bg */
+  --color-accent-mute:      #e2c2ac;  /* background for tags, highlights */
+  --color-accent-text:      #8a3f1c;  /* text on --color-accent-mute (AA contrast confirmed) */
+
+  /* Supporting accent — faded seafoam */
+  --color-seafoam:          #7fab9f;
+  --color-seafoam-mute:     #c3dad4;
+  --color-seafoam-text:     #2c5249;  /* text on --color-seafoam-mute */
+
+  /* Supporting accent — aged yellow */
+  --color-yellow:           #b59c4c;
+  --color-yellow-mute:      #ddd09e;
+  --color-yellow-text:      #5c4a14;  /* text on --color-yellow-mute */
+
+  /* Supporting accent — washed periwinkle */
+  --color-periwinkle:       #7c87b3;
+  --color-periwinkle-mute:  #bfc5db;
+  --color-periwinkle-text:  #353c5e;  /* text on --color-periwinkle-mute */
+
+  /* Semantic — map to foundation/accent tokens above */
+  --color-text-primary:     var(--color-ink);
+  --color-text-secondary:   var(--color-ink-2);
+  --color-text-tertiary:    var(--color-ink-3);
+  --color-surface:          var(--color-bg);
+  --color-surface-raised:   var(--color-bg-2);
+
+
+/* ─────────────────────────────────────────────────────────────────
+   2. TYPOGRAPHY
+───────────────────────────────────────────────────────────────── */
+
+  /* Families — wired to next/font CSS variables set in layout.tsx.
+     Fallback chain kept for safety if a variable fails to load. */
+  --font-display: var(--font-newsreader), Georgia, serif;
+  --font-body:    var(--font-instrument-sans), system-ui, sans-serif;
+  --font-mono:    var(--font-jetbrains-mono), 'Fira Code', monospace;
+
+  /* Scale — fluid where display, fixed where UI */
+  --text-hero:   clamp(2.8rem, 6vw, 4.2rem);  /* page hero h1 only */
+  --text-h1:     clamp(2rem, 4vw, 2.8rem);     /* section headings */
+  --text-h2:     clamp(1.4rem, 2.5vw, 1.8rem);
+  --text-h3:     1.2rem;
+  --text-body:   1rem;                          /* 16px base */
+  --text-sm:     0.92rem;                       /* captions, card body, meta */
+  --text-xs:     0.86rem;                       /* labels, tags, nav items */
+  --text-mono:   0.88rem;                       /* code inline and block */
+
+  /* Leading (line-height) */
+  --leading-tight:  1.1;   /* display headings */
+  --leading-snug:   1.3;   /* h2, h3 */
+  --leading-normal: 1.6;   /* UI text, labels */
+  --leading-relaxed:1.75;  /* body prose */
+
+  /* Tracking (letter-spacing) */
+  --tracking-tight:  -0.025em;  /* large display headings */
+  --tracking-normal:  0em;
+  --tracking-wide:    0.04em;   /* Instrument Sans nav items */
+  --tracking-wider:   0.08em;   /* mono labels, eyebrows, uppercase UI */
+
+  /* Weight reference (Instrument Sans: 400, 500, 600 / Newsreader: 400, 600) */
+
+
+/* ─────────────────────────────────────────────────────────────────
+   3. SPACING — base 4px unit
+───────────────────────────────────────────────────────────────── */
+
+  --space-1:   0.25rem;  /*  4px */
+  --space-2:   0.5rem;   /*  8px */
+  --space-3:   0.75rem;  /* 12px */
+  --space-4:   1rem;     /* 16px */
+  --space-5:   1.25rem;  /* 20px */
+  --space-6:   1.5rem;   /* 24px */
+  --space-8:   2rem;     /* 32px */
+  --space-10:  2.5rem;   /* 40px */
+  --space-12:  3rem;     /* 48px */
+  --space-16:  4rem;     /* 64px */
+  --space-20:  5rem;     /* 80px */
+  --space-24:  6rem;     /* 96px */
+
+
+/* ─────────────────────────────────────────────────────────────────
+   4. LAYOUT
+   Breakpoints are for reference — use in CSS Modules with @media.
+   sm:  640px
+   md:  768px
+   lg:  1024px
+   xl:  1280px
+───────────────────────────────────────────────────────────────── */
+
+  --layout-max:       1100px;  /* outer content max-width */
+  --layout-prose:     68ch;    /* max-width for prose/case study columns */
+  --layout-narrow:    52ch;    /* hero subhead, tight copy */
+  --layout-gutter:    var(--space-8);  /* page horizontal padding */
+
+
+/* ─────────────────────────────────────────────────────────────────
+   5. MOTION
+───────────────────────────────────────────────────────────────── */
+
+  --duration-fast:    120ms;
+  --duration-base:    200ms;
+  --duration-slow:    350ms;
+  --duration-page:    500ms;   /* page/section fade-ins */
+
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);   /* most transitions */
+  --ease-in:   cubic-bezier(0.4, 0, 1, 1);
+  --ease-base: ease;
+
+
+/* ─────────────────────────────────────────────────────────────────
+   6. RADIUS
+───────────────────────────────────────────────────────────────── */
+
+  --radius-sm:  2px;   /* default — cards, tags, buttons. intentionally tight. */
+  --radius-md:  4px;   /* inputs, modals if needed */
+  --radius-full:999px; /* pills only */
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   7. DARK MODE
+   Overrides foundation and accent tokens only.
+   Everything else (spacing, type scale, motion, radius) is unchanged.
+   Note: system preference handled in layout via data-theme attribute
+   set by ThemeProvider — matches prefers-color-scheme on first load.
+───────────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] {
+
+  /* Foundation */
+  --color-bg:          #181714;
+  --color-bg-2:        #232019;
+  --color-bg-3:        #2c2925;
+
+  --color-ink:         #ece8e0;
+  --color-ink-2:       #c2bcb1;
+  --color-ink-3:       #968f83;
+
+  --color-border:      #34302a;
+  --color-border-2:    #46413a;
+
+  /* Primary accent — terracotta, brightened for dark bg */
+  --color-accent:           #d9854f;
+  --color-accent-mute:      #4a2e1c;
+  --color-accent-text:      #e8a26f;
+
+  /* Supporting — seafoam */
+  --color-seafoam:          #6a9f94;
+  --color-seafoam-mute:     #283a36;
+  --color-seafoam-text:     #a9d3c8;
+
+  /* Supporting — aged yellow */
+  --color-yellow:           #c9ab56;
+  --color-yellow-mute:      #332c10;
+  --color-yellow-text:      #ddc77f;
+
+  /* Supporting — periwinkle */
+  --color-periwinkle:       #8c97c4;
+  --color-periwinkle-mute:  #232744;
+  --color-periwinkle-text:  #b3b9dc;
+
+}
