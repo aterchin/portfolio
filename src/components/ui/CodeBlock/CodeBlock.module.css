@@ -10,9 +10,9 @@
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
   color: var(--color-text-tertiary);
-  background: #161b22; /* matches github-dark background */
+  background: var(--color-code-bg);
   padding: var(--space-3) var(--space-5);
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--color-code-border);
 }
 
 /* Shiki outputs its own <pre> with background + inline token colors.

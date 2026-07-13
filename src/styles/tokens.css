@@ -58,6 +58,10 @@
   --color-surface:          var(--color-bg);
   --color-surface-raised:   var(--color-bg-2);
 
+  /* Code blocks — chrome for Shiki github-dark (always dark, independent of page theme) */
+  --color-code-bg:     #161b22;
+  --color-code-border: #30363d;
+
 
 /* ─────────────────────────────────────────────────────────────────
    2. TYPOGRAPHY

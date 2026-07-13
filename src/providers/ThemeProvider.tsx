@@ -1,6 +1,11 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 
 type Theme = "light" | "dark";
 
@@ -13,27 +18,29 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "portfolio-theme";
 
+function getThemeFromDom(): Theme {
+  const attr = document.documentElement.getAttribute("data-theme");
+  return attr === "dark" ? "dark" : "light";
+}
+
+function subscribe(onStoreChange: () => void) {
+  const observer = new MutationObserver(onStoreChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  return () => observer.disconnect();
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Default to light on first render; corrected immediately on mount via
-  // the inline script in layout.tsx (see ThemeScript) which runs before
-  // paint to avoid a flash of the wrong theme.
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const current = root.getAttribute("data-theme") as Theme | null;
-    if (current) {
-      setTheme(current);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    window.localStorage.setItem(STORAGE_KEY, theme);
-  }, [theme]);
+  // ThemeScript sets data-theme before paint. useSyncExternalStore reads that
+  // DOM attribute as the source of truth — no setState-in-effect sync needed.
+  const theme = useSyncExternalStore(subscribe, getThemeFromDom, () => "light" as Theme);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    const next: Theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    window.localStorage.setItem(STORAGE_KEY, next);
   };
 
   return (

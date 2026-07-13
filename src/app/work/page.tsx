@@ -1,6 +1,5 @@
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ProjectGrid } from "@/components/home/ProjectGrid/ProjectGrid";
-import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { getProjects } from "@/lib/mdx";
 
 export const metadata = {
@@ -12,8 +11,7 @@ export default function WorkPage() {
 
   return (
     <PageWrapper>
-      <SectionLabel>Work</SectionLabel>
-      <ProjectGrid projects={projects} />
+      <ProjectGrid projects={projects} label="Work" />
     </PageWrapper>
   );
 }
