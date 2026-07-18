@@ -12,6 +12,13 @@ const CONTENT_DIR = path.join(process.cwd(), "src/content");
 function parseFile<T>(filePath: string): T & { content: string } {
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
+
+  // gray-matter parses YAML dates as Date objects.
+  // Coerce to ISO string so downstream code can treat date as a string consistently.
+  if (data.date instanceof Date) {
+    data.date = data.date.toISOString().split("T")[0];
+  }
+
   return { ...(data as T), content };
 }
 

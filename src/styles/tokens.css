@@ -20,7 +20,7 @@
 :root {
 
   /* Foundation — slightly warm near-white / near-black, never pure */
-  --color-bg:          #f5f3ef;  /* page background */
+  --color-bg:          #e0dbd4;  /* page background */
   --color-bg-2:        #ebe7e0;  /* card, code block, input background */
   --color-bg-3:        #e0dbd2;  /* deeper surface, hover states on bg-2 */
 
