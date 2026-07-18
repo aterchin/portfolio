@@ -57,7 +57,7 @@ export default async function ExperimentSlugPage({
             {isWIP && <span className={styles.wip}>In progress</span>}
           </div>
         </header>
-        <div className={styles.body}>{MDXContent}</div>
+        <div className="prose">{MDXContent}</div>
       </article>
     </PageWrapper>
   );

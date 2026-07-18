@@ -57,7 +57,7 @@ export default async function WorkSlugPage({
             ))}
           </div>
         </header>
-        <div className={styles.body}>{MDXContent}</div>
+        <div className="prose">{MDXContent}</div>
       </article>
     </PageWrapper>
   );

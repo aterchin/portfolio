@@ -37,7 +37,8 @@ CSS Modules over Tailwind, MDX file-based over a headless CMS, Linode VPS over V
 Not using a syntax highlighter at present.  Using basic code formatting.
 
 ```css
-.body :global(code) {
+/* Shared via .prose in styles/utils.css — applied to MDX body wrappers */
+.prose code {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   background: var(--color-surface-raised);
@@ -47,7 +48,7 @@ Not using a syntax highlighter at present.  Using basic code formatting.
 }
 
 /* Code blocks — rendered by CodeBlock component via MDX custom components */
-.body :global(pre) {
+.prose pre {
   margin: 0;
   padding: 0;
   background: none;
@@ -58,7 +59,7 @@ Not using a syntax highlighter at present.  Using basic code formatting.
 
 /* Reset inline code styles inside code blocks — prevents
    the inline code background from applying inside pre blocks */
-.body :global(pre code) {
+.prose pre code {
   background: none;
   padding: 0;
   border-radius: 0;
