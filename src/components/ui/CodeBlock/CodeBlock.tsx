@@ -1,4 +1,3 @@
-import { codeToHtml } from "shiki";
 import styles from "./CodeBlock.module.css";
 
 interface CodeBlockProps {
@@ -6,22 +5,15 @@ interface CodeBlockProps {
   lang?: string;
 }
 
-export async function CodeBlock({ code, lang = "plaintext" }: CodeBlockProps) {
-  const html = await codeToHtml(code.trim(), {
-    lang,
-    theme: "github-dark",
-  });
-
+export function CodeBlock({ code, lang }: CodeBlockProps) {
   return (
     <div className={styles.wrapper}>
-      {lang !== "plaintext" && (
+      {lang && lang !== "plaintext" && (
         <div className={styles.label}>{lang}</div>
       )}
-      {/* Shiki returns a fully formed <pre><code>...</code></pre> with inline styles */}
-      <div
-        className={styles.code}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <pre className={styles.pre}>
+        <code>{code.trim()}</code>
+      </pre>
     </div>
   );
 }
