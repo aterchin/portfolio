@@ -1,0 +1,25 @@
+---
+title: Portfolio design system
+slug: portfolio-design-system
+date: 2024-11-01
+status: in-progress
+summary: The type, color, and layout decisions behind this site — documented as they happened rather than reconstructed after the fact.
+---
+
+This site was designed in public, decision by decision, with each choice written down before implementation rather than after. This experiment is the record of that process.
+
+## What got decided and why
+
+The short version: Newsreader for display type because it has presence without trying too hard. Instrument Sans for body and UI because it's clean without being personality-free. Terracotta as the primary accent because the palette needed warmth and the alternatives were either too cold (periwinkle) or too on-the-nose (dusty rose, which got replaced).
+
+The 90s web nod stayed in the color palette only. Dashed borders were considered and rejected.
+
+## What's still in progress
+
+- Whether the project grid should stay 3 columns on desktop or drop to 2 at a mid breakpoint
+- Dark mode accent values — terracotta at full saturation reads slightly hot against the near-black background
+- Whether Newsreader's optical size axis needs explicit tuning at smaller heading sizes
+
+## Stack decisions
+
+CSS Modules over Tailwind, MDX file-based over a headless CMS, Linode VPS over Vercel. All of these have notes.

@@ -41,6 +41,7 @@ next-env.d.ts
 
 # cursor
 .cursor/
+.cursorrules
 
 # for the dev
 TODO.md

@@ -1,0 +1,54 @@
+---
+title: Apache reverse proxy for Node.js
+slug: apache-reverse-proxy-node
+date: 2024-03-01
+tags: [Apache, Linux, Node.js]
+summary: VirtualHost config to proxy Apache to a Node.js/PM2 process, with SSL and WebSocket support for Next.js.
+---
+
+Quick reference for proxying Apache to a Node.js app running on a local port via PM2. Includes WebSocket support — needed for Next.js hot reload in development and for any production WebSocket connections.
+
+## Required modules
+
+Enable these before touching the vhost config:
+
+```bash
+sudo a2enmod proxy proxy_http proxy_wstunnel rewrite ssl
+sudo systemctl restart apache2
+```
+
+## VirtualHost config
+
+```apache
+<VirtualHost *:443>
+  ServerName yourdomain.com
+
+  # Proxy all requests to the Node process
+  ProxyPreserveHost On
+  ProxyPass / http://localhost:3000/
+  ProxyPassReverse / http://localhost:3000/
+
+  # WebSocket support — required for Next.js dev server and hot reload
+  RewriteEngine On
+  RewriteCond %{HTTP:Upgrade} websocket [NC]
+  RewriteCond %{HTTP:Connection} upgrade [NC]
+  RewriteRule ^/?(.*) ws://localhost:3000/$1 [P,L]
+
+  # SSL — managed by certbot
+  SSLEngine on
+  SSLCertificateFile /etc/letsencrypt/live/yourdomain.com/fullchain.pem
+  SSLCertificateKeyFile /etc/letsencrypt/live/yourdomain.com/privkey.pem
+</VirtualHost>
+
+# Redirect HTTP to HTTPS
+<VirtualHost *:80>
+  ServerName yourdomain.com
+  Redirect permanent / https://yourdomain.com/
+</VirtualHost>
+```
+
+## Notes
+
+- `ProxyPreserveHost On` passes the original `Host` header through to Node — needed for Next.js to generate correct URLs.
+- The `X-Forwarded-For` header is set automatically by `mod_proxy`, so rate limiting by IP in the Node app will see the real client IP.
+- If PM2 restarts the Node process, Apache will reconnect automatically — no Apache restart needed.
