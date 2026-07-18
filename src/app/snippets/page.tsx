@@ -11,12 +11,14 @@ export default function SnippetsPage() {
 
   return (
     <PageWrapper>
-      <SectionLabel>Snippets</SectionLabel>
-      <div className={styles.grid}>
-        {snippets.map((snippet) => (
-          <SnippetCard key={snippet.slug} {...snippet} />
-        ))}
-      </div>
+      <section className={styles.section}>
+        <SectionLabel>Snippets</SectionLabel>
+        <div className={styles.grid}>
+          {snippets.map((snippet) => (
+            <SnippetCard key={snippet.slug} {...snippet} />
+          ))}
+        </div>
+      </section>
     </PageWrapper>
   );
 }

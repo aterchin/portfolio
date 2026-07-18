@@ -35,3 +35,8 @@
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
 }
+
+.section {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-20);
+}

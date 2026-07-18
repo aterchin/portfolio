@@ -8,6 +8,8 @@ summary: The type, color, and layout decisions behind this site — documented a
 
 This site was designed in public, decision by decision, with each choice written down before implementation rather than after. This experiment is the record of that process.
 
+![Color palette exploration from the design surface session](/images/experiments/portfolio-design-system.webp)
+
 ## What got decided and why
 
 The short version: Newsreader for display type because it has presence without trying too hard. Instrument Sans for body and UI because it's clean without being personality-free. Terracotta as the primary accent because the palette needed warmth and the alternatives were either too cold (periwinkle) or too on-the-nose (dusty rose, which got replaced).
@@ -23,3 +25,43 @@ The 90s web nod stayed in the color palette only. Dashed borders were considered
 ## Stack decisions
 
 CSS Modules over Tailwind, MDX file-based over a headless CMS, Linode VPS over Vercel. All of these have notes.
+
+## Placeholder images
+
+![Placeholder 1440px x 810px](/images/experiments/placeholder-1440x810.webp)
+
+![Placeholder 600px x 600px](/images/experiments/placeholder-600x600.webp)
+
+## Code blocks
+
+Not using a syntax highlighter at present.  Using basic code formatting.
+
+```css
+.body :global(code) {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  background: var(--color-surface-raised);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Code blocks — rendered by CodeBlock component via MDX custom components */
+.body :global(pre) {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border-left: none;
+  border-radius: 0;
+  overflow-x: auto;
+}
+
+/* Reset inline code styles inside code blocks — prevents
+   the inline code background from applying inside pre blocks */
+.body :global(pre code) {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+```
