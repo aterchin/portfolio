@@ -1,0 +1,3 @@
+During development you can use Resend's sandbox — just set `RESEND_API_KEY` in `.env.local` and `CONTACT_TO_EMAIL` to your email address. Resend's free tier lets you send to your own verified email in dev without a verified domain.
+
+Also need to make sure Apache is forwarding the real client IP in `X-Forwarded-For` for rate limiting to work correctly in production — we can cover that when we get to the deploy config.
