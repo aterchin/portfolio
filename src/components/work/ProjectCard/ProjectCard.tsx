@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { Tag } from "@/components/ui/Tag/Tag";
 import type { Project } from "@/lib/types";
 import styles from "./ProjectCard.module.css";
 
-type ProjectCardProps = Pick<Project, "title" | "slug" | "date" | "type" | "tags" | "accent" | "summary">;
+type ProjectCardProps = Pick<Project, "title" | "slug" | "date" | "type" | "tags" | "summary">;
 
-export function ProjectCard({ title, slug, date, type, tags, accent, summary }: ProjectCardProps) {
+export function ProjectCard({ title, slug, date, type, tags, summary }: ProjectCardProps) {
   const year = new Date(date).getFullYear();
 
   return (
@@ -17,11 +16,7 @@ export function ProjectCard({ title, slug, date, type, tags, accent, summary }: 
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
-        <div className={styles.tags}>
-          {tags.map((tag) => (
-            <Tag key={tag} accent={accent}>{tag}</Tag>
-          ))}
-        </div>
+        <p className={styles.tags}>{tags.join(" · ")}</p>
         <span className={styles.arrow} aria-hidden>→</span>
       </div>
     </Link>

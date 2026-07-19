@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Tag } from "@/components/ui/Tag/Tag";
 import type { Snippet } from "@/lib/types";
 import styles from "./SnippetCard.module.css";
 
@@ -11,11 +10,7 @@ export function SnippetCard({ title, slug, tags, summary }: SnippetCardProps) {
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
-        <div className={styles.tags}>
-          {tags.map((tag) => (
-            <Tag key={tag} accent="periwinkle">{tag}</Tag>
-          ))}
-        </div>
+        <p className={styles.tags}>{tags.join(" · ")}</p>
         <span className={styles.arrow} aria-hidden>→</span>
       </div>
     </Link>
