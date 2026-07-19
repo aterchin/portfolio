@@ -32,7 +32,7 @@ export default async function WorkSlugPage({
 
   if (!project) notFound();
 
-  const { content, title, date, type, tags, accent } = project;
+  const { content, title, date, type, tags } = project;
   const year = new Date(date).getFullYear();
 
   const { content: MDXContent } = await compileMDX({
@@ -51,7 +51,7 @@ export default async function WorkSlugPage({
           <h1 className={styles.title}>{title}</h1>
           <div className={styles.tags}>
             {tags.map((tag) => (
-              <Tag key={tag} accent={accent} linked>
+              <Tag key={tag} linked>
                 {tag}
               </Tag>
             ))}

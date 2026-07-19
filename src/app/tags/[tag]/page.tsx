@@ -8,7 +8,6 @@ import {
   getContentByTag,
   getTagDisplayName,
 } from "@/lib/tags";
-import type { Project } from "@/lib/types";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -55,7 +54,6 @@ export default async function TagPage({
                 title={project.title}
                 summary={project.summary}
                 tags={project.tags}
-                accent={project.accent}
                 meta={project.type === "case-study" ? "Case study" : "Showcase"}
               />
             ))}
@@ -74,7 +72,6 @@ export default async function TagPage({
                 title={snippet.title}
                 summary={snippet.summary}
                 tags={snippet.tags}
-                accent="periwinkle"
                 meta="Snippet"
               />
             ))}
@@ -93,7 +90,6 @@ export default async function TagPage({
                 title={experiment.title}
                 summary={experiment.summary}
                 tags={experiment.tags ?? []}
-                accent="yellow"
                 meta={experiment.status === "in-progress" ? "In progress" : "Experiment"}
               />
             ))}
@@ -111,11 +107,10 @@ interface TagResultItemProps {
   title: string;
   summary: string;
   tags: string[];
-  accent: Project["accent"];
   meta: string;
 }
 
-function TagResultItem({ href, title, summary, tags, accent, meta }: TagResultItemProps) {
+function TagResultItem({ href, title, summary, tags, meta }: TagResultItemProps) {
   return (
     <li className={styles.item}>
       <div className={styles.itemMeta}>{meta}</div>
@@ -123,7 +118,7 @@ function TagResultItem({ href, title, summary, tags, accent, meta }: TagResultIt
       <p className={styles.itemSummary}>{summary}</p>
       <div className={styles.itemTags}>
         {tags.map((t) => (
-          <Tag key={t} accent={accent} linked>{t}</Tag>
+          <Tag key={t} linked>{t}</Tag>
         ))}
       </div>
     </li>

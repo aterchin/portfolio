@@ -8,24 +8,7 @@
   border-radius: var(--radius-sm);
   margin-right: var(--space-2);
   margin-bottom: var(--space-2);
-}
-
-.terracotta {
-  background: var(--color-accent-mute);
-  color: var(--color-accent-text);
-}
-
-.seafoam {
-  background: var(--color-seafoam-mute);
-  color: var(--color-seafoam-text);
-}
-
-.yellow {
-  background: var(--color-yellow-mute);
-  color: var(--color-yellow-text);
-}
-
-.periwinkle {
   background: var(--color-periwinkle-mute);
   color: var(--color-periwinkle-text);
+  text-decoration: none;
 }

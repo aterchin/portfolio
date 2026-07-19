@@ -1,6 +1,3 @@
-// Accent colors available per-project — maps to Tag component variants
-export type AccentColor = "terracotta" | "seafoam" | "yellow" | "periwinkle";
-
 // Work project — case study or showcase
 export interface Project {
   title: string;
@@ -9,7 +6,6 @@ export interface Project {
   type: "case-study" | "showcase";
   status: "published" | "draft";
   tags: string[];
-  accent: AccentColor;
   summary: string;
 }
 
@@ -29,5 +25,5 @@ export interface Experiment {
   date: string;
   status: "published" | "in-progress";
   summary: string;
-  tags?: string[];  // optional — experiments may not always have tags
+  tags?: string[];
 }

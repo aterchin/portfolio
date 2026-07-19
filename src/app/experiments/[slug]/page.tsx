@@ -60,7 +60,7 @@ export default async function ExperimentSlugPage({
           {tags && tags.length > 0 && (
             <div className={styles.tags}>
               {tags.map((tag) => (
-                <Tag key={tag} accent="yellow" linked>
+                <Tag key={tag} linked>
                   {tag}
                 </Tag>
               ))}
