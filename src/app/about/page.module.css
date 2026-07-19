@@ -1,0 +1,137 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-16);
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-24);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+}
+
+/* ── Main bio ──────────────────────────────────────────────── */
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-8);
+}
+
+.bio {
+  max-width: var(--layout-narrow);
+}
+
+.bio p {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-5);
+}
+
+.bio p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.sideSection {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.sideLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-4);
+}
+
+/* ── Stack list ────────────────────────────────────────────── */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.stackGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stackLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.stackItems {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* ── Looking for ───────────────────────────────────────────── */
+
+.sideText {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.contactLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-accent-text);
+  text-decoration: none;
+  transition: opacity var(--duration-base) var(--ease-base);
+}
+
+.contactLink:hover {
+  opacity: 0.75;
+}
+
+/* ── External links ────────────────────────────────────────── */
+
+.links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.externalLink {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-base);
+}
+
+.externalLink:hover {
+  color: var(--color-accent-text);
+}
