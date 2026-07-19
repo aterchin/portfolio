@@ -36,3 +36,39 @@
   gap: var(--space-4);
   align-items: center;
 }
+
+.btnPrimary,
+.btnGhost {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: opacity var(--duration-base) var(--ease-base),
+              border-color var(--duration-base) var(--ease-base),
+              color var(--duration-base) var(--ease-base);
+}
+
+.btnPrimary {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+}
+
+.btnPrimary:hover {
+  opacity: 0.85;
+}
+
+.btnGhost {
+  background: none;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-text-tertiary);
+}
+
+.btnGhost:hover {
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+}

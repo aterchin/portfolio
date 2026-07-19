@@ -18,7 +18,7 @@ export function Nav() {
   return (
     <nav className={styles.nav}>
       <Link href="/" className={styles.wordmark}>
-        j.doe<span>.dev</span>
+        reallyslowwebsites<span>.com</span>
       </Link>
       <ul className={styles.links}>
         {links.map((link) => (

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/Button/Button";
+import Link from "next/link";
 import styles from "./Hero.module.css";
 
 export function Hero() {
@@ -12,8 +12,8 @@ export function Hero() {
         don&apos;t quite know yet.
       </p>
       <div className={styles.ctaRow}>
-        <Button variant="primary">View work</Button>
-        <Button variant="ghost">Get in touch</Button>
+        <Link href="/work" className={styles.btnPrimary}>View work</Link>
+        <Link href="/contact" className={styles.btnGhost}>Get in touch</Link>
       </div>
     </section>
   );
