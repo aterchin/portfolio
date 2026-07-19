@@ -47,7 +47,7 @@ export default async function SnippetSlugPage({
           <h1 className={styles.title}>{title}</h1>
           <div className={styles.tags}>
             {tags.map((tag) => (
-              <Tag key={tag} accent="periwinkle">{tag}</Tag>
+              <Tag key={tag} accent="periwinkle" linked>{tag}</Tag>
             ))}
           </div>
         </header>

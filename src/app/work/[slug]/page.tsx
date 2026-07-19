@@ -51,7 +51,7 @@ export default async function WorkSlugPage({
           <h1 className={styles.title}>{title}</h1>
           <div className={styles.tags}>
             {tags.map((tag) => (
-              <Tag key={tag} accent={accent}>
+              <Tag key={tag} accent={accent} linked>
                 {tag}
               </Tag>
             ))}

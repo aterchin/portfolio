@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
+import { Tag } from "@/components/ui/Tag/Tag";
 import { getExperiment, getExperimentSlugs } from "@/lib/mdx";
 import { getMDXComponents } from "@/lib/mdxComponents";
 import styles from "./page.module.css";
@@ -30,7 +31,7 @@ export default async function ExperimentSlugPage({
   const experiment = getExperiment(slug);
   if (!experiment) notFound();
 
-  const { content, title, status } = experiment;
+  const { content, title, status, tags } = experiment;
   const isWIP = status === "in-progress";
 
   const { content: MDXContent } = await compileMDX({
@@ -56,6 +57,15 @@ export default async function ExperimentSlugPage({
             */}
             {isWIP && <span className={styles.wip}>In progress</span>}
           </div>
+          {tags && tags.length > 0 && (
+            <div className={styles.tags}>
+              {tags.map((tag) => (
+                <Tag key={tag} accent="yellow" linked>
+                  {tag}
+                </Tag>
+              ))}
+            </div>
+          )}
         </header>
         <div className="prose">{MDXContent}</div>
       </article>

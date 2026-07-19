@@ -29,4 +29,5 @@ export interface Experiment {
   date: string;
   status: "published" | "in-progress";
   summary: string;
+  tags?: string[];  // optional — experiments may not always have tags
 }
