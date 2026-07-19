@@ -11,14 +11,12 @@ export default function ExperimentsPage() {
 
   return (
     <PageWrapper>
-      <section className={styles.section}>
-        <SectionLabel>Experiments</SectionLabel>
-        <div className={styles.grid}>
-          {experiments.map((experiment) => (
-            <ExperimentCard key={experiment.slug} {...experiment} />
-          ))}
+      <SectionLabel>Experiments</SectionLabel>
+      <div className={styles.grid}>
+        {experiments.map((experiment) => (
+          <ExperimentCard key={experiment.slug} {...experiment} />
+        ))}
       </div>
-      </section>
     </PageWrapper>
   );
 }

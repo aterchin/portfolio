@@ -1,8 +1,3 @@
-.section {
-  padding-top: var(--space-16);
-  padding-bottom: var(--space-20);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

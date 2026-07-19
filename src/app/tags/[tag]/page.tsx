@@ -41,67 +41,65 @@ export default async function TagPage({
 
   return (
     <PageWrapper>
-      <section className={styles.section}>
-        <SectionLabel>Tagged</SectionLabel>
-        <h1 className={styles.heading}>{displayName}</h1>
+      <SectionLabel>Tagged</SectionLabel>
+      <h1 className={styles.heading}>{displayName}</h1>
 
-        {projects.length > 0 && (
-          <section className={styles.group}>
-            <h2 className={styles.groupHeading}>Work</h2>
-            <ul className={styles.list}>
-              {projects.map((project) => (
-                <TagResultItem
-                  key={project.slug}
-                  href={`/work/${project.slug}`}
-                  title={project.title}
-                  summary={project.summary}
-                  tags={project.tags}
-                  accent={project.accent}
-                  meta={project.type === "case-study" ? "Case study" : "Showcase"}
-                />
-              ))}
-            </ul>
-          </section>
-        )}
+      {projects.length > 0 && (
+        <section className={styles.group}>
+          <h2 className={styles.groupHeading}>Work</h2>
+          <ul className={styles.list}>
+            {projects.map((project) => (
+              <TagResultItem
+                key={project.slug}
+                href={`/work/${project.slug}`}
+                title={project.title}
+                summary={project.summary}
+                tags={project.tags}
+                accent={project.accent}
+                meta={project.type === "case-study" ? "Case study" : "Showcase"}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
 
-        {snippets.length > 0 && (
-          <section className={styles.group}>
-            <h2 className={styles.groupHeading}>Snippets</h2>
-            <ul className={styles.list}>
-              {snippets.map((snippet) => (
-                <TagResultItem
-                  key={snippet.slug}
-                  href={`/snippets/${snippet.slug}`}
-                  title={snippet.title}
-                  summary={snippet.summary}
-                  tags={snippet.tags}
-                  accent="periwinkle"
-                  meta="Snippet"
-                />
-              ))}
-            </ul>
-          </section>
-        )}
+      {snippets.length > 0 && (
+        <section className={styles.group}>
+          <h2 className={styles.groupHeading}>Snippets</h2>
+          <ul className={styles.list}>
+            {snippets.map((snippet) => (
+              <TagResultItem
+                key={snippet.slug}
+                href={`/snippets/${snippet.slug}`}
+                title={snippet.title}
+                summary={snippet.summary}
+                tags={snippet.tags}
+                accent="periwinkle"
+                meta="Snippet"
+              />
+            ))}
+          </ul>
+        </section>
+      )}
 
-        {experiments.length > 0 && (
-          <section className={styles.group}>
-            <h2 className={styles.groupHeading}>Experiments</h2>
-            <ul className={styles.list}>
-              {experiments.map((experiment) => (
-                <TagResultItem
-                  key={experiment.slug}
-                  href={`/experiments/${experiment.slug}`}
-                  title={experiment.title}
-                  summary={experiment.summary}
-                  tags={experiment.tags ?? []}
-                  accent="yellow"
-                  meta={experiment.status === "in-progress" ? "In progress" : "Experiment"}
-                />
-              ))}
-            </ul>
-          </section>
-        )}
-      </section>
+      {experiments.length > 0 && (
+        <section className={styles.group}>
+          <h2 className={styles.groupHeading}>Experiments</h2>
+          <ul className={styles.list}>
+            {experiments.map((experiment) => (
+              <TagResultItem
+                key={experiment.slug}
+                href={`/experiments/${experiment.slug}`}
+                title={experiment.title}
+                summary={experiment.summary}
+                tags={experiment.tags ?? []}
+                accent="yellow"
+                meta={experiment.status === "in-progress" ? "In progress" : "Experiment"}
+              />
+            ))}
+          </ul>
+        </section>
+      )}
     </PageWrapper>
   );
 }
