@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Experiment } from "@/lib/types";
 import styles from "./ExperimentCard.module.css";
 
-type ExperimentCardProps = Pick<Experiment, "title" | "slug" | "status" | "summary">;
+type ExperimentCardProps = Pick<Experiment, "title" | "slug" | "status" | "summary" | "tags">;
 
-export function ExperimentCard({ title, slug, status, summary }: ExperimentCardProps) {
+export function ExperimentCard({ title, slug, status, summary, tags }: ExperimentCardProps) {
   const isWIP = status === "in-progress";
 
   return (
@@ -21,6 +21,9 @@ export function ExperimentCard({ title, slug, status, summary }: ExperimentCardP
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
+        {tags && tags.length > 0 && (
+          <p className={styles.tags}>{tags.join(" · ")}</p>
+        )}
         <span className={styles.arrow} aria-hidden>→</span>
       </div>
     </Link>

@@ -70,8 +70,8 @@
   color: var(--color-text-tertiary);
   transition: transform var(--duration-base) var(--ease-out),
               color var(--duration-base) var(--ease-base);
+  margin-left: auto;
   flex-shrink: 0;
-  margin-left: var(--space-4);
 }
 
 .card:hover .arrow {
