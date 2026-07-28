@@ -1,0 +1,84 @@
+---
+title: Brand Asset Library
+slug: brand-asset-library
+date: 2024-01-01
+type: case-study
+status: published
+tags: [React, WordPress, PHP, REST API, Vite]
+summary: A headless WordPress media library for a pharmaceutical aesthetics company — brand managers and healthcare professionals browsing, filtering, and downloading campaign assets across six product lines.
+---
+
+## Context
+
+A pharmaceutical aesthetics company needed a single place to organize and distribute media across six product brands — imagery, video, social media posts, before-and-after content, in-office materials. Brand managers needed to add content themselves without developer involvement. Healthcare professionals and field teams needed to find and download what they needed without training.
+
+The solution was a headless WordPress setup: WordPress handles content entry through its familiar admin UI, a React front-end handles the browsing experience, and the two communicate through WordPress's native REST API.
+
+## Why WordPress for the backend
+
+The client's team was already comfortable with WordPress. Non-technical staff could add a new resource, attach files, assign a brand and media type, and publish — without touching any code. A purpose-built CMS would have required training and change management that wasn't worth it for a tool this focused.
+
+The custom content type (`resource`) held the post title, description, attached media files, and metadata. A brand taxonomy and a media type taxonomy handled categorization — Brands (six product lines), Media Types (Banner, Before and After, Celebrity, Image, In-Office Material, Social Media, Video).
+
+## The front-end
+
+Built with React, React Router, React Bootstrap, and Vite. A `useResources` hook handles fetching from the WordPress REST API, applying active filters, and keeping the result set in sync as the user navigates between brands and media types.
+
+Filtering works in two passes: brand selection narrows to one product line, media type toggles further refine within that brand. Results sort by most recent or most downloaded. The UI updates without page reloads — the WordPress REST API is fast enough that this feels native even with larger result sets.
+
+## The download
+
+Each resource tile has a download button. A resource can have multiple files attached — a social media post might include the image, a PDF spec sheet, and a video version. The expected behavior was: click download, get everything in one zip.
+
+The tricky part was that zipping files from WordPress's media library on the client side isn't practical — file URLs are public but assembling and streaming a zip in the browser is fragile. The solution was a custom REST route in a WordPress plugin.
+
+The front-end sends the resource post ID to the route. The plugin:
+
+1. Retrieves all media attached to that post
+2. Fetches each file from the filesystem
+3. Assembles a `ZipArchive` in PHP
+4. Streams the zip to the browser with the correct `Content-Type` and `Content-Disposition` headers
+5. Increments a download count field in the post's meta
+
+```php
+// Custom REST route registered in the plugin
+register_rest_route('brandbox/v1', '/download/(?P<id>\d+)', [
+    'methods'  => 'GET',
+    'callback' => 'brandbox_zip_download',
+    'args'     => ['id' => ['required' => true]],
+]);
+
+function brandbox_zip_download(WP_REST_Request $request) {
+    $post_id   = $request->get_param('id');
+    $media_ids = get_post_meta($post_id, 'resource_files', true);
+
+    $zip      = new ZipArchive();
+    $tmp_file = tempnam(sys_get_temp_dir(), 'brandbox_');
+    $zip->open($tmp_file, ZipArchive::CREATE);
+
+    foreach ($media_ids as $media_id) {
+        $file_path = get_attached_file($media_id);
+        $zip->addFile($file_path, basename($file_path));
+    }
+
+    $zip->close();
+
+    // Increment download count
+    $count = (int) get_post_meta($post_id, 'download_count', true);
+    update_post_meta($post_id, 'download_count', $count + 1);
+
+    header('Content-Type: application/zip');
+    header('Content-Disposition: attachment; filename="brandbox-' . $post_id . '.zip"');
+    header('Content-Length: ' . filesize($tmp_file));
+
+    readfile($tmp_file);
+    unlink($tmp_file);
+    exit;
+}
+```
+
+Streaming from the server means the client receives a standard file download — no client-side zip library, no CORS issues with media files, no memory constraints in the browser.
+
+## What I'd do differently
+
+The download count increment happens in the same request as the download itself, which means a failed or interrupted download still increments the count. A cleaner approach would be a separate lightweight endpoint the front-end calls only after confirming the download completed. For an internal tool tracking rough usage patterns this was acceptable — for anything requiring accurate analytics it wouldn't be.
