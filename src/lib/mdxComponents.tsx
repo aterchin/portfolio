@@ -7,7 +7,7 @@ export function getMDXComponents(): MDXComponents {
   return {
     // MDX renders fenced code blocks as <pre><code className="language-php">...</code></pre>
     // We intercept at the <pre> level, extract the language from the child <code> className,
-    // and pass both to CodeBlock for Shiki rendering.
+    // and pass both to CodeBlock for Prism rendering.
     pre: ({ children, ...props }) => {
       const child = children as React.ReactElement<{
         className?: string;

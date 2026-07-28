@@ -31,3 +31,66 @@
   background: none;
   padding: 0;
 }
+
+/* Prism token colors — mapped to site design tokens */
+.pre :global(.token.comment),
+.pre :global(.token.prolog),
+.pre :global(.token.doctype),
+.pre :global(.token.cdata) {
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.pre :global(.token.punctuation) {
+  color: var(--color-text-tertiary);
+}
+
+.pre :global(.token.property),
+.pre :global(.token.tag),
+.pre :global(.token.boolean),
+.pre :global(.token.number),
+.pre :global(.token.constant),
+.pre :global(.token.symbol) {
+  color: var(--color-yellow);
+}
+
+.pre :global(.token.selector),
+.pre :global(.token.attr-name),
+.pre :global(.token.string),
+.pre :global(.token.char),
+.pre :global(.token.builtin) {
+  color: var(--color-seafoam);
+}
+
+.pre :global(.token.operator),
+.pre :global(.token.entity),
+.pre :global(.token.url),
+.pre :global(.language-css .token.string),
+.pre :global(.style .token.string) {
+  color: var(--color-text-secondary);
+}
+
+.pre :global(.token.atrule),
+.pre :global(.token.attr-value),
+.pre :global(.token.keyword) {
+  color: var(--color-accent);
+}
+
+.pre :global(.token.function),
+.pre :global(.token.class-name) {
+  color: var(--color-periwinkle);
+}
+
+.pre :global(.token.regex),
+.pre :global(.token.important),
+.pre :global(.token.variable) {
+  color: var(--color-yellow-text);
+}
+
+.pre :global(.token.deleted) {
+  color: var(--color-accent-text);
+}
+
+.pre :global(.token.inserted) {
+  color: var(--color-seafoam-text);
+}
