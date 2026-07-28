@@ -36,13 +36,13 @@ const SUPPORTED_LANGS = new Set([
   "json",
 ]);
 
-function escapeHtml(code: string): string {
-  return code
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+// @types/prismjs omits util — present at runtime in prism-core
+function encodeHtml(code: string): string {
+  const { encode } = (Prism as unknown as {
+    util: { encode: (tokens: string) => string };
+  }).util;
+
+  return encode(code);
 }
 
 function resolveLang(lang: string): string {
@@ -53,13 +53,13 @@ export function highlightCode(code: string, lang: string): string {
   const resolved = resolveLang(lang);
 
   if (resolved === "plaintext" || !SUPPORTED_LANGS.has(resolved)) {
-    return escapeHtml(code);
+    return encodeHtml(code);
   }
 
   const grammar = Prism.languages[resolved];
 
   if (!grammar) {
-    return escapeHtml(code);
+    return encodeHtml(code);
   }
 
   return Prism.highlight(code, grammar, resolved);
