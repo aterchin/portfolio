@@ -26,6 +26,13 @@
   font-weight: inherit;
 }
 
+.navEnd {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-shrink: 0;
+}
+
 .links {
   display: flex;
   gap: var(--space-8);
@@ -39,6 +46,7 @@
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--color-text-tertiary);
+  text-decoration: none;
   transition: color var(--duration-base) var(--ease-base);
 }
 
@@ -46,21 +54,127 @@
   color: var(--color-text-primary);
 }
 
-.themeToggle {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-normal);
-  background: none;
-  border: 1px solid var(--color-text-tertiary);
-  color: var(--color-text-secondary);
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: border-color var(--duration-base) var(--ease-base),
-              color var(--duration-base) var(--ease-base);
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
+.menuButton,
+.themeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-border-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-base) var(--ease-base),
+    color var(--duration-base) var(--ease-base);
+}
+
+.menuButton:hover,
 .themeToggle:hover {
   border-color: var(--color-text-primary);
   color: var(--color-text-primary);
+}
+
+.menuButton {
+  display: none;
+}
+
+.backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    position: relative;
+    z-index: 100;
+  }
+
+  .navEnd {
+    position: relative;
+    gap: var(--space-2);
+  }
+
+  .menuPanel {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    z-index: 102;
+    min-width: 10rem;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 8px 24px rgb(28 26 23 / 8%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out),
+      visibility var(--duration-base) var(--ease-out);
+  }
+
+  .menuPanelOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .links {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-4);
+  }
+
+  .menuButton {
+    display: inline-flex;
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 101;
+    border: none;
+    padding: 0;
+    background: rgb(28 26 23 / 20%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    cursor: default;
+    transition:
+      opacity var(--duration-base) var(--ease-out),
+      visibility var(--duration-base) var(--ease-out);
+  }
+
+  .backdropOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .menuPanel {
+    transform: none;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      visibility var(--duration-fast) var(--ease-out);
+  }
+
+  .menuPanelOpen {
+    transform: none;
+  }
 }
