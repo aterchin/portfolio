@@ -1,96 +1,19 @@
 .wrapper {
-  position: relative;
-  margin-bottom: var(--space-6);
+  margin-block: var(--space-6);
+}
+
+/* Layout overrides — colors come from scoped Prism themes in prism-themes.css */
+.pre:global([class*="language-"]) {
+  padding: var(--space-6);
   border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-text-tertiary);
-  background: var(--color-bg-2);
-  padding: var(--space-2) var(--space-5);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.pre {
-  margin: 0;
-  padding: var(--space-5) var(--space-6);
-  overflow-x: auto;
-  background: var(--color-bg-2);
-  border-left: 2px solid var(--color-accent-mute);
-}
-
-.pre code {
+  border: 1px solid var(--color-code-border);
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   line-height: var(--leading-relaxed);
-  color: var(--color-text-secondary);
-  background: none;
-  padding: 0;
 }
 
-/* Prism token colors — mapped to site design tokens */
-.pre :global(.token.comment),
-.pre :global(.token.prolog),
-.pre :global(.token.doctype),
-.pre :global(.token.cdata) {
-  color: var(--color-text-tertiary);
-  font-style: italic;
-}
-
-.pre :global(.token.punctuation) {
-  color: var(--color-text-tertiary);
-}
-
-.pre :global(.token.property),
-.pre :global(.token.tag),
-.pre :global(.token.boolean),
-.pre :global(.token.number),
-.pre :global(.token.constant),
-.pre :global(.token.symbol) {
-  color: var(--color-yellow);
-}
-
-.pre :global(.token.selector),
-.pre :global(.token.attr-name),
-.pre :global(.token.string),
-.pre :global(.token.char),
-.pre :global(.token.builtin) {
-  color: var(--color-seafoam);
-}
-
-.pre :global(.token.operator),
-.pre :global(.token.entity),
-.pre :global(.token.url),
-.pre :global(.language-css .token.string),
-.pre :global(.style .token.string) {
-  color: var(--color-text-secondary);
-}
-
-.pre :global(.token.atrule),
-.pre :global(.token.attr-value),
-.pre :global(.token.keyword) {
-  color: var(--color-accent);
-}
-
-.pre :global(.token.function),
-.pre :global(.token.class-name) {
-  color: var(--color-periwinkle);
-}
-
-.pre :global(.token.regex),
-.pre :global(.token.important),
-.pre :global(.token.variable) {
-  color: var(--color-yellow-text);
-}
-
-.pre :global(.token.deleted) {
-  color: var(--color-accent-text);
-}
-
-.pre :global(.token.inserted) {
-  color: var(--color-seafoam-text);
+.pre code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }

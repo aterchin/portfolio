@@ -20,7 +20,7 @@
 :root {
 
   /* Foundation — slightly warm near-white / near-black, never pure */
-  --color-bg:          #e0dbd4;  /* page background */
+  --color-bg:          #e8e5e2;  /* page background */
   --color-bg-2:        #ebe7e0;  /* card, code block, input background */
   --color-bg-3:        #e0dbd2;  /* deeper surface, hover states on bg-2 */
 
@@ -58,9 +58,9 @@
   --color-surface:          var(--color-bg);
   --color-surface-raised:   var(--color-bg-2);
 
-  /* Code blocks — chrome for Shiki github-dark (always dark, independent of page theme) */
-  --color-code-bg:     #161b22;
-  --color-code-border: #30363d;
+  /* Code blocks — surfaces pair with scoped Prism themes in prism-themes.css */
+  --color-code-bg:     #f5f2f0;
+  --color-code-border: #e0dbd4;
 
 
 /* ─────────────────────────────────────────────────────────────────
@@ -197,5 +197,9 @@
   --color-periwinkle:       #8c97c4;
   --color-periwinkle-mute:  #232744;
   --color-periwinkle-text:  #b3b9dc;
+
+  /* Code blocks — prism-tomorrow surface */
+  --color-code-bg:     #2d2d2d;
+  --color-code-border: #3d3d3d;
 
 }

@@ -8,16 +8,14 @@ interface CodeBlockProps {
 
 export function CodeBlock({ code, lang }: CodeBlockProps) {
   const trimmed = code.trim();
-  const highlighted = highlightCode(trimmed, lang ?? "plaintext");
+  const language = lang ?? "plaintext";
+  const highlighted = highlightCode(trimmed, language);
 
   return (
     <div className={styles.wrapper}>
-      {lang && lang !== "plaintext" && (
-        <div className={styles.label}>{lang}</div>
-      )}
-      <pre className={styles.pre}>
+      <pre className={`${styles.pre} language-${language}`}>
         <code
-          className={lang ? `language-${lang}` : undefined}
+          className={`language-${language}`}
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       </pre>
