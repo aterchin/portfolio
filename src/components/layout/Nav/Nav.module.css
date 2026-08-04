@@ -40,7 +40,7 @@
 }
 
 .links a {
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-wide);

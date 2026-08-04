@@ -21,7 +21,7 @@
 
 .input,
 .textarea {
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: var(--text-sm);
   color: var(--color-text-primary);
   background: var(--color-surface-raised);
@@ -62,7 +62,7 @@
 }
 
 .formError {
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: var(--text-sm);
   color: var(--color-accent-text);
   padding: var(--space-3) var(--space-4);
