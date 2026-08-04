@@ -70,13 +70,10 @@ export function Nav() {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const menuId = useId();
-  const [isOpen, setIsOpen] = useState(false);
+  const [openedAtPath, setOpenedAtPath] = useState<string | null>(null);
+  const isOpen = openedAtPath === pathname;
 
-  const closeMenu = useCallback(() => setIsOpen(false), []);
-
-  useEffect(() => {
-    closeMenu();
-  }, [pathname, closeMenu]);
+  const closeMenu = useCallback(() => setOpenedAtPath(null), []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -117,7 +114,7 @@ export function Nav() {
           <button
             type="button"
             className={styles.menuButton}
-            onClick={() => setIsOpen((open) => !open)}
+            onClick={() => setOpenedAtPath(isOpen ? null : pathname)}
             aria-expanded={isOpen}
             aria-controls={menuId}
             aria-label={isOpen ? "Close menu" : "Open menu"}
