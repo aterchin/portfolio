@@ -44,10 +44,18 @@ export function Search({ items }: SearchProps) {
     [items]
   );
 
+  const trimmedQuery = query.trim();
+
   const results = useMemo(() => {
-    const matched = query.trim() ? fuse.search(query.trim()).map((r) => r.item) : items;
+    const matched = trimmedQuery ? fuse.search(trimmedQuery).map((r) => r.item) : items;
     return filter === "all" ? matched : matched.filter((item) => item.type === filter);
-  }, [query, filter, fuse, items]);
+  }, [trimmedQuery, filter, fuse, items]);
+
+  const emptyMessage = trimmedQuery
+    ? `Nothing matches "${trimmedQuery}". Try a different term.`
+    : filter === "all"
+      ? "Nothing here yet."
+      : `No ${FILTERS.find((f) => f.value === filter)?.label.toLowerCase()} yet.`;
 
   return (
     <section className={styles.search}>
@@ -78,9 +86,7 @@ export function Search({ items }: SearchProps) {
       </div>
 
       {results.length === 0 ? (
-        <p className={styles.empty}>
-          Nothing matches &ldquo;{query}&rdquo;. Try a different term.
-        </p>
+        <p className={styles.empty}>{emptyMessage}</p>
       ) : (
         <ul className={styles.results}>
           {results.map((item) => (
