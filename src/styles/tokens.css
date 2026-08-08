@@ -79,7 +79,7 @@
   --text-h1:     clamp(2rem, 4vw, 2.8rem);     /* section headings */
   --text-h2:     clamp(1.4rem, 2.5vw, 1.8rem);
   --text-h3:     1.2rem;
-  --text-body:   1.05rem;                       /* bumped for Newsreader */
+  --text-body:   1.16rem;                       /* bumped for Newsreader */
   --text-sm:     0.92rem;                       /* captions, card body, meta */
   --text-xs:     0.86rem;                       /* labels, tags, nav items */
   --text-mono:   0.88rem;                       /* code inline and block */
@@ -88,7 +88,7 @@
   --leading-tight:  1.1;   /* display headings */
   --leading-snug:   1.3;   /* h2, h3 */
   --leading-normal: 1.6;   /* UI text, labels */
-  --leading-relaxed:1.82;  /* body prose — bumped for Newsreader */
+  --leading-relaxed:1.8;  /* body prose — bumped for Newsreader */
 
   /* Tracking (letter-spacing) */
   --tracking-tight:  -0.025em;  /* large display headings */

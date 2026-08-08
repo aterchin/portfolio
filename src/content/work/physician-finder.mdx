@@ -18,17 +18,22 @@ The front-end complexity turned out to be the easy part.
 
 Users search by zip code, city and state, or a free-form address using Google Places autocomplete. Results appear both on a map — custom-styled markers, no default Google chrome — and in a synchronized list view. Clicking a marker highlights the corresponding list item. Clicking a list item pans the map. The two views stay in sync without any coordination overhead because they're both reading from the same React state.
 
-Stack: React on the front end, Laravel API on the back end, MySQL, Google Maps JavaScript API, Google Geocoding API.
+<Aside variant="info" title="Stack">
+  React on the front end, Laravel API, MySQL, Google Maps + Geocoding APIs.
+</Aside>
 
 ## The problem worth talking about
 
 Every night, the client's internal system would generate a fresh CSV export of the current physician list and drop it on the server. Their instruction was to truncate the physicians table and re-import from scratch.
 
+<Aside variant="error">
+  Truncating and re-importing every night meant the database had no memory between runs —
+  which created an expensive geocoding problem.
+</Aside>
+
 I pushed back on this. A proper approach would have been a CRUD interface where physicians could be added and removed individually, keeping the data stable and auditable. The truncate-and-reimport method meant the database had no memory between runs — which created a specific and expensive problem: geocoding.
 
-The Google Geocoding API charges per request. If you truncate 800 physicians and reimport them, you don't want to geocode 800 addresses every night. Most of those addresses haven't changed. Some physicians share an office. Some addresses have slight variations in the CSV that still resolve to the same coordinates.
-
-The client's approach required the nightly wipe. So the solution had to work around it.
+The Google Geocoding API charges per request. If you truncate 800 physicians and reimport them, you don't want to geocode 800 addresses every night. Most of those addresses haven't changed. Some physicians share an office. Some addresses have slight variations in the CSV that still resolve to the same coordinates. The client's approach required the nightly wipe. So the solution had to work around it.
 
 ## The seeder
 
@@ -59,6 +64,10 @@ $location_id = DB::table('locations')
     ->where('address', $address)
     ->value('id');
 ```
+
+<Aside variant="success" title="Outcome">
+  Most nightly reimports hit the location hash cache — geocoding only ran for genuinely new addresses.
+</Aside>
 
 The result: on a typical nightly run, fewer than 5% of records require a geocoding API call. The other 95% match an existing location hash and pass straight through.
 

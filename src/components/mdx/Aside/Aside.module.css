@@ -1,0 +1,64 @@
+.aside {
+  margin-block: var(--space-8);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-3);
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* Reset prose margins when Aside wraps MDX-generated <p> tags */
+.body :global(p) {
+  margin: 0;
+}
+
+.body :global(p + p) {
+  margin-top: var(--space-4);
+}
+
+/* Variant colors — background + border + label text */
+.info {
+  background: var(--color-periwinkle-mute);
+  border-left-color: var(--color-periwinkle);
+}
+.info .label {
+  color: var(--color-periwinkle-text);
+}
+
+.success {
+  background: var(--color-seafoam-mute);
+  border-left-color: var(--color-seafoam);
+}
+.success .label {
+  color: var(--color-seafoam-text);
+}
+
+.warning {
+  background: var(--color-yellow-mute);
+  border-left-color: var(--color-yellow);
+}
+.warning .label {
+  color: var(--color-yellow-text);
+}
+
+.error {
+  background: var(--color-accent-mute);
+  border-left-color: var(--color-accent);
+}
+.error .label {
+  color: var(--color-accent-text);
+}

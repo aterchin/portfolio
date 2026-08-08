@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/ui/CodeBlock/CodeBlock";
+import { Aside } from "@/components/mdx/Aside/Aside";
 import type { MDXComponents } from "mdx/types";
 
 // Custom components passed to compileMDX to override default MDX element rendering.
@@ -20,5 +21,6 @@ export function getMDXComponents(): MDXComponents {
 
       return <CodeBlock code={String(code)} lang={lang} />;
     },
+    Aside,
   };
 }
