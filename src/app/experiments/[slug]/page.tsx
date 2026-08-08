@@ -67,7 +67,7 @@ export default async function ExperimentSlugPage({
             </div>
           )}
         </header>
-        <div className="prose">{MDXContent}</div>
+        <div className={`prose ${styles.body}`}>{MDXContent}</div>
       </article>
     </PageWrapper>
   );

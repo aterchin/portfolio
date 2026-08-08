@@ -2,7 +2,11 @@
   padding-bottom: var(--space-10);
   border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-12);
-  max-width: var(--layout-prose);
+  max-width: var(--layout-wide); /* was --layout-prose */
+}
+
+.body:global(.prose) {
+  max-width: var(--layout-wide);
 }
 
 .title {

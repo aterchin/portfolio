@@ -82,7 +82,7 @@
   --text-body:   1.125rem;                       /* bumped for Newsreader */
   --text-sm:     1rem;                       /* captions, card body, meta */
   --text-xs:     0.92rem;                       /* labels, tags, nav items */
-  --text-mono:   0.88rem;                       /* code inline and block */
+  --text-mono:   0.82rem;                       /* code inline and block */
 
   /* Leading (line-height) */
   --leading-tight:  1.1;   /* display headings */
@@ -127,6 +127,7 @@
 ───────────────────────────────────────────────────────────────── */
 
   --layout-max:       1100px;  /* outer content max-width */
+  --layout-wide:      740px;   /* wide for snippets, etc... */
   --layout-prose:     680px;   /* max-width for prose/case study columns */
   --layout-narrow:    52ch;    /* hero subhead, tight copy */
   --layout-gutter:    var(--space-8);  /* page horizontal padding */

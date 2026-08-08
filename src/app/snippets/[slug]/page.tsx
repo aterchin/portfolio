@@ -51,7 +51,7 @@ export default async function SnippetSlugPage({
             ))}
           </div>
         </header>
-        <div className="prose">{MDXContent}</div>
+        <div className={`prose ${styles.body}`}>{MDXContent}</div>
       </article>
     </PageWrapper>
   );

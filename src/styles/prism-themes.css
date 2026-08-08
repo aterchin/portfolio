@@ -109,6 +109,12 @@ pre[class*="language-"] {
   & .token.entity {
     cursor: help;
   }
+
+  /* custom overrides */
+  & .language-bash .token.constant,
+  & .language-bash .token.variable {
+    color: #0d7377;
+  }
 }
 
 /* ── Dark: prism-tomorrow ─────────────────────────────────────── */
