@@ -2,20 +2,31 @@
 title: SourceTree Custom Action
 slug: sourcetree-custom-action
 date: 2026-08-04
-tags: [SourceTree, Git, Mac OS]
-summary: I was needing to create a zip file of a specific commit in SourceTree to send to a co-worker for deployment on a server.
+tags: [SourceTree, Git, macOS]
+summary: Create a zip of only the files changed in a commit — for deployment handoffs without a full git archive.
 ---
 
-Quick how-to to create a custom action in SourceTree.  I was needing to create a zip file of a specific commit in SourceTree.  The point of the package was to send only modified files in the correct hierarchical directory for deployment to a server while I was out on PTO and I wanted the package to be easy to unzip over just the modified files.  Not a full git archive, just the modified files to be unzipped at the root of the project.
+I needed to send a co-worker a zip of a specific commit while I was on PTO. The goal was a package they could unzip at the project root and get only the modified files in the correct directory structure — not a full `git archive`, just the diff as files.
 
+Unzipping at the project root gives you only what changed, with paths intact:
 
-## SourceTree Custom Action
+```text
+docroot/
+└── web/
+    └── app/
+        └── themes/
+            └── brandbox-api/
+                ├── functions.php
+                ├── inc/
+                │   ├── acf.php
+                │   └── cors.php
+                ├── index.php
+                └── style.css
+```
 
-You can trigger this directly from SourceTree's UI by right-clicking a commit.
+## The script
 
-### Step A: Create a reusable script file
-
-SourceTree executes external scripts. Create a script named `git-zip-commit.sh` in a safe location (e.g., your home folder):
+SourceTree runs external scripts. Save this as `git-zip-commit.sh` somewhere stable (e.g. your home folder):
 
 ```bash
 # Ensure we have a commit hash
@@ -41,44 +52,48 @@ fi
 git archive -o patch.zip "$COMMIT_SHA" $FILES
 
 echo "Success! Created patch.zip with only modified files."
-
 ```
 
-Make the script executable by running this in your terminal:
+Make it executable:
 
 ```bash
 chmod +x /path/to/git-zip-commit.sh
 ```
 
-### Step B: Configure SourceTree
+## Configure SourceTree
 
-1. Open SourceTree and go to Tools \> Options (Windows) or SourceTree \> Preferences (Mac).
-2. Click on the Custom Actions tab.
-3. Click Add.  
-4. Fill out the fields:  
-* Menu Caption: **Zip Commit for Deployment**  
-  * Script to Run: Select your `git-zip-commit.sh` file.  
-  * Parameters: `$SHA`
-5. Click OK.
+1. Open **SourceTree → Preferences** (Mac) or **Tools → Options** (Windows).
+2. Go to the **Custom Actions** tab and click **Add**.
+3. Set:
+   - **Menu Caption:** Zip Commit for Deployment
+   - **Script to Run:** path to `git-zip-commit.sh`
+   - **Parameters:** `$SHA`
+4. Click **OK**.
 
-### How to use it
+## How to use it
 
-<Figure
-  src="/images/snippets/1-sourcetree-file-list.png"
-  alt="Example file list in SourceTree"
-  caption="Example file list in SourceTree."
-/>
+Right-click the commit you want to package in the history graph.
 
 <Figure
-  src="/images/snippets/2-context-click-commit.png"
-  alt="Context-click on commit"
-  caption="Context-click on commit..."
+  src="/images/snippets/sourcetree-custom-action/commit.webp"
+  alt="SourceTree commit history with a commit selected and the context menu open"
+  caption="Right-click any commit in the log."
 />
+
+Hover **Custom Actions** and choose **Zip Commit for Deployment**.
 
 <Figure
-  src="/images/snippets/3-custom-actions.png"
-  alt="Custom action menu"
-  caption="Click your new custom action within the menu."
+  src="/images/snippets/sourcetree-custom-action/context-menu.webp"
+  alt="SourceTree Custom Actions submenu with Zip Commit for Deployment highlighted"
+  caption="Your custom action appears in the submenu."
 />
 
-Right-click any commit in your SourceTree history graph, hover over *Custom Actions*, and select **Zip Commit for Deployment**. It will automatically generate `patch.zip` in your repository root. Would you like to modify the script to automatically add a timestamp or the commit hash to the ZIP file name so you don't overwrite older patches?
+SourceTree writes `patch.zip` to your repository root.
+
+## Optional: timestamped filenames
+
+To avoid overwriting previous patches, change the archive line in the script to:
+
+```bash
+git archive -o "patch-$(date +%Y%m%d-%H%M)-${COMMIT_SHA:0:7}.zip" "$COMMIT_SHA" $FILES
+```

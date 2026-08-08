@@ -18,12 +18,16 @@ public/
       project-slug-thumb.webp    ← card thumbnail (if used)
       project-slug-hero.webp     ← case study header image
     snippets/
-      snippet-slug.webp
+      snippet-slug.webp          ← single image
+      snippet-slug/              ← multiple images (step-by-step, etc.)
+        step-name.webp
     experiments/
       experiment-slug.webp
 ```
 
-File names should match the MDX slug for the corresponding content.
+File names should match the MDX slug for the corresponding content. Use a
+subfolder when a piece of content has two or more images; use a single file at
+the category level when there is only one.
 
 ---
 
