@@ -79,9 +79,9 @@
   --text-h1:     clamp(2rem, 4vw, 2.8rem);     /* section headings */
   --text-h2:     clamp(1.4rem, 2.5vw, 1.8rem);
   --text-h3:     1.2rem;
-  --text-body:   1.16rem;                       /* bumped for Newsreader */
-  --text-sm:     0.92rem;                       /* captions, card body, meta */
-  --text-xs:     0.86rem;                       /* labels, tags, nav items */
+  --text-body:   1.125rem;                       /* bumped for Newsreader */
+  --text-sm:     1rem;                       /* captions, card body, meta */
+  --text-xs:     0.92rem;                       /* labels, tags, nav items */
   --text-mono:   0.88rem;                       /* code inline and block */
 
   /* Leading (line-height) */

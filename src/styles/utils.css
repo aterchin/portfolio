@@ -140,6 +140,10 @@
   margin: var(--space-8) 0;
 }
 
+.prose figure img {
+  margin: 0;
+}
+
 /* Fade-up — used for page/section load-in motion (the only animation pattern used site-wide) */
 .fadeUp {
   opacity: 0;
