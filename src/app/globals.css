@@ -8,6 +8,8 @@
 @import "../styles/tokens.css";
 @import "../styles/utils.css";
 @import "../styles/prism-themes.css";
+/* @import "prismjs/themes/prism-okaidia.css"; */
+/* @import "prismjs/themes/prism-tomorrow.css"; */
 
 * {
   box-sizing: border-box;

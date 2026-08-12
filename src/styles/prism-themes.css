@@ -111,8 +111,8 @@ pre[class*="language-"] {
   }
 
   /* custom overrides */
-  & .language-bash .token.constant,
-  & .language-bash .token.variable {
+  & .token.constant,
+  & .token.variable {
     color: #0d7377;
   }
 }
