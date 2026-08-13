@@ -1,45 +1,66 @@
 ---
-title: Generate a GitHub key
+title: Generate a GitHub SSH key
 slug: generate-github-key
 date: 2026-08-09
-tags: [SourceTree, Git, Ubuntu]
-summary: Generate a SSH key for GitHub on your server
+tags: [GitHub, SSH, Ubuntu]
+summary: Generate an ed25519 SSH key on Ubuntu, add it to GitHub, and keep ssh-agent running across sessions.
 ---
 
+HTTPS remotes still prompt for a username and password. Use a dedicated key on the server instead of embedding credentials.
+
+## Generate the key
+
 ```bash
-# Generate key on server
 ssh-keygen -t ed25519 -C "username@example.com"
-
-# enter file in which to save the key (or accept the defaults)
-/home/user_name/.ssh/id_ed25519_username
 ```
-Next, copy the contents of `~/.ssh/id_ed25519_username.pub` and add it to the SSH and GPG keys section in your GitHub Account Settings.
 
-## Test it
+When prompted for a file path, enter `/home/user_name/.ssh/id_ed25519_username` or leave the default `id_ed25519`.
 
-Try to pull from your repo.  If it still asks for a username and password, your repository is likely still configured to use an HTTPS URL instead of an SSH URL.
+Copy the contents of `~/.ssh/id_ed25519_username.pub` and paste it under **Settings → SSH and GPG keys** in GitHub.
 
-Change your remote URL to SSH:
+## Switch the remote to SSH
 
-```
+If `git pull` still asks for a username and password, the remote is still HTTPS. Point it at SSH:
+
+```bash
 git remote set-url origin git@github.com:username/repo.git
 ```
 
-Replace `username/repo.git` with your actual repository path.
+Replace `username/repo.git` with your repository path.
 
 ## Troubleshooting
 
-### Error: "Permission denied (publickey)."
+### Permission denied (publickey)
 
-Try addding your key to the agent by running ssh-add `~/.ssh/id_ed25519_username`.
+Add the private key to the agent:
 
-### Error: "Could not open a connection to your authentication agent."
-
-SSH agent isn't running in your current terminal session.  Start the agent:
-
+```bash
+ssh-add ~/.ssh/id_ed25519_username
 ```
+
+### Could not open a connection to your authentication agent
+
+The agent isn't running in this session. Start it, then add the key:
+
+```bash
 eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519_username
 ```
 
-Once started, re-run ssh-add `~/.ssh/id_ed25519` to add your key.
+## Optional: persist the agent in `.bashrc`
 
+Starting the agent every session gets old. Append this to `~/.bashrc` so it starts once per login:
+
+```bash
+# Auto-start SSH agent and add key
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    eval "$(ssh-agent -s)" > /dev/null
+    ssh-add ~/.ssh/id_ed25519_username 2>/dev/null
+fi
+```
+
+Apply immediately:
+
+```bash
+source ~/.bashrc
+```
