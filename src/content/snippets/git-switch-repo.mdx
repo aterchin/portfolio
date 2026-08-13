@@ -1,0 +1,47 @@
+---
+title: Switch a Git remote
+slug: git-switch-repo
+date: 2026-08-09
+tags: [Git, Bash]
+summary: Point origin fetch and push at a new URL, then verify with git fetch.
+---
+
+After a repo moves hosts or workspaces, origin still points at the old URL. Run this in the clone to update fetch and push in one shot.
+
+## The script
+
+Save this as `switch_repo.sh` in the root of your local repository:
+
+```bash
+#!/bin/bash
+
+# Replace with the new remote URL
+NEW_REMOTE_URL="git@bitbucket.org:new-workspace/new-repo.git"
+
+echo "Updating remote origin to: $NEW_REMOTE_URL"
+
+git remote set-url origin "$NEW_REMOTE_URL"
+git remote set-url --push origin "$NEW_REMOTE_URL"
+
+echo "Verifying new remote configuration:"
+git remote -v
+
+echo "Fetching from origin..."
+git fetch origin
+
+echo "Done. You can now proceed with your git operations."
+```
+
+## How to use it
+
+1. Set **NEW_REMOTE_URL** to the new SSH URL.
+2. Make it executable and run it:
+
+```bash
+chmod +x switch_repo.sh
+./switch_repo.sh
+```
+
+## Optional: Windows
+
+Run this from Git Bash, which ships with [Git for Windows](https://git-scm.com).
