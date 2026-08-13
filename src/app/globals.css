@@ -7,9 +7,8 @@
 
 @import "../styles/tokens.css";
 @import "../styles/utils.css";
-@import "../styles/prism-themes.css";
-/* @import "prismjs/themes/prism-okaidia.css"; */
-/* @import "prismjs/themes/prism-tomorrow.css"; */
+@import "../styles/hljs-themes.css";
+/* @import "highlight.js/styles/googlecode.css"; */
 
 * {
   box-sizing: border-box;

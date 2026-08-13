@@ -2,7 +2,7 @@
   margin-block: var(--space-6);
 }
 
-/* Layout overrides — colors come from scoped Prism themes in prism-themes.css */
+/* Layout overrides — colors come from scoped hljs themes in hljs-themes.css */
 .pre:global([class*="language-"]) {
   padding: var(--space-6);
   border-radius: var(--radius-sm);

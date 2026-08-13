@@ -1,4 +1,4 @@
-import { highlightCode } from "@/lib/prism";
+import { highlightCode } from "@/lib/highlight";
 import styles from "./CodeBlock.module.css";
 
 interface CodeBlockProps {
@@ -15,7 +15,7 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
     <div className={styles.wrapper}>
       <pre className={`${styles.pre} language-${language}`}>
         <code
-          className={`language-${language}`}
+          className={`hljs language-${language}`}
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       </pre>
