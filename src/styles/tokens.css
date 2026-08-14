@@ -20,9 +20,9 @@
 :root {
 
   /* Foundation — slightly warm near-white / near-black, never pure */
-  --color-bg:          #e8e5e2;  /* page background */
-  --color-bg-2:        #ebe7e0;  /* card, code block, input background */
-  --color-bg-3:        #e0dbd2;  /* deeper surface, hover states on bg-2 */
+  --color-bg:          #ffffff;  /* page background */
+  --color-bg-2:        #f6f3ee;  /* card, code block, input background */
+  --color-bg-3:        #ece7dd;  /* deeper surface, hover states on bg-2 */
 
   --color-ink:         #1c1a17;  /* primary text, headings */
   --color-ink-2:       #423e38;  /* body text, secondary headings */
@@ -59,7 +59,7 @@
   --color-surface-raised:   var(--color-bg-2);
 
   /* Code blocks — surfaces pair with scoped Prism themes in prism-themes.css */
-  --color-code-bg:     #f5f2f0;
+  --color-code-bg:     #f9f9f9;
   --color-code-border: #e0dbd4;
 
 
@@ -79,8 +79,8 @@
   --text-h1:     clamp(2rem, 4vw, 2.8rem);     /* section headings */
   --text-h2:     clamp(1.4rem, 2.5vw, 1.8rem);
   --text-h3:     1.2rem;
-  --text-body:   1.125rem;                       /* bumped for Newsreader */
-  --text-sm:     1rem;                       /* captions, card body, meta */
+  --text-body:   1.3125rem;                       /* bumped for Newsreader */
+  --text-sm:     1.05rem;                       /* captions, card body, meta */
   --text-xs:     0.92rem;                       /* labels, tags, nav items */
   --text-mono:   0.82rem;                       /* code inline and block */
 
@@ -169,12 +169,12 @@
 [data-theme="dark"] {
 
   /* Foundation */
-  --color-bg:          #181714;
-  --color-bg-2:        #232019;
-  --color-bg-3:        #2c2925;
+  --color-bg:          #0b0a09;
+  --color-bg-2:        #17150f;
+  --color-bg-3:        #211e17;
 
-  --color-ink:         #ece8e0;
-  --color-ink-2:       #c2bcb1;
+  --color-ink:         #f2eee5;
+  --color-ink-2:       #cac3b6;
   --color-ink-3:       #968f83;
 
   --color-border:      #34302a;
@@ -201,7 +201,7 @@
   --color-periwinkle-text:  #b3b9dc;
 
   /* Code blocks — prism-tomorrow surface */
-  --color-code-bg:     #2d2d2d;
+  --color-code-bg:     #1d1d1d;
   --color-code-border: #3d3d3d;
 
 }
