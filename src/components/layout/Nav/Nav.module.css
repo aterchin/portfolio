@@ -2,6 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 100;
   padding: var(--space-5) var(--layout-gutter);
   border-bottom: 1px solid var(--color-border);
   max-width: var(--layout-max);
@@ -10,6 +13,7 @@
 }
 
 .wordmark {
+  flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 500;
@@ -62,6 +66,8 @@
 
 .menuButton,
 .themeToggle {
+  position: relative;
+  z-index: 104;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,12 +100,12 @@
 
 @media (max-width: 768px) {
   .nav {
-    position: relative;
-    z-index: 100;
+    position: sticky;
+    top: 0;
+    background: var(--color-surface);
   }
 
   .navEnd {
-    position: relative;
     gap: var(--space-2);
   }
 

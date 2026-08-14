@@ -3,11 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useState } from "react";
+import { Search } from "@/components/layout/Search/Search";
+import type { SearchItem } from "@/lib/search";
 import { useTheme } from "@/providers/ThemeProvider";
 import styles from "./Nav.module.css";
 
 const links = [
   { href: "/about", label: "About Me" },
+  { href: "/work", label: "Work" },
+  { href: "/experiments", label: "Experiments" },
 ];
 
 function MenuIcon() {
@@ -63,7 +67,12 @@ function MoonIcon() {
   );
 }
 
-export function Nav() {
+export interface NavProps {
+  searchItems: SearchItem[];
+  exampleTags: string[];
+}
+
+export function Nav({ searchItems, exampleTags }: NavProps) {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
   const menuId = useId();
@@ -108,6 +117,12 @@ export function Nav() {
         </div>
 
         <div className={styles.actions}>
+          <Search
+            items={searchItems}
+            exampleTags={exampleTags}
+            menuOpen={isOpen}
+            onActivate={closeMenu}
+          />
           <button
             type="button"
             className={styles.menuButton}

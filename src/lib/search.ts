@@ -18,7 +18,7 @@ export interface SearchItem {
 
 // Combined, newest-first index across snippets, experiments, and work.
 // Built server-side (reads the filesystem via lib/mdx) and passed as a prop
-// into the client Search component — never call this from client code.
+// from the root layout into the client Nav/Search — never call this from client code.
 export function getSearchIndex(): SearchItem[] {
   const snippets: SearchItem[] = getSnippets().map((s) => ({
     type: "snippet",

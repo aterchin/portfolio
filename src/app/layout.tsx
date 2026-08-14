@@ -4,12 +4,14 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ThemeScript } from "@/providers/ThemeScript";
 import { Nav } from "@/components/layout/Nav/Nav";
 import { Footer } from "@/components/layout/Footer/Footer";
+import { getSearchIndex } from "@/lib/search";
 import "./globals.css";
 
 const newsreader = Newsreader({
   variable: "--font-newsreader",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -37,6 +39,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const searchItems = getSearchIndex();
+  const exampleTags = [...new Set(searchItems.flatMap((item) => item.tags))];
+
   return (
     <html
       lang="en"
@@ -48,7 +53,7 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <Nav />
+          <Nav searchItems={searchItems} exampleTags={exampleTags} />
           {children}
           <Footer />
         </ThemeProvider>
