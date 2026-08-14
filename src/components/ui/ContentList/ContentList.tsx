@@ -6,9 +6,9 @@ export interface ContentListItemProps {
   title: string;
   summary: string;
   tags: string[];
-  /** Shown above the title — Search uses "Snippet" / "Experiment" / "Work". */
+  /** Shown above the title — Search uses "Note" / "Work". */
   typeLabel?: string;
-  /** e.g. "In progress" on experiments. */
+  /** e.g. "In progress" on notes. */
   badge?: string;
 }
 

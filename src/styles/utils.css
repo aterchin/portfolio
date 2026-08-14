@@ -38,7 +38,7 @@
   padding-inline: var(--layout-gutter);
 }
 
-/* Prose — for MDX-rendered case study / snippet / experiment body content */
+/* Prose — for MDX-rendered case study / note body content */
 .prose {
   max-width: var(--layout-prose);
   font-family: var(--font-body);

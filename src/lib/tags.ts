@@ -1,5 +1,5 @@
-import { getProjects, getSnippets, getExperiments } from "./mdx";
-import type { Project, Snippet, Experiment } from "./types";
+import { getProjects, getNotes } from "./mdx";
+import type { Project, Note } from "./types";
 
 // Normalize a tag to a URL-safe slug.
 // "Next.js" → "next-js", "Google Maps API" → "google-maps-api"
@@ -17,8 +17,7 @@ export function normalizeTag(tag: string): string {
 export function getTagDisplayName(normalizedTag: string): string {
   const allTags = [
     ...getProjects().flatMap((p) => p.tags),
-    ...getSnippets().flatMap((s) => s.tags),
-    ...getExperiments().flatMap((e) => e.tags ?? []),
+    ...getNotes().flatMap((n) => n.tags),
   ];
   return allTags.find((t) => normalizeTag(t) === normalizedTag) ?? normalizedTag;
 }
@@ -28,8 +27,7 @@ export function getTagDisplayName(normalizedTag: string): string {
 export function getAllNormalizedTags(): string[] {
   const allTags = [
     ...getProjects().flatMap((p) => p.tags),
-    ...getSnippets().flatMap((s) => s.tags),
-    ...getExperiments().flatMap((e) => e.tags ?? []),
+    ...getNotes().flatMap((n) => n.tags),
   ];
   return [...new Set(allTags.map(normalizeTag))];
 }
@@ -39,8 +37,7 @@ export function getAllNormalizedTags(): string[] {
 export function getAllDisplayTags(): string[] {
   const allTags = [
     ...getProjects().flatMap((p) => p.tags),
-    ...getSnippets().flatMap((s) => s.tags),
-    ...getExperiments().flatMap((e) => e.tags ?? []),
+    ...getNotes().flatMap((n) => n.tags),
   ];
 
   const byNormalized = new Map<string, string>();
@@ -58,8 +55,7 @@ export function getAllDisplayTags(): string[] {
 
 export interface TaggedContent {
   projects: Project[];
-  snippets: Snippet[];
-  experiments: Experiment[];
+  notes: Note[];
 }
 
 // All content matching a normalized tag, grouped by type.
@@ -68,11 +64,8 @@ export function getContentByTag(normalizedTag: string): TaggedContent {
     projects: getProjects().filter((p) =>
       p.tags.some((t) => normalizeTag(t) === normalizedTag)
     ),
-    snippets: getSnippets().filter((s) =>
-      s.tags.some((t) => normalizeTag(t) === normalizedTag)
-    ),
-    experiments: getExperiments().filter((e) =>
-      (e.tags ?? []).some((t) => normalizeTag(t) === normalizedTag)
+    notes: getNotes().filter((n) =>
+      n.tags.some((t) => normalizeTag(t) === normalizedTag)
     ),
   };
 }

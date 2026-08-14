@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import type { Project, Snippet, Experiment } from "./types";
+import type { Project, Note } from "./types";
 
 const CONTENT_DIR = path.join(process.cwd(), "src/content");
 
@@ -28,6 +28,13 @@ function mdxFiles(dir: string): string[] {
     .filter((f) => f.endsWith(".mdx"));
 }
 
+// Frontmatter only — drops the MDX body returned by parseFile.
+function frontmatterOnly<T>(filePath: string): T {
+  const { content, ...frontmatter } = parseFile<T>(filePath);
+  void content;
+  return frontmatter as T;
+}
+
 // ─── Work ─────────────────────────────────────────────────────────────────────
 
 const WORK_DIR = path.join(CONTENT_DIR, "work");
@@ -36,12 +43,7 @@ const WORK_DIR = path.join(CONTENT_DIR, "work");
 // Used by the home page ProjectGrid and the work index page.
 export function getProjects(): Project[] {
   return mdxFiles(WORK_DIR)
-    .map((file) => {
-      const { content: _content, ...frontmatter } = parseFile<Project>(
-        path.join(WORK_DIR, file)
-      );
-      return frontmatter;
-    })
+    .map((file) => frontmatterOnly<Project>(path.join(WORK_DIR, file)))
     .filter((p) => p.status === "published")
     .sort((a, b) => b.date.localeCompare(a.date));
 }
@@ -59,52 +61,22 @@ export function getProjectSlugs(): string[] {
   return mdxFiles(WORK_DIR).map((f) => f.replace(".mdx", ""));
 }
 
-// ─── Snippets ─────────────────────────────────────────────────────────────────
+// ─── Notes ────────────────────────────────────────────────────────────────────
 
-const SNIPPETS_DIR = path.join(CONTENT_DIR, "snippets");
+const NOTES_DIR = path.join(CONTENT_DIR, "notes");
 
-export function getSnippets(): Snippet[] {
-  return mdxFiles(SNIPPETS_DIR)
-    .map((file) => {
-      const { content: _content, ...frontmatter } = parseFile<Snippet>(
-        path.join(SNIPPETS_DIR, file)
-      );
-      return frontmatter;
-    })
+export function getNotes(): Note[] {
+  return mdxFiles(NOTES_DIR)
+    .map((file) => frontmatterOnly<Note>(path.join(NOTES_DIR, file)))
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export function getSnippet(slug: string): (Snippet & { content: string }) | null {
-  const filePath = path.join(SNIPPETS_DIR, `${slug}.mdx`);
+export function getNote(slug: string): (Note & { content: string }) | null {
+  const filePath = path.join(NOTES_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
-  return parseFile<Snippet>(filePath);
+  return parseFile<Note>(filePath);
 }
 
-export function getSnippetSlugs(): string[] {
-  return mdxFiles(SNIPPETS_DIR).map((f) => f.replace(".mdx", ""));
-}
-
-// ─── Experiments ──────────────────────────────────────────────────────────────
-
-const EXPERIMENTS_DIR = path.join(CONTENT_DIR, "experiments");
-
-export function getExperiments(): Experiment[] {
-  return mdxFiles(EXPERIMENTS_DIR)
-    .map((file) => {
-      const { content: _content, ...frontmatter } = parseFile<Experiment>(
-        path.join(EXPERIMENTS_DIR, file)
-      );
-      return frontmatter;
-    })
-    .sort((a, b) => b.date.localeCompare(a.date));
-}
-
-export function getExperiment(slug: string): (Experiment & { content: string }) | null {
-  const filePath = path.join(EXPERIMENTS_DIR, `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
-  return parseFile<Experiment>(filePath);
-}
-
-export function getExperimentSlugs(): string[] {
-  return mdxFiles(EXPERIMENTS_DIR).map((f) => f.replace(".mdx", ""));
+export function getNoteSlugs(): string[] {
+  return mdxFiles(NOTES_DIR).map((f) => f.replace(".mdx", ""));
 }

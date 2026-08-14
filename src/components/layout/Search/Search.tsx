@@ -16,8 +16,7 @@ import type { SearchItem, SearchItemType } from "@/lib/search";
 import styles from "./Search.module.css";
 
 const TYPE_LABELS: Record<SearchItemType, string> = {
-  snippet: "Snippet",
-  experiment: "Experiment",
+  note: "Note",
   work: "Work",
 };
 
@@ -228,7 +227,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
             )
           ) : (
             <p className={styles.hint}>
-              Search snippets, experiments, and work by title, tag, or summary.
+              Search notes and work by title, tag, or summary.
             </p>
           )}
         </div>

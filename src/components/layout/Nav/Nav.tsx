@@ -11,7 +11,7 @@ import styles from "./Nav.module.css";
 const links = [
   { href: "/about", label: "About Me" },
   { href: "/work", label: "Work" },
-  { href: "/experiments", label: "Experiments" },
+  { href: "/notes", label: "Notebook" },
 ];
 
 function MenuIcon() {

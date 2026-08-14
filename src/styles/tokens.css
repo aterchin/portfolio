@@ -127,7 +127,7 @@
 ───────────────────────────────────────────────────────────────── */
 
   --layout-max:       1100px;  /* outer content max-width */
-  --layout-wide:      740px;   /* wide for snippets, etc... */
+  --layout-wide:      740px;   /* wide for notes, etc... */
   --layout-prose:     680px;   /* max-width for prose/case study columns */
   --layout-narrow:    52ch;    /* hero subhead, tight copy */
   --layout-gutter:    var(--space-8);  /* page horizontal padding */

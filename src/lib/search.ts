@@ -1,6 +1,6 @@
-import { getProjects, getSnippets, getExperiments } from "./mdx";
+import { getProjects, getNotes } from "./mdx";
 
-export type SearchItemType = "snippet" | "experiment" | "work";
+export type SearchItemType = "note" | "work";
 
 // A single, flattened shape all content types map to for search/browse.
 // Frontmatter only — no MDX body — per the v1 search scope decision.
@@ -12,33 +12,23 @@ export interface SearchItem {
   date: string;
   summary: string;
   tags: string[];
-  // Only set for in-progress experiments — mirrors ExperimentCard's WIP badge.
+  // Only set for in-progress notes — mirrors NoteCard's WIP badge.
   badge?: string;
 }
 
-// Combined, newest-first index across snippets, experiments, and work.
+// Combined, newest-first index across notes and work.
 // Built server-side (reads the filesystem via lib/mdx) and passed as a prop
 // from the root layout into the client Nav/Search — never call this from client code.
 export function getSearchIndex(): SearchItem[] {
-  const snippets: SearchItem[] = getSnippets().map((s) => ({
-    type: "snippet",
-    title: s.title,
-    slug: s.slug,
-    href: `/snippets/${s.slug}`,
-    date: s.date,
-    summary: s.summary,
-    tags: s.tags,
-  }));
-
-  const experiments: SearchItem[] = getExperiments().map((e) => ({
-    type: "experiment",
-    title: e.title,
-    slug: e.slug,
-    href: `/experiments/${e.slug}`,
-    date: e.date,
-    summary: e.summary,
-    tags: e.tags ?? [],
-    badge: e.status === "in-progress" ? "In progress" : undefined,
+  const notes: SearchItem[] = getNotes().map((n) => ({
+    type: "note",
+    title: n.title,
+    slug: n.slug,
+    href: `/notes/${n.slug}`,
+    date: n.date,
+    summary: n.summary,
+    tags: n.tags,
+    badge: n.status === "in-progress" ? "In progress" : undefined,
   }));
 
   const work: SearchItem[] = getProjects().map((p) => ({
@@ -51,7 +41,7 @@ export function getSearchIndex(): SearchItem[] {
     tags: p.tags,
   }));
 
-  return [...snippets, ...experiments, ...work].sort((a, b) =>
+  return [...notes, ...work].sort((a, b) =>
     b.date.localeCompare(a.date)
   );
 }

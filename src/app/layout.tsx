@@ -31,7 +31,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Portfolio",
-  description: "Full-stack developer portfolio — case studies, snippets, and experiments.",
+  description: "Full-stack developer portfolio — case studies and notes.",
 };
 
 export default function RootLayout({

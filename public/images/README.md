@@ -17,12 +17,10 @@ public/
     work/
       project-slug-thumb.webp    ← card thumbnail (if used)
       project-slug-hero.webp     ← case study header image
-    snippets/
-      snippet-slug.webp          ← single image
-      snippet-slug/              ← multiple images (step-by-step, etc.)
+    notes/
+      note-slug.webp             ← single image
+      note-slug/                 ← multiple images (step-by-step, etc.)
         step-name.webp
-    experiments/
-      experiment-slug.webp
 ```
 
 File names should match the MDX slug for the corresponding content. Use a
@@ -39,7 +37,7 @@ the category level when there is only one.
 - **Display size:** constrained to `--layout-prose` (~680px) by CSS
 - **Why 1440px:** provides clean 2x rendering on retina displays
 
-### Case study / experiment header images
+### Case study / note header images
 - **Width:** 1440px source
 - **Aspect ratio:** 16:9 or 3:2 recommended
 - These sit above the prose body, full prose-width

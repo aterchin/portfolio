@@ -30,11 +30,10 @@ export default async function TagPage({
   params: Promise<{ tag: string }>;
 }) {
   const { tag } = await params;
-  const { projects, snippets, experiments } = getContentByTag(tag);
+  const { projects, notes } = getContentByTag(tag);
   const displayName = getTagDisplayName(tag);
 
-  const hasContent =
-    projects.length > 0 || snippets.length > 0 || experiments.length > 0;
+  const hasContent = projects.length > 0 || notes.length > 0;
 
   if (!hasContent) notFound();
 
@@ -45,7 +44,6 @@ export default async function TagPage({
 
       {projects.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupHeading}>Work</h2>
           <ul className={styles.list}>
             {projects.map((project) => (
               <TagResultItem
@@ -61,36 +59,17 @@ export default async function TagPage({
         </section>
       )}
 
-      {snippets.length > 0 && (
+      {notes.length > 0 && (
         <section className={styles.group}>
-          <h2 className={styles.groupHeading}>Snippets</h2>
           <ul className={styles.list}>
-            {snippets.map((snippet) => (
+            {notes.map((note) => (
               <TagResultItem
-                key={snippet.slug}
-                href={`/snippets/${snippet.slug}`}
-                title={snippet.title}
-                summary={snippet.summary}
-                tags={snippet.tags}
-                meta="Snippet"
-              />
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {experiments.length > 0 && (
-        <section className={styles.group}>
-          <h2 className={styles.groupHeading}>Experiments</h2>
-          <ul className={styles.list}>
-            {experiments.map((experiment) => (
-              <TagResultItem
-                key={experiment.slug}
-                href={`/experiments/${experiment.slug}`}
-                title={experiment.title}
-                summary={experiment.summary}
-                tags={experiment.tags ?? []}
-                meta={experiment.status === "in-progress" ? "In progress" : "Experiment"}
+                key={note.slug}
+                href={`/notes/${note.slug}`}
+                title={note.title}
+                summary={note.summary}
+                tags={note.tags}
+                meta={note.status === "in-progress" ? "In progress" : "Note"}
               />
             ))}
           </ul>

@@ -43,13 +43,8 @@ portfolio/
 │   │   │   └── [slug]/
 │   │   │       └── page.tsx       # dynamic case study or showcase page
 │   │   │
-│   │   ├── snippets/
-│   │   │   ├── page.tsx           # snippet index
-│   │   │   └── [slug]/
-│   │   │       └── page.tsx
-│   │   │
-│   │   ├── experiments/
-│   │   │   ├── page.tsx
+│   │   ├── notes/
+│   │   │   ├── page.tsx           # notes index
 │   │   │   └── [slug]/
 │   │   │       └── page.tsx
 │   │   │
@@ -86,8 +81,8 @@ portfolio/
 │   │   │   ├── ProjectCard/
 │   │   │   └── CaseStudy/        # MDX wrapper with case study layout
 │   │   │
-│   │   ├── snippets/
-│   │   │   └── SnippetCard/
+│   │   ├── notes/
+│   │   │   └── NoteCard/
 │   │   │
 │   │   └── contact/
 │   │       └── ContactForm/
@@ -100,15 +95,13 @@ portfolio/
 │   │   ├── work/
 │   │   │   ├── municipal-water-authority.mdx
 │   │   │   └── coffee-roaster.mdx
-│   │   ├── snippets/
+│   │   ├── notes/
 │   │   │   └── nginx-rate-limiting.mdx
-│   │   └── experiments/
-│   │       └── design-surface.mdx
 │   │
 │   ├── lib/
 │   │   ├── mdx.ts                 # MDX parsing, frontmatter extraction, slug generation
 │   │   ├── resend.ts              # Resend client setup
-│   │   └── types.ts               # shared TypeScript types (Project, Snippet, etc.)
+│   │   └── types.ts               # shared TypeScript types (Project, Note, etc.)
 │   │
 │   └── providers/
 │       └── ThemeProvider.tsx      # sets data-theme on <html>, reads prefers-color-scheme
@@ -137,7 +130,7 @@ summary: Rebuilt a city-facing Drupal 7 site. Migrated content, rebuilt the them
 ---
 ```
 
-### Snippet
+### Note
 ```yaml
 ---
 title: Nginx rate limiting for contact form routes
@@ -145,17 +138,7 @@ slug: nginx-rate-limiting
 date: 2024-01-15
 tags: [Nginx, Linux, Security]
 summary: Limit POST requests to specific routes at the server level before they hit Next.js.
----
-```
-
-### Experiment
-```yaml
----
-title: Portfolio design surface
-slug: design-surface
-date: 2024-11-01
-status: in-progress       # shows WIP indicator
-summary: The design exploration session that produced this site's visual direction.
+status: in-progress       # optional — omit or published; in-progress shows WIP badge
 ---
 ```
 
@@ -196,6 +179,6 @@ summary: The design exploration session that produced this site's visual directi
 5. `ProjectCard` + `Tag` + `ProjectGrid` — most visible content surface
 6. MDX pipeline (`lib/mdx.ts` + work/[slug] route)
 7. `ContactForm` + `api/contact` route
-8. Snippets + Experiments sections
+8. Notes section (Notebook in nav)
 9. Deploy pipeline — PM2 config + Apache vhost + deploy script
 ```

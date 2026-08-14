@@ -3,16 +3,15 @@ import { Hero } from "@/components/home/Hero/Hero";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Tag } from "@/components/ui/Tag/Tag";
-import { getExperiments, getProjects, getSnippets } from "@/lib/mdx";
+import { getNotes, getProjects } from "@/lib/mdx";
 import { getAllDisplayTags } from "@/lib/tags";
 import styles from "./page.module.css";
 
-const RECENT_SNIPPET_LIMIT = 6;
+const RECENT_NOTE_LIMIT = 6;
 
 export default function Home() {
-  const allSnippets = getSnippets();
-  const recentSnippets = allSnippets.slice(0, RECENT_SNIPPET_LIMIT);
-  const experiments = getExperiments();
+  const allNotes = getNotes();
+  const recentNotes = allNotes.slice(0, RECENT_NOTE_LIMIT);
   const tags = getAllDisplayTags();
   const projects = getProjects();
 
@@ -22,44 +21,30 @@ export default function Home() {
 
       <div className={styles.layout}>
         <div className={styles.main}>
-          {recentSnippets.length > 0 && (
+          {recentNotes.length > 0 && (
             <section className={styles.section}>
               <SectionLabel
                 href={
-                  allSnippets.length > RECENT_SNIPPET_LIMIT
-                    ? "/snippets"
+                  allNotes.length > RECENT_NOTE_LIMIT
+                    ? "/notes"
                     : undefined
                 }
                 actionLabel={
-                  allSnippets.length > RECENT_SNIPPET_LIMIT
+                  allNotes.length > RECENT_NOTE_LIMIT
                     ? "View all →"
                     : undefined
                 }
               >
-                Snippets
+                Notes
               </SectionLabel>
               <ContentList
-                items={recentSnippets.map((snippet) => ({
-                  href: `/snippets/${snippet.slug}`,
-                  title: snippet.title,
-                  summary: snippet.summary,
-                  tags: snippet.tags,
-                }))}
-              />
-            </section>
-          )}
-
-          {experiments.length > 0 && (
-            <section className={styles.section}>
-              <SectionLabel>Experiments</SectionLabel>
-              <ContentList
-                items={experiments.map((experiment) => ({
-                  href: `/experiments/${experiment.slug}`,
-                  title: experiment.title,
-                  summary: experiment.summary,
-                  tags: experiment.tags ?? [],
+                items={recentNotes.map((note) => ({
+                  href: `/notes/${note.slug}`,
+                  title: note.title,
+                  summary: note.summary,
+                  tags: note.tags,
                   badge:
-                    experiment.status === "in-progress"
+                    note.status === "in-progress"
                       ? "In progress"
                       : undefined,
                 }))}

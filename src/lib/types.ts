@@ -9,21 +9,12 @@ export interface Project {
   summary: string;
 }
 
-// Code snippet
-export interface Snippet {
+// Note — code snippet, write-up, or WIP
+export interface Note {
   title: string;
   slug: string;
   date: string;
   tags: string[];
   summary: string;
-}
-
-// Experiment / WIP
-export interface Experiment {
-  title: string;
-  slug: string;
-  date: string;
-  status: "published" | "in-progress";
-  summary: string;
-  tags?: string[];
+  status?: "published" | "in-progress";
 }
