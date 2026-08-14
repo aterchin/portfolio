@@ -34,6 +34,28 @@ export function getAllNormalizedTags(): string[] {
   return [...new Set(allTags.map(normalizeTag))];
 }
 
+// Unique original display names, alpha-sorted (case-insensitive).
+// Used by the home page tag browse row — Tag linked normalizes the URL.
+export function getAllDisplayTags(): string[] {
+  const allTags = [
+    ...getProjects().flatMap((p) => p.tags),
+    ...getSnippets().flatMap((s) => s.tags),
+    ...getExperiments().flatMap((e) => e.tags ?? []),
+  ];
+
+  const byNormalized = new Map<string, string>();
+  for (const tag of allTags) {
+    const key = normalizeTag(tag);
+    if (!byNormalized.has(key)) {
+      byNormalized.set(key, tag);
+    }
+  }
+
+  return [...byNormalized.values()].sort((a, b) =>
+    a.localeCompare(b, undefined, { sensitivity: "base" })
+  );
+}
+
 export interface TaggedContent {
   projects: Project[];
   snippets: Snippet[];

@@ -1,0 +1,33 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(10rem, 14rem);
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.main {
+  min-width: 0;
+}
+
+.sidebar {
+  min-width: 0;
+}
+
+.section {
+  /* SectionLabel owns top spacing; bottom gap before the next section. */
+  padding-bottom: var(--space-4);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

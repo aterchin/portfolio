@@ -10,8 +10,8 @@ import {
   type ChangeEvent,
 } from "react";
 import Fuse from "fuse.js";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ContentList } from "@/components/ui/ContentList/ContentList";
 import type { SearchItem, SearchItemType } from "@/lib/search";
 import styles from "./Search.module.css";
 
@@ -214,23 +214,17 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
                 Nothing matches “{trimmedQuery}”. Try a different term.
               </p>
             ) : (
-              <ul className={styles.results}>
-                {results.map((item) => (
-                  <li key={`${item.type}-${item.slug}`} className={styles.resultItem}>
-                    <Link href={item.href} className={styles.result}>
-                      <div className={styles.resultMeta}>
-                        <span className={styles.type}>{TYPE_LABELS[item.type]}</span>
-                        {item.badge && <span className={styles.badge}>{item.badge}</span>}
-                      </div>
-                      <h3 className={styles.title}>{item.title}</h3>
-                      <p className={styles.summary}>{item.summary}</p>
-                      {item.tags.length > 0 && (
-                        <p className={styles.tags}>{item.tags.join(" · ")}</p>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <ContentList
+                className={styles.results}
+                items={results.map((item) => ({
+                  href: item.href,
+                  title: item.title,
+                  summary: item.summary,
+                  tags: item.tags,
+                  typeLabel: TYPE_LABELS[item.type],
+                  badge: item.badge,
+                }))}
+              />
             )
           ) : (
             <p className={styles.hint}>
