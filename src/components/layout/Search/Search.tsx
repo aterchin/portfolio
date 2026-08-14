@@ -61,6 +61,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
   const [openedAtPath, setOpenedAtPath] = useState<string | null>(null);
   const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
 
   if (menuOpen && openedAtPath !== null) {
@@ -93,7 +94,10 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
     return fuse.search(trimmedQuery).map((r) => r.item);
   }, [trimmedQuery, fuse]);
 
-  const closePanel = useCallback(() => setOpenedAtPath(null), []);
+  const closePanel = useCallback(() => {
+    setOpenedAtPath(null);
+    triggerRef.current?.focus();
+  }, []);
 
   const openPanel = useCallback(() => {
     onActivate?.();
@@ -144,6 +148,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
   return (
     <div className={styles.search}>
       <button
+        ref={triggerRef}
         type="button"
         className={styles.trigger}
         onClick={openPanel}
@@ -154,84 +159,86 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
         <SearchIcon />
       </button>
 
-      {isOpen && (
-        <>
-          <button
-            type="button"
-            className={styles.backdrop}
-            aria-hidden="true"
-            tabIndex={-1}
-            onClick={closePanel}
-          />
-          <div
-            id={listId}
-            className={`${styles.overlay} ${trimmedQuery ? styles.overlayFilled : ""}`}
-            role="dialog"
-            aria-label="Search"
-          >
-            <div className={styles.toolbar}>
+      <button
+        type="button"
+        className={`${styles.backdrop} ${isOpen ? styles.backdropOpen : ""}`}
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={closePanel}
+      />
+      <div
+        id={listId}
+        className={`${styles.overlay} ${isOpen ? styles.overlayOpen : ""} ${
+          trimmedQuery ? styles.overlayFilled : ""
+        }`}
+        role="dialog"
+        aria-label="Search"
+        aria-hidden={!isOpen}
+        inert={!isOpen}
+      >
+        <div className={styles.inner}>
+          <div className={styles.toolbar}>
+            <button
+              type="button"
+              className={styles.close}
+              onClick={closePanel}
+              aria-label="Close search"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+          <div className={styles.field}>
+            <input
+              ref={inputRef}
+              type="search"
+              value={query}
+              onChange={handleChange}
+              placeholder={placeholder}
+              className={styles.input}
+              aria-label="Search site content"
+              aria-autocomplete="list"
+            />
+            {query.length > 0 && (
               <button
                 type="button"
-                className={styles.close}
-                onClick={closePanel}
-                aria-label="Close search"
+                className={styles.clear}
+                onClick={clearQuery}
               >
-                <CloseIcon />
+                Clear
               </button>
-            </div>
-            <div className={styles.field}>
-              <input
-                ref={inputRef}
-                type="search"
-                value={query}
-                onChange={handleChange}
-                placeholder={placeholder}
-                className={styles.input}
-                aria-label="Search site content"
-                aria-autocomplete="list"
-              />
-              {query.length > 0 && (
-                <button
-                  type="button"
-                  className={styles.clear}
-                  onClick={clearQuery}
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-            {trimmedQuery ? (
-              results.length === 0 ? (
-                <p className={styles.empty}>
-                  Nothing matches “{trimmedQuery}”. Try a different term.
-                </p>
-              ) : (
-                <ul className={styles.results}>
-                  {results.map((item) => (
-                    <li key={`${item.type}-${item.slug}`} className={styles.resultItem}>
-                      <Link href={item.href} className={styles.result}>
-                        <div className={styles.resultMeta}>
-                          <span className={styles.type}>{TYPE_LABELS[item.type]}</span>
-                          {item.badge && <span className={styles.badge}>{item.badge}</span>}
-                        </div>
-                        <h3 className={styles.title}>{item.title}</h3>
-                        <p className={styles.summary}>{item.summary}</p>
-                        {item.tags.length > 0 && (
-                          <p className={styles.tags}>{item.tags.join(" · ")}</p>
-                        )}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )
-            ) : (
-              <p className={styles.hint}>
-                Search snippets, experiments, and work by title, tag, or summary.
-              </p>
             )}
           </div>
-        </>
-      )}
+          {trimmedQuery ? (
+            results.length === 0 ? (
+              <p className={styles.empty}>
+                Nothing matches “{trimmedQuery}”. Try a different term.
+              </p>
+            ) : (
+              <ul className={styles.results}>
+                {results.map((item) => (
+                  <li key={`${item.type}-${item.slug}`} className={styles.resultItem}>
+                    <Link href={item.href} className={styles.result}>
+                      <div className={styles.resultMeta}>
+                        <span className={styles.type}>{TYPE_LABELS[item.type]}</span>
+                        {item.badge && <span className={styles.badge}>{item.badge}</span>}
+                      </div>
+                      <h3 className={styles.title}>{item.title}</h3>
+                      <p className={styles.summary}>{item.summary}</p>
+                      {item.tags.length > 0 && (
+                        <p className={styles.tags}>{item.tags.join(" · ")}</p>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )
+          ) : (
+            <p className={styles.hint}>
+              Search snippets, experiments, and work by title, tag, or summary.
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

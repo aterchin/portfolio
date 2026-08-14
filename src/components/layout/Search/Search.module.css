@@ -32,6 +32,18 @@
   padding: 0;
   background: rgb(28 26 23 / 20%);
   cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    visibility var(--duration-base) var(--ease-out);
+}
+
+.backdropOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .overlay {
@@ -44,11 +56,34 @@
   padding: var(--space-5) var(--layout-gutter) var(--space-8);
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
+  min-height: 0;
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform var(--duration-slow) var(--ease-out),
+    min-height var(--duration-slow) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
+}
+
+.overlayOpen {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .overlayFilled {
-  bottom: 0;
+  min-height: 100dvh;
   border-bottom: none;
+}
+
+.inner {
+  max-width: var(--layout-prose);
+  margin-inline: auto;
+  width: 100%;
 }
 
 .toolbar {
@@ -225,4 +260,18 @@
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
   margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    transform: none;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      visibility var(--duration-fast) var(--ease-out),
+      min-height var(--duration-fast) var(--ease-out);
+  }
+
+  .overlayOpen {
+    transform: none;
+  }
 }
