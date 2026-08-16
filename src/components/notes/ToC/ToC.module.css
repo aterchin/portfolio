@@ -1,5 +1,8 @@
 .wrapper {
   padding: var(--space-4);
+  position: sticky;
+  /* Site nav is not sticky above 768px, so a small inset is enough */
+  top: var(--space-4);
 }
 
 .title {

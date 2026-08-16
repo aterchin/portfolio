@@ -1,15 +1,8 @@
 .layout {
   display: grid;
-  grid-template-columns: 1fr minmax(10rem, 18rem);
-  gap: var(--space-12);
-  align-items: start;
-}
-
-@media (max-width: 768px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
+  grid-template-columns: 1fr;
+  /* stretch so .sidebar is as tall as the article — required for sticky ToC */
+  align-items: stretch;
 }
 
 .main {
@@ -17,7 +10,20 @@
 }
 
 .sidebar {
+  display: none;
   min-width: 0;
+}
+
+/* ToC only from lg up — cramped/mid widths skip it */
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr minmax(10rem, 18rem);
+    gap: var(--space-12);
+  }
+
+  .sidebar {
+    display: block;
+  }
 }
 
 .header {
@@ -68,4 +74,3 @@
   color: var(--color-yellow-text);
   flex-shrink: 0;
 }
-
