@@ -10,8 +10,24 @@
   color: var(--color-text-tertiary);
   padding-top: var(--space-16);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-8);
+}
+
+/* Short accent stroke under the label text only — reads as a single
+   underline mark rather than a rule spanning the whole row. */
+.label > span {
+  position: relative;
+}
+
+.label > span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  width: var(--stroke-length);
+  height: var(--stroke-width);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-mute);
 }
 
 .action {

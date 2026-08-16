@@ -151,9 +151,15 @@
    6. RADIUS
 ───────────────────────────────────────────────────────────────── */
 
-  --radius-sm:  2px;   /* default — cards, tags, buttons. intentionally tight. */
-  --radius-md:  4px;   /* inputs, modals if needed */
+  --radius-sm:  6px;   /* tags, badges, buttons, inputs — soft, not sharp */
+  --radius-md:  10px;  /* cards, panels, modals */
   --radius-full:999px; /* pills only */
+
+  /* Organic accent stroke — the short "underline mark" motif used in place of
+     full-width rules (SectionLabel, list-item hover marks). Rounded-cap,
+     deliberately short — reads as a pen stroke, not a table rule. */
+  --stroke-width:   2px;
+  --stroke-length:  1.75rem;
 
 }
 
