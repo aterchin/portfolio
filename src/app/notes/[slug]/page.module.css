@@ -1,3 +1,25 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(10rem, 18rem);
+  gap: var(--space-12);
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+.main {
+  min-width: 0;
+}
+
+.sidebar {
+  min-width: 0;
+}
+
 .header {
   padding-bottom: var(--space-10);
   border-bottom: 1px solid var(--color-border);
@@ -46,3 +68,4 @@
   color: var(--color-yellow-text);
   flex-shrink: 0;
 }
+

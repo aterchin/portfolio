@@ -1,0 +1,30 @@
+.wrapper {
+  padding: var(--space-4);
+}
+
+.title {
+  font-size: var(--text-h3);
+  margin-bottom: var(--space-4);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.heading {
+  font-size: var(--text-xs);
+  line-height: var(--leading-tight);
+}
+
+.heading2 {
+  composes: heading;
+  font-weight: 600;
+}
+
+.heading3 {
+  composes: heading;
+  margin-left: var(--space-3);
+}

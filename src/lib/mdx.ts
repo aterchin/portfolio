@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import type { Project, Note } from "./types";
+import { extractMdxHeadings, type HeadingData } from "./headings";
 
 const CONTENT_DIR = path.join(process.cwd(), "src/content");
 
@@ -71,10 +72,14 @@ export function getNotes(): Note[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export function getNote(slug: string): (Note & { content: string }) | null {
+export function getNote(slug: string): (Note & { content: string, headings: HeadingData[] }) | null {
   const filePath = path.join(NOTES_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
-  return parseFile<Note>(filePath);
+
+  const note = parseFile<Note>(filePath);
+  const headings = extractMdxHeadings(note.content);
+
+  return {...note, headings};
 }
 
 export function getNoteSlugs(): string[] {
