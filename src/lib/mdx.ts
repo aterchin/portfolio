@@ -49,12 +49,18 @@ export function getProjects(): Project[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-// A single project by slug, including the raw MDX content string.
+// A single project by slug, including the raw MDX content string + headings.
 // Returns null if the file doesn't exist — callers should notFound().
-export function getProject(slug: string): (Project & { content: string }) | null {
+export function getProject(
+  slug: string,
+): (Project & { content: string; headings: HeadingData[] }) | null {
   const filePath = path.join(WORK_DIR, `${slug}.mdx`);
   if (!fs.existsSync(filePath)) return null;
-  return parseFile<Project>(filePath);
+
+  const project = parseFile<Project>(filePath);
+  const headings = extractMdxHeadings(project.content);
+
+  return { ...project, headings };
 }
 
 // All work slugs — used in generateStaticParams.

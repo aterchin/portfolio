@@ -1,7 +1,39 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  /* stretch so .sidebar is as tall as the article — required for sticky ToC */
+  align-items: stretch;
+}
+
+.main {
+  min-width: 0;
+}
+
+.sidebar {
+  display: none;
+  min-width: 0;
+}
+
+/* ToC only from lg up — cramped/mid widths skip it */
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr minmax(10rem, 18rem);
+    gap: var(--space-12);
+  }
+
+  .sidebar {
+    display: block;
+  }
+}
+
 .header {
   padding-bottom: var(--space-10);
   border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-12);
+  max-width: var(--layout-prose);
+}
+
+.body:global(.prose) {
   max-width: var(--layout-prose);
 }
 
