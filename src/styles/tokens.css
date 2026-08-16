@@ -131,6 +131,9 @@
   --layout-prose:     680px;   /* max-width for prose/case study columns */
   --layout-narrow:    52ch;    /* hero subhead, tight copy */
   --layout-gutter:    var(--space-8);  /* page horizontal padding */
+  /* Approx Nav height (padding + label + border). Used for sticky ToC
+     offset and scroll-margin on in-page heading anchors. */
+  --height-header:    4rem;
 
 
 /* ─────────────────────────────────────────────────────────────────

@@ -1,7 +1,8 @@
 .wrapper {
   padding: var(--space-4);
   position: sticky;
-  /* Site nav is not sticky above 768px, so a small inset is enough */
+  /* Nav is not sticky at ToC breakpoints (≥1024px); a small inset is enough.
+     scroll-margin on .prose h2/h3 still uses --height-header for hash jumps. */
   top: var(--space-4);
 }
 
@@ -20,6 +21,12 @@
 .heading {
   font-size: var(--text-xs);
   line-height: var(--leading-tight);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.heading:hover {
+  color: var(--color-text-primary);
 }
 
 .heading2 {

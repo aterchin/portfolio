@@ -35,16 +35,21 @@ export function ToC({ headings }: ToCProps) {
       <h2 className={styles.title}>Contents</h2>
       <nav className={styles.nav}>
         <ul className={styles.toc}>
-          {items.map(({ title, level, children }, index) => (
-            <li key={index}>
-              <span className={styles[`heading${level}`]}>{title}</span>
+          {items.map(({ id, title, level, children }) => (
+            <li key={id}>
+              <a href={`#${id}`} className={styles[`heading${level}`]}>
+                {title}
+              </a>
               {children.length > 0 && (
                 <ul>
-                  {children.map((child, childIndex) => (
-                    <li key={childIndex}>
-                      <span className={styles[`heading${child.level}`]}>
+                  {children.map((child) => (
+                    <li key={child.id}>
+                      <a
+                        href={`#${child.id}`}
+                        className={styles[`heading${child.level}`]}
+                      >
                         {child.title}
-                      </span>
+                      </a>
                     </li>
                   ))}
                 </ul>

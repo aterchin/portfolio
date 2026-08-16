@@ -4,6 +4,7 @@ import { isValidElement } from "react";
 export interface HeadingData {
   title: string;
   level: number;
+  id: string;
 }
 
 export function extractMdxHeadings(mdxContent: string): HeadingData[] {
@@ -18,8 +19,8 @@ export function extractMdxHeadings(mdxContent: string): HeadingData[] {
     const title = match[2].trim();
 
     if (level === 2 || level === 3) {
-      // record this heading
-      headings.push({ title, level });
+      const id = headingToId(title);
+      headings.push({ title, level, id });
     }
 
     // get next match
@@ -52,6 +53,9 @@ export function reactNodeToText(node: ReactNode): string {
 export function headingToId(heading: string | ReactNode): string {
   return reactNodeToText(heading)
     .toLowerCase()
+    // Strip punctuation; \w keeps letters/digits/_ so remove _ separately
+    // (Markdown italics use _word_ — without this, ids would keep underscores).
     .replace(/[^\w\s-]/g, "")
+    .replace(/_/g, "")
     .replace(/\s+/g, "-");
 }

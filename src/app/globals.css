@@ -51,6 +51,13 @@ a {
   text-decoration: none;
 }
 
+/* In-page anchors (ToC, etc.) — only when the user hasn't asked to reduce motion */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 600;
