@@ -29,8 +29,8 @@ function ContentListItem({
   const showMeta = Boolean(typeLabel || badge);
 
   return (
-    <li className={styles.item}>
-      <Link href={href} className={styles.link}>
+    <li>
+      <Link href={href} className={`list-item ${styles.link}`}>
         {showMeta && (
           <div className={styles.meta}>
             {typeLabel && <span className={styles.type}>{typeLabel}</span>}
@@ -49,7 +49,7 @@ function ContentListItem({
 
 export function ContentList({ items, className }: ContentListProps) {
   return (
-    <ul className={className ? `${styles.list} ${className}` : styles.list}>
+    <ul className={className ? `list-stack ${className}` : "list-stack"}>
       {items.map((item) => (
         <ContentListItem key={item.href} {...item} />
       ))}

@@ -44,7 +44,7 @@ export default async function TagPage({
 
       {projects.length > 0 && (
         <section className={styles.group}>
-          <ul className={styles.list}>
+          <ul className="list-stack">
             {projects.map((project) => (
               <TagResultItem
                 key={project.slug}
@@ -61,7 +61,7 @@ export default async function TagPage({
 
       {notes.length > 0 && (
         <section className={styles.group}>
-          <ul className={styles.list}>
+          <ul className="list-stack">
             {notes.map((note) => (
               <TagResultItem
                 key={note.slug}
@@ -91,7 +91,7 @@ interface TagResultItemProps {
 
 function TagResultItem({ href, title, summary, tags, meta }: TagResultItemProps) {
   return (
-    <li className={styles.item}>
+    <li className="list-item">
       <div className={styles.itemMeta}>{meta}</div>
       <Link href={href} className={styles.itemTitle}>{title}</Link>
       <p className={styles.itemSummary}>{summary}</p>

@@ -1,5 +1,4 @@
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { Hero } from "@/components/home/Hero/Hero";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Tag } from "@/components/ui/Tag/Tag";
@@ -17,7 +16,6 @@ export default function Home() {
 
   return (
     <PageWrapper>
-      <Hero />
 
       <div className={styles.layout}>
         <div className={styles.main}>
