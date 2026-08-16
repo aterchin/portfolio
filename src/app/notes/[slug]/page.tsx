@@ -41,6 +41,7 @@ export default async function NoteSlugPage({
     components: getMDXComponents(),
   });
 
+
   return (
     <PageWrapper>
 
