@@ -44,14 +44,15 @@ export default async function NoteSlugPage({
 
   return (
     <PageWrapper>
+      {/* Label sits above the grid so the ToC can align with the title row */}
+      <SectionLabel>
+        Note{isWIP ? " — in progress" : ""}
+      </SectionLabel>
 
       <div className={styles.layout}>
         <div className={styles.main}>
           <article>
             <header className={styles.header}>
-              <SectionLabel>
-                Note{isWIP ? " — in progress" : ""}
-              </SectionLabel>
               <div className={styles.titleRow}>
                 <h1 className={styles.title}>{title}</h1>
                 {/*
