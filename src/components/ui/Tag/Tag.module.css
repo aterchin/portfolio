@@ -1,6 +1,6 @@
 .tag {
   display: inline-block;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-weight: 500;
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-normal);

@@ -29,6 +29,42 @@
   font-weight: inherit;
 }
 
+.wordmark > span {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 0.15em solid var(--color-accent-text);
+  margin: 0 auto;
+  letter-spacing: .15em;
+  position: relative;
+  animation: 
+    blur-in 1s linear backwards,
+    typing 8s steps(20, end) forwards,
+    hide-caret 0s 8s forwards;
+  }
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes hide-caret {
+  to { border-right-color: transparent; }
+}
+
+@keyframes blur-in {
+  0% {
+    opacity: 0;
+    filter: blur(20px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
 .navEnd {
   display: flex;
   align-items: center;
@@ -181,5 +217,12 @@
 
   .menuPanelOpen {
     transform: none;
+  }
+}
+
+@media (max-width: 512px) {
+  .wordmark {
+    font-size: 0.72rem;
+    letter-spacing: var(--tracking-normal);
   }
 }

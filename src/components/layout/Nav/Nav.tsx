@@ -96,8 +96,8 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
 
   return (
     <nav className={styles.nav}>
-      <Link href="/" className={styles.wordmark}>
-        reallyslowwebsites<span>.com</span>
+      <Link href="/" className={`${styles.wordmark} typewriter`}>
+        <span>reallyslowwebsites<span>.com</span></span>
       </Link>
 
       <div className={styles.navEnd}>
