@@ -48,9 +48,8 @@
 }
 
 .tags {
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
   margin: 0;
 }
-

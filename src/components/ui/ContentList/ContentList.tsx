@@ -40,7 +40,7 @@ function ContentListItem({
         <h3 className={styles.title}>{title}</h3>
         <p className={styles.summary}>{summary}</p>
         {tags.length > 0 && (
-          <p className={styles.tags}>{tags.join(" - ")}</p>
+          <p className={styles.tags}>{tags.join(" · ")}</p>
         )}
       </Link>
     </li>

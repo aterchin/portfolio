@@ -141,9 +141,9 @@
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   background: var(--color-accent-mute);
-  border-radius: var(--radius-sm);
   padding: 0.15em 0.4em;
-  color: var(--color-ink);
+  border-radius: var(--radius-sm);
+  color: var(--color-accent-text);
 }
 
 /* CodeBlock uses language-* classes — only reset bare MDX pre fallbacks */
