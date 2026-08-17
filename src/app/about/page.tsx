@@ -10,11 +10,11 @@ export const metadata = {
 const STACK = [
   {
     label: "Languages",
-    items: ["JavaScript", "TypeScript", "PHP", "CSS", "SQL"],
+    items: ["JavaScript", "PHP", "CSS", "SQL"],
   },
   {
     label: "Frameworks",
-    items: ["React", "Next.js", "WordPress", "Drupal", "Laravel", "Symfony"],
+    items: ["React", "WordPress", "Drupal", "Laravel"],
   },
   {
     label: "Infrastructure",

@@ -94,7 +94,7 @@
   --tracking-tight:  -0.025em;  /* large display headings */
   --tracking-normal:  0em;
   --tracking-wide:    0.04em;   /* Instrument Sans nav items */
-  --tracking-wider:   0.08em;   /* mono labels, eyebrows, uppercase UI */
+  --tracking-wider:   0.12em;   /* mono labels, eyebrows, uppercase UI */
 
   /* Weight reference (Instrument Sans: 400, 500, 600 / Newsreader: 400, 600) */
 

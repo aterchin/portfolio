@@ -1,6 +1,7 @@
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
+import type { SearchItemType } from "@/lib/search";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { getNotes, getProjects } from "@/lib/mdx";
 import { getTopDisplayTags } from "@/lib/tags";
@@ -8,6 +9,10 @@ import styles from "./page.module.css";
 
 const RECENT_NOTE_LIMIT = 6;
 const TAG_PREVIEW_LIMIT = 6;
+const TYPE_LABELS: Record<SearchItemType, string> = {
+  note: "Note",
+  work: "Work",
+};
 
 export default function Home() {
   const allNotes = getNotes();

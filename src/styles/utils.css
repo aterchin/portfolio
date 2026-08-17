@@ -140,10 +140,10 @@
 .prose code {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
-  background: var(--color-surface-raised);
-  padding: 0.15em 0.4em;
+  background: var(--color-accent-mute);
   border-radius: var(--radius-sm);
-  color: var(--color-text-secondary);
+  padding: 0.15em 0.4em;
+  color: var(--color-ink);
 }
 
 /* CodeBlock uses language-* classes — only reset bare MDX pre fallbacks */

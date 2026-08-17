@@ -32,7 +32,7 @@ export function ToC({ headings }: ToCProps) {
 
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.title}>Contents</h2>
+      <h2 className={styles.title}>Table of Contents</h2>
       <nav className={styles.nav}>
         <ul className={styles.toc}>
           {items.map(({ id, title, level, children }) => (
