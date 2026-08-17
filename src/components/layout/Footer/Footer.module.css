@@ -18,6 +18,8 @@
   flex-shrink: 0;
   color: var(--color-text-tertiary);
   text-decoration: none;
+  text-transform: lowercase;
+  font-weight: 600;
   transition: color var(--duration-base) var(--ease-base);
 }
 

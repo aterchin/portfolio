@@ -103,7 +103,7 @@
   margin-top: var(--space-12);
   margin-bottom: var(--space-4);
   /* Keep hash-link targets clear of a sticky nav (and add a little air) */
-  scroll-margin-top: calc(var(--height-header) + var(--space-4));
+  scroll-margin-top: calc(var(--height-header) + var(--space-12));
 }
 
 .prose h3 {
@@ -114,7 +114,7 @@
   color: var(--color-text-primary);
   margin-top: var(--space-8);
   margin-bottom: var(--space-3);
-  scroll-margin-top: calc(var(--height-header) + var(--space-4));
+  scroll-margin-top: calc(var(--height-header) + var(--space-12));
 }
 
 .prose p {
