@@ -3,15 +3,16 @@ import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { getNotes, getProjects } from "@/lib/mdx";
-import { getAllDisplayTags } from "@/lib/tags";
+import { getTopDisplayTags } from "@/lib/tags";
 import styles from "./page.module.css";
 
 const RECENT_NOTE_LIMIT = 6;
+const TAG_PREVIEW_LIMIT = 6;
 
 export default function Home() {
   const allNotes = getNotes();
   const recentNotes = allNotes.slice(0, RECENT_NOTE_LIMIT);
-  const tags = getAllDisplayTags();
+  const tags = getTopDisplayTags(TAG_PREVIEW_LIMIT);
   const projects = getProjects();
 
   return (

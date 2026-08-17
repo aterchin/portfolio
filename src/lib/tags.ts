@@ -33,7 +33,6 @@ export function getAllNormalizedTags(): string[] {
 }
 
 // Unique original display names, alpha-sorted (case-insensitive).
-// Used by the home page tag browse row — Tag linked normalizes the URL.
 export function getAllDisplayTags(): string[] {
   const allTags = [
     ...getProjects().flatMap((p) => p.tags),
@@ -51,6 +50,34 @@ export function getAllDisplayTags(): string[] {
   return [...byNormalized.values()].sort((a, b) =>
     a.localeCompare(b, undefined, { sensitivity: "base" })
   );
+}
+
+// Most-used tags first (alpha for ties). Pure: same content → same list.
+export function getTopDisplayTags(limit: number): string[] {
+  const allTags = [
+    ...getProjects().flatMap((p) => p.tags),
+    ...getNotes().flatMap((n) => n.tags),
+  ];
+
+  const counts = new Map<string, { label: string; count: number }>();
+  for (const tag of allTags) {
+    const key = normalizeTag(tag);
+    const entry = counts.get(key);
+    if (entry) {
+      entry.count += 1;
+    } else {
+      counts.set(key, { label: tag, count: 1 });
+    }
+  }
+
+  return [...counts.values()]
+    .sort(
+      (a, b) =>
+        b.count - a.count ||
+        a.label.localeCompare(b.label, undefined, { sensitivity: "base" })
+    )
+    .slice(0, limit)
+    .map((entry) => entry.label);
 }
 
 export interface TaggedContent {
