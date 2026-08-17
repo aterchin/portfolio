@@ -1,0 +1,93 @@
+# portfolio.mdc
+
+Cursor implements within decisions already made in the Claude Project. Don't
+re-litigate architecture or design choices here — ask if something's missing
+or ambiguous rather than guessing.
+
+## Stack
+- Next.js (App Router), TypeScript, `output: 'standalone'`
+- CSS Modules + CSS custom properties + PostCSS nesting — no Tailwind, no CSS-in-JS
+- MDX content via `@next/mdx` + `gray-matter`, files in `src/content/` only
+- Email: Resend via `/api/contact` — no third-party form services
+- Syntax highlighting: highlight.js (`highlight.js/lib/core`), singleton in `src/lib/highlight.ts`
+- Deploy: Linode VPS, PM2 + Apache reverse proxy, SSL via certbot
+
+## Fonts (loaded in `layout.tsx` via `next/font/google`)
+- Display/headings: Instrument Sans (400/500/600) → `--font-display`
+- Body prose: Public Sans (400/500/600, italic available) → `--font-body`
+- UI (nav, buttons, inputs, labels, **section labels**): Instrument Sans → `--font-ui`
+- Mono (code blocks + inline code **only**, not labels): JetBrains Mono (400/500) → `--font-mono`
+
+## Colors
+- Foundation: warm near-black `#1c1a17` / warm near-white `#f5f3ef`
+- Primary accent: terracotta (`--color-accent`)
+- Supporting accents: seafoam, aged yellow, washed periwinkle
+- Tags: periwinkle only, uniform across all sections — no per-project colors
+- Inline code: `--color-accent-mute` bg / `--color-accent-text` text (terracotta)
+- Accent text always uses `-text` token on `-mute` background — never raw accent on mute
+- Dark mode: `[data-theme="dark"]` block in `tokens.css` only, foundation + accents only
+
+## CSS rules
+- One `.module.css` per component, colocated, never styled across component boundaries
+- All values from `tokens.css` — no hardcoded colors, sizes, or font names
+- `--font-ui` for nav/buttons/inputs/labels/section labels — never `--font-body` for UI
+- `--font-body` for prose/summaries/body copy only
+- `--font-mono` for code only — not labels or eyebrows, even if uppercase
+- Minimum text size `--text-xs` (0.92rem), nothing smaller anywhere
+- MDX prose typography lives in `.prose` (`src/styles/utils.css`) — don't redeclare per-page
+- Prose max-width: `--layout-prose` (680px)
+- Motion: fades + hover transitions only, via `--duration-*`/`--ease-*` tokens — nothing bounces/pulses
+
+## MDX frontmatter
+
+**Work:**
+```yaml
+title: Project Title
+slug: project-slug
+date: 2024-01-01
+type: case-study        # or: showcase
+status: published        # or: draft
+tags: [Next.js, Drupal]
+summary: One sentence description.
+```
+
+**Note:**
+```yaml
+title: Note Title
+slug: note-slug
+date: 2024-01-01
+tags: [Apache, Linux]
+summary: One sentence description.
+status: in-progress       # optional — omit or "published"; shows yellow WIP badge
+```
+
+## Search
+- Search (Fuse.js, frontmatter-only) lives in the Nav as a global dropdown —
+  available from every page, not a home-page-only element
+- `src/components/layout/Search/` — do not duplicate into a home-page-specific
+  search component
+- Home page itself stays list-based: Notes → Work → tags sidebar, no Hero,
+  no search widget on the page body
+
+## Tags
+- All tags link to `/tags/[normalized-slug]` via `linked` prop on `Tag` component
+- Cards (NoteCard, ProjectCard): tags render as plain mono text, ` · ` separated — not `Tag` components
+- `Tag` component (linked pill) only on detail pages and the tag results page
+
+## Images
+- WebP; 1440px wide source for body/hero images, 720px for card thumbnails
+- Path: `public/images/{content-type}/filename-matches-slug.webp`
+
+## API
+- `api/contact/route.ts`: validate → rate-limit (in-memory) → Resend
+
+## Deployment
+- `next.config.ts`: `output: 'standalone'`
+- PM2 manages the Node process; Apache proxies to `localhost:3000`
+- `deploy/deploy.sh`: `git pull → npm run build → pm2 reload portfolio`
+
+## Avoid
+- Generic dev-portfolio tropes: hero + headshot, skills bars, timeline résumé
+- Purple gradients, glassmorphism, neon on dark
+- Inter, Roboto, Verdana, or other default-feeling fonts
+- Structural 90s UI details (dashed borders, retro chrome) — palette carries the 90s nod, nothing else does
