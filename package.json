@@ -19,14 +19,12 @@
     "next": "16.2.9",
     "next-mdx-remote": "^6.0.0",
     "postcss-nesting": "^14.0.0",
-    "prismjs": "^1.30.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "resend": "^6.16.0"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/prismjs": "^1.26.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

@@ -58,7 +58,7 @@
   --color-surface:          var(--color-bg);
   --color-surface-raised:   var(--color-bg-2);
 
-  /* Code blocks — surfaces pair with scoped Prism themes in prism-themes.css */
+  /* Code blocks — surfaces pair with scoped hljs themes in hljs-themes.css */
   --color-code-bg:     #f9f9f9;
   --color-code-border: #e0dbd4;
 
@@ -228,7 +228,7 @@
   --color-periwinkle-mute:  #232744;
   --color-periwinkle-text:  #b3b9dc;
 
-  /* Code blocks — prism-tomorrow surface */
+  /* Code blocks — Atom One Dark surface (hljs-themes.css) */
   --color-code-bg:     #1d1d1d;
   --color-code-border: #3d3d3d;
 
