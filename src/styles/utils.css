@@ -137,10 +137,13 @@
   opacity: 0.75;
 }
 
-.prose code {
+/* Direct child of anything except <pre> — fenced blocks keep their own
+   padding on <pre> (CodeBlock.module.css). Without :not(pre), this inset
+   stacks on top of the block padding. */
+.prose :not(pre) > code {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
-  background: var(--color-accent-mute);
+  background: var(--color-code-bg);
   padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
   color: var(--color-accent-text);
@@ -173,6 +176,10 @@
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-2);
+}
+
+.prose strong {
+  font-weight: 600;
 }
 
 .prose hr {
