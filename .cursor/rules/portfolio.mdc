@@ -34,6 +34,8 @@ or ambiguous rather than guessing.
 - `--font-body` for prose/summaries/body copy only
 - `--font-mono` for code only — not labels or eyebrows
 - `SectionLabel`: `--font-ui`, 600 weight, `--text-xs`, `--tracking-wider`, lowercase (not uppercase)
+- Nav wordmark: same format as `SectionLabel` (`--font-ui`, lowercase) — small load-in
+  animation
 - Minimum text size `--text-xs` (0.92rem), nothing smaller anywhere
 - MDX prose typography lives in `.prose` (`src/styles/utils.css`) — don't redeclare per-page
 - Prose max-width: `--layout-prose` (680px)
