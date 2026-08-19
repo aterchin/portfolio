@@ -4,34 +4,30 @@ slug: first-pm2-deploy-nextjs-standalone
 date: 2026-08-17
 tags: [PM2, Apache, Next.js, Deployment, Linux]
 summary: Setting up PM2 for the first time to run a Next.js standalone build behind an existing Apache reverse proxy on Ubuntu 24.
+voice: preserve
 ---
 
-
-<Aside title="First time install" variant="warning">
-If it's _really_ the first time, or it's a new box, go to the [official Node.js website](https://nodejs.org/en/download) and follow the current instructions to download Node via the official NVM install script.
-
-Then, enable Apache modules `sudo a2enmod proxy proxy_http headers rewrite` and restart apache.
-</Aside>
-
-I'd only installed PM2 before, on a Windows machine in order to run an Express.js server, which was a little annoying but mostly because I was new to Express.  The process manager install itself wasn't horrible though, which is always a bonus. 
+I'd only installed PM2 before, on a Windows machine in order to run an Express.js server, which was a little annoying but mostly because I was new to Express. The process manager install itself wasn't horrible though, which is always a bonus.
 
 Here's the setup, mostly so future-me doesn't have to reconstruct it from shell history.
 
-<Aside>
-What the docs mention but don't exactly put in bold: **it does not copy `public/` or `.next/static/` into that standalone folder.** Skip that step and the build succeeds, PM2 starts it happily, and the site comes up with no images, no fonts, no CSS. So that copy step lives directly in the deploy script now, not in my memory.
+## Prerequisites
+
+If it's _really_ the first time, or it's a new box, go to the [official Node.js website](https://nodejs.org/en/download) and follow the current instructions to download Node via the official NVM install script.
+
+Then enable the Apache modules and restart:
 
 ```bash
-cp -r public .next/standalone/public
-cp -r .next/static .next/standalone/.next/static
+sudo a2enmod proxy proxy_http headers rewrite
+sudo systemctl restart apache2
 ```
-</Aside>
 
 ## Clone the repo
 
 ```bash
 cd /var/www/
-git clone <your-repo-url> portfolio
-cd portfolio
+git clone <your-repo-url> example
+cd example
 ```
 
 ## Installing PM2
@@ -47,7 +43,7 @@ Two commands make it survive a reboot. `pm2 startup` prints a `sudo env PATH=...
 ```bash
 pm2 startup
 # run whatever that outputs
-pm2 start ecosystem.config.js   # should exist in your Next.js application on the server
+pm2 start ecosystem.config.js
 pm2 save
 ```
 
@@ -63,7 +59,7 @@ module.exports = {
     {
       name: "portfolio",
       script: ".next/standalone/server.js",
-      cwd: "/var/www/portfolio",
+      cwd: "/var/www/example",
       instances: 1,
       exec_mode: "fork",
       env: {
@@ -84,7 +80,8 @@ Dropped in as its own file in `/etc/apache2/sites-available` rather than merged 
 
 ```apache
 <VirtualHost *:80>
-    ServerName example.com
+    ServerName www.example.com
+    ServerAlias example.com
 
     ProxyPreserveHost On
     ProxyPass / http://127.0.0.1:3000/
@@ -94,10 +91,10 @@ Dropped in as its own file in `/etc/apache2/sites-available` rather than merged 
 </VirtualHost>
 ```
 
-Then `sudo certbot --apache -d example.com` handles the cert and appends the `:443` block — worth remembering to add `X-Forwarded-Proto "https"` to that block too, since Next.js cares about the original protocol for anything cookie- or absolute-URL-related.
+Then `sudo certbot --apache` handles the cert and appends the `:443` block — worth remembering to add `X-Forwarded-Proto "https"` to that block too, since Next.js cares about the original protocol for anything cookie- or absolute-URL-related.
 
 ```bash
-sudo certbot --apache -d reallyslowwebsites.com -d www.reallyslowwebsites.com
+sudo certbot --apache -d example.com -d www.example.com
 ```
 
 ## The actual deploy
@@ -113,8 +110,12 @@ cp -r .next/static .next/standalone/.next/static
 pm2 reload ecosystem.config.js
 ```
 
+<Aside variant="warning">
+What the docs mention but don't exactly put in bold: **it does not copy `public/` or `.next/static/` into that standalone folder.** Skip that step and the build succeeds, PM2 starts it happily, and the site comes up with no images, no fonts, no CSS.
+</Aside>
+
 `pm2 reload` (not `restart`) is the one that matters for anything with actual visitors — it does a graceful, near-zero-downtime swap instead of a hard kill-and-relaunch.
 
-You can find the deploy script [here](https://github.com/aterchin/portfolio/blob/main/deploy.sh).
+The same steps live in [`deploy.sh`](https://github.com/aterchin/portfolio/blob/main/deploy.sh).
 
 That's the whole thing.

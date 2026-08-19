@@ -80,7 +80,7 @@ non-technical client readability.
 
 - Double spaces after periods.
 - Escaped characters that may render literally (`\>` → `>`).
-- Lettered steps (`Step A`, `Step B`) → descriptive `##` headings.
+- Lettered steps (`Step 1`, `Step 2`) → descriptive `##` headings.
 - Redundant `##` heading that duplicates the page `<h1>` (the layout already
   renders the title).
 - Rhetorical questions or AI-draft leftovers (e.g. "Would you like to…").
@@ -158,6 +158,44 @@ from a caption:
   then the next step. Never stack all figures before the usage text.
 - Order figures in narrative sequence (step 1 → step 2), not arbitrary file
   name order.
+
+## Asides
+
+Registered in `src/lib/mdxComponents.tsx`. Use `<Aside>` for callouts that
+interrupt the normal reading flow — warnings, gotchas, prerequisites, or a
+note about something that got fixed later. Don't use it for content that's
+just emphasis; a callout should genuinely stand apart from the surrounding
+prose, not decorate a sentence that would read fine inline.
+
+```mdx
+<Aside variant="warning">
+Restarting Apache here drops active connections — schedule around traffic,
+not mid-deploy.
+</Aside>
+```
+
+### Variants
+
+| Variant | Default label | Use for |
+|---|---|---|
+| `info` | Note | Context or a detail worth calling out, not urgent |
+| `success` | Resolved | A problem that came up and how it was fixed |
+| `warning` | Caution | Something to watch for before acting |
+| `error` | Problem | A failure mode or a mistake worth flagging explicitly |
+
+- `title` is optional — omit it to use the default label above. Only set a
+  custom `title` when it's meaningfully more specific than the default
+  (e.g. `title="Apache 2.4+ only"` on a `warning`), not as a rephrasing of
+  the same word.
+- Keep the body short — a sentence or two. If a callout needs several
+  sentences or a code block, it's probably a real `##` section, not an aside.
+- Don't stack asides back-to-back. If a step needs both a warning and a
+  resolved-note, that's a sign the step needs restructuring, not two boxes
+  in a row.
+- Convert Google Docs–style bolded warning text ("**Note:** …", "**Important:**
+  …") into an `<Aside>` with the matching variant rather than leaving it as
+  inline bold — that's exactly the paste-artifact pattern this callout
+  replaces.
 
 ### ASCII / directory trees
 
