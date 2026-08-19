@@ -7,21 +7,55 @@ Notion, or a rough first draft.
 ## Objective
 
 Bring a content file in line with this project's voice and conventions.
-Snippets should read like [apache-reverse-proxy-node.mdx](src/content/notes/apache-reverse-proxy-node.mdx):
-imperative, scannable, no fluff. Work and experiment posts can carry more
-narrative, but the same structural rules apply.
+Notes should read like [apache-reverse-proxy-node.mdx](src/content/notes/apache-reverse-proxy-node.mdx):
+imperative, scannable, no fluff. Work posts can carry more narrative, but
+the same structural rules apply.
 
-Canonical reference for a polished snippet with images and an ASCII tree:
-[src/content/snippets/sourcetree-custom-action.mdx](src/content/snippets/sourcetree-custom-action.mdx).
+Canonical reference for a polished note with images and an ASCII tree:
+[src/content/notes/sourcetree-custom-action.mdx](src/content/notes/sourcetree-custom-action.mdx).
 
 ## Scope
 
 1. Identify the target file — use the open file, a path the user provides,
    or changed files under `src/content/` from `git status`.
-2. Read the file's content type (work / note) and match tone
-   accordingly. Notes are reference docs; work posts are case studies.
-3. Apply the cleanup rules below. Edit the file directly unless the user
+2. Read the file's content type (work / note) and match tone accordingly.
+   Notes are reference docs; work posts are case studies.
+3. Check frontmatter for `voice: preserve` (notes only — see **Voice** below).
+   This does not change structural, terminology, or validation rules — only
+   whether tone gets flattened.
+4. Apply the cleanup rules below. Edit the file directly unless the user
    asked for a review-only pass.
+
+---
+
+## Voice
+
+By default, cleanup flattens conversational tone into the dry, imperative
+style described under **Tone**. Some notes are meant to keep the author's
+voice — warmer, more sarcastic, a little rambling on a genuine annoyance.
+For those, add to frontmatter:
+
+```yaml
+voice: preserve
+```
+
+When `voice: preserve` is set:
+
+- **Skip** tone-flattening: don't cut first-person asides, don't neutralize
+  sarcasm, don't trim a paragraph just because it rambles a little. If the
+  rambling goes on for several paragraphs past the point that's still
+  legible or useful, trim the excess — preserving voice isn't a license for
+  the note to stop making its point.
+- **Still apply everything else**: terminology fixes, misspoken/incorrect
+  wording, Google Docs paste artifacts, heading structure, code block
+  correctness, image rules, frontmatter validation. Voice preservation is
+  about tone, not accuracy or structure.
+
+When the field is absent (the default), run full cleanup as described below.
+
+This field is optional and specific to notes — work posts always go through
+full tone cleanup regardless of this flag, since they're written for
+non-technical client readability.
 
 ---
 
@@ -32,6 +66,9 @@ Canonical reference for a polished snippet with images and an ASCII tree:
 - **`tags`**: consistent casing (`macOS`, not `Mac OS`; `Node.js`, not
   `node.js`).
 - **`slug`**: must match the filename (minus `.mdx`).
+- **`voice`**: optional, notes only. `preserve` or omitted — see **Voice**
+  above. Not a field to add unprompted; only carry it forward if it's
+  already in the source, or the user asks for it on this note specifically.
 - Run field validation against the schema in `mdx-validate.md` if frontmatter
   was added or changed.
 
@@ -52,10 +89,11 @@ Canonical reference for a polished snippet with images and an ASCII tree:
 
 ### Intro paragraph
 
-- **Snippets**: 1–2 sentences max. Problem → desired outcome. No repetition
-  of the frontmatter `summary`.
-- **Work / experiments**: narrative is fine, but cut duplicate context between
-  `summary` and body.
+- **Notes**: 1–2 sentences max. Problem → desired outcome. No repetition
+  of the frontmatter `summary`. (If `voice: preserve`, length can flex —
+  see **Voice**.)
+- **Work**: narrative is fine, but cut duplicate context between `summary`
+  and body.
 
 ### Headings and lists
 
@@ -68,11 +106,13 @@ Canonical reference for a polished snippet with images and an ASCII tree:
 
 ### Tone
 
+Applies in full unless the file has `voice: preserve` (see **Voice** above).
+
 - Imperative verbs: "Save this as…", "Open…", "Set…".
 - Dry and direct — no filler ("In this article we will…", "It's worth noting
   that…").
 - First-person backstory is OK in one opening sentence when it explains *why*
-  the snippet exists; don't carry it through every section.
+  the note exists; don't carry it through every section.
 
 ---
 
@@ -95,7 +135,7 @@ file list with no UI chrome worth illustrating.
 
 - **WebP only** for raster images. Convert PNG/JPEG before committing
   (`cwebp -q 85 input.png -o output.webp`).
-- **One image**: `public/images/{work\|snippets\|experiments}/{slug}.webp`
+- **One image**: `public/images/{work|notes}/{slug}.webp`
 - **Two or more images**: `public/images/{category}/{slug}/descriptive-name.webp`
 - Delete replaced or unused image files from `public/images/`.
 
@@ -106,7 +146,7 @@ from a caption:
 
 ```mdx
 <Figure
-  src="/images/snippets/my-slug/step-name.webp"
+  src="/images/notes/my-slug/step-name.webp"
   alt="Descriptive alt — what the image shows, not what to do"
   caption="Short instruction or context the alt doesn't cover."
 />
@@ -161,6 +201,8 @@ paragraph.
 After editing, summarize:
 
 1. **What changed** — bullet list grouped by copy / structure / images.
+   Note whether `voice: preserve` was respected or if tone cleanup ran in
+   full.
 2. **Files touched** — MDX path and any image adds/removes/converts.
 3. **Anything left for the user** — e.g. missing screenshots, factual
    verification, or frontmatter values only they can supply.

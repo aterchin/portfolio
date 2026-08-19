@@ -32,7 +32,8 @@ or ambiguous rather than guessing.
 - All values from `tokens.css` — no hardcoded colors, sizes, or font names
 - `--font-ui` for nav/buttons/inputs/labels/section labels — never `--font-body` for UI
 - `--font-body` for prose/summaries/body copy only
-- `--font-mono` for code only — not labels or eyebrows, even if uppercase
+- `--font-mono` for code only — not labels or eyebrows
+- `SectionLabel`: `--font-ui`, 600 weight, `--text-xs`, `--tracking-wider`, lowercase (not uppercase)
 - Minimum text size `--text-xs` (0.92rem), nothing smaller anywhere
 - MDX prose typography lives in `.prose` (`src/styles/utils.css`) — don't redeclare per-page
 - Prose max-width: `--layout-prose` (680px)
@@ -59,15 +60,30 @@ date: 2024-01-01
 tags: [Apache, Linux]
 summary: One sentence description.
 status: in-progress       # optional — omit or "published"; shows yellow WIP badge
+voice: preserve            # optional — preserves author's tone in cleanup, see Content section
 ```
+
+## Content — voice preservation flag
+- Optional frontmatter field on notes only: `voice: preserve`
+- Typed in `src/lib/types.ts` as `voice?: "preserve"` on the `Note` interface
+  (not present on `Project` — work posts always get full tone cleanup)
+- When set, `cleanup-mdx.md` skips tone-flattening (keeps first-person
+  asides, sarcasm, mild rambling) but still applies terminology fixes,
+  wording corrections, structural rules, and frontmatter validation
+- Do not add this field to a note proactively — only carry it forward if
+  already present, or if explicitly requested for that note
+- Absent field = default behavior, full tone cleanup as before
+
+## Home page
+- Hero (`src/components/home/Hero/`), then two-column layout: main column
+  (Notes → Work as `ContentList` rows), narrower right sidebar of linked tags
+- Work is secondary — same list treatment as notes, not a lead section
 
 ## Search
 - Search (Fuse.js, frontmatter-only) lives in the Nav as a global dropdown —
   available from every page, not a home-page-only element
 - `src/components/layout/Search/` — do not duplicate into a home-page-specific
   search component
-- Home page itself stays list-based: Notes → Work → tags sidebar, no Hero,
-  no search widget on the page body
 
 ## Tags
 - All tags link to `/tags/[normalized-slug]` via `linked` prop on `Tag` component

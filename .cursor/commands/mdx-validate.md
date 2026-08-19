@@ -16,13 +16,14 @@ parsing or a page render.
      `status` (`published` | `draft`), `tags` (array), `accent` (must be
      one of the four palette accents), `summary`.
    - **note**: `title`, `slug`, `date`, `status` (`in-progress` |
-     `published`), `summary`.
+     `published`), `summary`, `voice`.
 3. Also check:
    - `slug` matches the filename (minus extension).
    - `date` is a valid ISO date, not a placeholder like `2024-01-01` left
      over from scaffolding, unless that's actually correct.
    - No field values outside the enum options listed above.
    - `summary` is actually one sentence, not a paragraph.
+   - `voice` is optional.
 4. Confirm the file compiles by checking it against `src/lib/mdx.ts`'s
    expected shape (`types.ts`) — flag any mismatch between the type
    definition and what a real content file provides.

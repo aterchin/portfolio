@@ -2,7 +2,7 @@
 export interface Project {
   title: string;
   slug: string;
-  date: string;          // ISO 8601 — YYYY-MM-DD
+  date: string; // ISO 8601 — YYYY-MM-DD
   type: "case-study" | "showcase";
   status: "published" | "draft";
   tags: string[];
@@ -13,8 +13,9 @@ export interface Project {
 export interface Note {
   title: string;
   slug: string;
-  date: string;
+  date: string; // ISO 8601 — YYYY-MM-DD
   tags: string[];
   summary: string;
   status?: "published" | "in-progress";
+  voice?: "preserve"; // optional — keeps author's tone during MDX cleanup, skips flattening
 }
