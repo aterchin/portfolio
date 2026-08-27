@@ -12,10 +12,10 @@ interface AsideProps {
 }
 
 const defaultLabels: Record<AsideVariant, string> = {
-  info: "Note",
-  success: "Resolved",
-  warning: "Caution",
-  error: "Problem",
+  info: "",
+  success: "",
+  warning: "",
+  error: "",
 };
 
 export function Aside({
