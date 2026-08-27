@@ -1,0 +1,115 @@
+---
+title: WordPress database import and export with WP-CLI
+slug: wordpress-import-export-database
+date: 2026-08-27
+tags: [WordPress, WP-CLI, Bash]
+summary: Two WP-CLI wrapper scripts for dumping and loading a WordPress database, with search-replace, plugin deactivation, and admin-user promotion on import.
+voice: preserve
+---
+
+Each script will run automated commands from WP-CLI common to migrating your database from one environment to another. The import and export scripts allow for search and replace, user management, and plugin management. In your WordPress root directory, you will create two files:
+
+- `db-export.sh`
+- `db-import.sh`
+
+<Aside variant="info">
+If it's been a while, update your WP-CLI binary with `wp cli update`. See the official [WP-CLI docs](https://make.wordpress.org/cli/handbook/guides/installing/) for first-time installation.
+</Aside>
+
+## Export database
+
+`db-export.sh`:
+
+```bash
+#!/bin/bash
+
+# Usage: bash db-export.sh filename.sql
+
+# CAREFULLY REVIEW AND CHANGE VARS SPECIFIC TO THIS SITE
+WP="php -d display_errors=0 -d max_execution_time=0 /usr/local/bin/wp"
+
+if [[ -z "${1:-}" ]]; then
+    echo "Must specify the file name. Usage: bash $0 filename.sql"
+    exit 1
+fi
+
+echo "exporting db...."
+
+${WP} db export "$1" --add-drop-table --single-transaction
+```
+
+## Import database
+
+`db-import.sh`:
+
+```bash
+#!/bin/bash
+
+# Usage: bash db-import.sh filename.sql
+
+# CAREFULLY REVIEW AND CHANGE VARS SPECIFIC TO THIS SITE
+WP="php -d display_errors=0 -d max_execution_time=0 /usr/local/bin/wp"
+
+# dev to prod
+SEARCH="https://dev.example.com"
+REPLACE="https://www.example.com"
+# Comma-separated emails, no spaces
+ADMIN_USERS="adam@example.com,other@example.com"
+
+# Check if either variable is empty (-z)
+if [[ -z "$SEARCH" || -z "$REPLACE" || -z "$ADMIN_USERS" ]]; then
+    echo "Error: SEARCH, REPLACE, and/or ADMIN_USERS variables are not set."
+    exit 1
+fi
+
+if [[ -z "${1:-}" || ! -f "$1" ]]; then
+    echo "Must specify an existing dump file. Usage: bash $0 filename.sql"
+    exit 1
+fi
+
+echo "importing db...."
+
+${WP} db import "$1"
+
+echo "search and replace..."
+
+${WP} search-replace "$SEARCH" "$REPLACE" --report-changed-only --skip-columns=guid
+
+echo "flushing rewrite rules and cache..."
+
+${WP} rewrite flush
+${WP} cache flush
+
+echo "disabling dev plugins..."
+
+${WP} plugin deactivate password-protected
+
+# Resolve admin emails to IDs before demoting. Regex filters printed PHP notices.
+ADMIN_IDS=()
+IFS=',' read -r -a ADMIN_EMAILS <<< "$ADMIN_USERS" 
+for email in "${ADMIN_EMAILS[@]}"; do
+    ADMIN_ID="$(${WP} user get "$email" --field=ID | grep -E '^[0-9]+$')"
+    [[ -n "$ADMIN_ID" ]] || { echo "User not found after import: $email"; exit 1; }
+    ADMIN_IDS+=("$ADMIN_ID")
+done
+
+echo "demoting everyone..."
+${WP} user list --field=ID | grep -E '^[0-9]+$' | xargs -n1 -I{} ${WP} user set-role {} ""
+
+echo "promoting admins..."
+for ADMIN_ID in "${ADMIN_IDS[@]}"; do
+    ${WP} user set-role "$ADMIN_ID" administrator
+done
+```
+
+## Optional: exclude tables on export
+
+To skip All-In-One WP Security tables, replace the export line with:
+
+```bash
+${WP} db export "$1" --add-drop-table --single-transaction --exclude_tables="$(${WP} db tables 'wp_aiowps_*' --all-tables --format=csv)"
+```
+
+<Aside variant="info" title="How the email list is split">
+`IFS=',' read -r -a ADMIN_EMAILS <<< "$ADMIN_USERS"` splits the comma-separated email string into an array. `IFS=','` sets the delimiter for that `read` only, `-a` fills `ADMIN_EMAILS`, `-r` leaves backslashes alone, and `<<<` feeds in the string.
+</Aside>
