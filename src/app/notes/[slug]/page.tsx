@@ -5,7 +5,7 @@ import { Tag } from "@/components/ui/Tag/Tag";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ToC } from "@/components/notes/ToC/ToC";
 import { getNote, getNoteSlugs } from "@/lib/mdx";
-import { getMDXComponents } from "@/lib/mdxComponents";
+import { getMDXComponents, mdxRemoteOptions } from "@/lib/mdxComponents";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -37,7 +37,7 @@ export default async function NoteSlugPage({
 
   const { content: MDXContent } = await compileMDX({
     source: content,
-    options: { parseFrontmatter: false },
+    options: mdxRemoteOptions,
     components: getMDXComponents(),
   });
 
@@ -72,7 +72,6 @@ export default async function NoteSlugPage({
             <div className={`prose ${styles.body}`}>{MDXContent}</div>
           </article>
         </div>
-
         {headings.length > 0 && (
           <aside className={styles.sidebar}>
             <ToC headings={headings} />

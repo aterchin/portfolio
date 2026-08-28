@@ -1,12 +1,13 @@
 .layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   /* stretch so .sidebar is as tall as the article — required for sticky ToC */
   align-items: stretch;
 }
 
 .main {
   min-width: 0;
+  overflow: visible;
 }
 
 .sidebar {
@@ -14,11 +15,15 @@
   min-width: 0;
 }
 
-/* ToC only from lg up — cramped/mid widths skip it */
 @media (min-width: 1024px) {
   .layout {
-    grid-template-columns: 1fr minmax(10rem, 18rem);
-    gap: var(--space-12);
+    grid-template-columns: minmax(0, var(--layout-prose)) minmax(0, 1fr);
+  }
+
+  .layout:has(.sidebar) {
+    --code-wide-extra: calc(var(--space-12) + 18rem);
+    grid-template-columns: minmax(0, var(--layout-prose)) minmax(10rem, 18rem);
+    column-gap: var(--space-12);
   }
 
   .sidebar {
@@ -34,7 +39,7 @@
 }
 
 .body:global(.prose) {
-  max-width: var(--layout-prose);
+  --prose-max: var(--layout-prose);
 }
 
 .title {

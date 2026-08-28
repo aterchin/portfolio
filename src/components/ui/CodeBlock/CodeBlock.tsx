@@ -4,15 +4,17 @@ import styles from "./CodeBlock.module.css";
 interface CodeBlockProps {
   code: string;
   lang?: string;
+  // Opt-in: fence meta `wide` (```bash wide) spans the leftover column beside prose.
+  wide?: boolean;
 }
 
-export function CodeBlock({ code, lang }: CodeBlockProps) {
+export function CodeBlock({ code, lang, wide = false }: CodeBlockProps) {
   const trimmed = code.trim();
   const language = lang ?? "plaintext";
   const highlighted = highlightCode(trimmed, language);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper}${wide ? " code-wide" : ""}`}>
       <pre className={`${styles.pre} language-${language}`}>
         <code
           className={`hljs language-${language}`}

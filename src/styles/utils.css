@@ -84,14 +84,31 @@
   transform: translateX(0);
 }
 
-/* Prose — for MDX-rendered case study / note body content */
+/* Prose — for MDX-rendered case study / note body content.
+   Default children cap at --prose-max. `.code-wide` stays full width of
+   this box, plus --code-wide-extra (gap + ToC track) when the layout
+   sets that variable — overflow, not grid spanning, so sticky ToC still
+   has a full-height sidebar to stick inside. */
 .prose {
-  max-width: var(--layout-prose);
+  --prose-max: var(--layout-prose);
+  max-width: none;
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--color-text-secondary);
   padding-bottom: var(--space-24);
+}
+
+.prose > * {
+  max-width: var(--prose-max);
+  min-width: 0;
+}
+
+.prose > .code-wide {
+  width: calc(100% + var(--code-wide-extra, 0px));
+  max-width: none;
+  position: relative;
+  z-index: 1;
 }
 
 .prose h2 {

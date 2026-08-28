@@ -40,7 +40,7 @@ The front-end sends the resource post ID to the route. The plugin:
 4. Streams the zip to the browser with the correct `Content-Type` and `Content-Disposition` headers
 5. Increments a download count field in the post's meta
 
-```php
+```php wide
 // Custom REST route registered in the plugin
 register_rest_route('brandbox/v1', '/download/(?P<id>\d+)', [
     'methods'  => 'GET',
