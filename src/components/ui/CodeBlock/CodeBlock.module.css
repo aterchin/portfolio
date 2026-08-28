@@ -1,5 +1,29 @@
 .wrapper {
+  position: relative;
   margin-block: var(--space-6);
+}
+
+/* Placement + hover-reveal live here because they depend on .wrapper.
+   Appearance is CopyButton.module.css; this class is passed in as className. */
+.copyButton {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 1;
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .copyButton {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .wrapper:hover .copyButton,
+  .wrapper:focus-within .copyButton {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* Layout overrides — colors come from scoped hljs themes in hljs-themes.css */

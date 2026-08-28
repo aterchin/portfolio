@@ -1,4 +1,5 @@
 import { highlightCode } from "@/lib/highlight";
+import { CopyButton } from "./CopyButton";
 import styles from "./CodeBlock.module.css";
 
 export interface CodeBlockProps {
@@ -16,6 +17,7 @@ export function CodeBlock({ code, lang, wide = false }: CodeBlockProps) {
 
   return (
     <div className={`${styles.wrapper}${wide ? " code-wide" : ""}`}>
+      <CopyButton code={trimmed} className={styles.copyButton} />
       <pre className={`${styles.pre} language-${language}`}>
         <code
           className={`hljs language-${language}`}
