@@ -47,9 +47,13 @@ When `voice: preserve` is set:
   legible or useful, trim the excess — preserving voice isn't a license for
   the note to stop making its point.
 - **Still apply everything else**: terminology fixes, misspoken/incorrect
-  wording, Google Docs paste artifacts, heading structure, code block
-  correctness, image rules, frontmatter validation. Voice preservation is
-  about tone, not accuracy or structure.
+  wording, Google Docs paste artifacts, heading structure (including
+  **Process notes** under Headings and lists), code block correctness,
+  image rules, frontmatter validation. Voice preservation is about tone,
+  not accuracy or structure.
+- Do **not** rewrite a process/learning note into apache-style imperative
+  how-to. Drafts of that kind come from
+  [draft-process-note.md](draft-process-note.md).
 
 When the field is absent (the default), run full cleanup as described below.
 
@@ -103,6 +107,23 @@ non-technical client readability.
   bullet trees.
 - Platform-specific paths: **SourceTree → Preferences** (Mac) or
   **Tools → Options** (Windows) — bold the menu path, plain `→` arrows.
+
+#### Process notes
+
+Applies when `voice: preserve` is set, or the note is clearly a
+design/implementation write-up (not a command cookbook). Canonical shape:
+[src/content/notes/wide-mdx-code-blocks.mdx](src/content/notes/wide-mdx-code-blocks.mdx).
+
+- Prefer short `##` titles (a few words). `###` for a single failure or fix.
+- Several facts about one code block → bullets, not one stacked sentence.
+- Don't inject exact layout tokens (`minmax(…)`, raw max-width pixels) on
+  cleanup unless the reader must copy them.
+- Don't wrap a live demo fence in `<Aside>`; keep a one-line intro above
+  the block.
+- Related machinery (Remark, compile options) stays `###` under a
+  considerations-style `##`, not extra top-level sections.
+- Don't flatten collapsed "what we tried" sections back into a full
+  experiment log.
 
 ### Tone
 
@@ -220,6 +241,7 @@ represents.
 ## Code blocks
 
 - Correct language tag: `bash`, `apache`, `css`, `text`, etc.
+- Preserve fence meta (`wide`, etc.) — don't strip it as noise.
 - No trailing blank line inside the fence.
 - Keep inline comments that explain non-obvious logic; remove comments that
   restate what the code already says.
