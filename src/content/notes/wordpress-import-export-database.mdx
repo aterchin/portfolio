@@ -106,7 +106,7 @@ done
 
 To skip All-In-One WP Security tables, replace the export line with:
 
-```bash
+```bash wide
 ${WP} db export "$1" --add-drop-table --single-transaction --exclude_tables="$(${WP} db tables 'wp_aiowps_*' --all-tables --format=csv)"
 ```
 
