@@ -1,10 +1,11 @@
 import { highlightCode } from "@/lib/highlight";
 import styles from "./CodeBlock.module.css";
 
-interface CodeBlockProps {
+export interface CodeBlockProps {
   code: string;
   lang?: string;
-  // Opt-in: fence meta `wide` (```bash wide) spans the leftover column beside prose.
+  // Opt-in: fence meta `wide` (```bash wide) overflows the prose column
+  // over the ToC track. Layout sets --code-wide-extra; sticky ToC is unchanged.
   wide?: boolean;
 }
 
