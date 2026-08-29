@@ -4,6 +4,7 @@ import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ToC } from "@/components/notes/ToC/ToC";
+import { ContentDate } from "@/components/ui/ContentDate/ContentDate";
 import { getNote, getNoteSlugs } from "@/lib/mdx";
 import { getMDXComponents, mdxRemoteOptions } from "@/lib/mdxComponents";
 import styles from "./page.module.css";
@@ -32,7 +33,7 @@ export default async function NoteSlugPage({
   const note = getNote(slug);
   if (!note) notFound();
 
-  const { content, title, status, tags, headings } = note;
+  const { content, title, status, tags, headings, date, updated } = note;
   const isWIP = status === "in-progress";
 
   const { content: MDXContent } = await compileMDX({
@@ -63,6 +64,7 @@ export default async function NoteSlugPage({
                 */}
                 {isWIP && <span className={styles.wip}>In progress</span>}
               </div>
+              <ContentDate date={date} updated={updated} />
               <div className={styles.tags}>
                 {tags.map((tag) => (
                   <Tag key={tag} linked>{tag}</Tag>

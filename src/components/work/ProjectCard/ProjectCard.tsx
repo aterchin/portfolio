@@ -5,7 +5,7 @@ import styles from "./ProjectCard.module.css";
 type ProjectCardProps = Pick<Project, "title" | "slug" | "date" | "type" | "tags" | "summary">;
 
 export function ProjectCard({ title, slug, date, type, tags, summary }: ProjectCardProps) {
-  const year = new Date(date).getFullYear();
+  const year = parseInt(date.slice(0, 4), 10);
 
   return (
     <Link href={`/work/${slug}`} className={styles.card}>

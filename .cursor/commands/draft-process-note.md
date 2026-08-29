@@ -26,6 +26,7 @@ file**.
 title: …
 slug: …          # must match the filename
 date: YYYY-MM-DD # real date, not a scaffold placeholder
+updated: YYYY-MM-DD # optional — only if later than date
 status: in-progress
 voice: preserve  # unless the user says to flatten
 tags: […]

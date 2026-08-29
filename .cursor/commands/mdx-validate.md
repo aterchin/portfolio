@@ -14,13 +14,15 @@ parsing or a page render.
 2. For each, parse the frontmatter and confirm against its schema:
    - **work**: `title`, `slug`, `date`, `type` (`case-study` | `showcase`),
      `status` (`published` | `draft`), `tags` (array), `accent` (must be
-     one of the four palette accents), `summary`.
+     one of the four palette accents), `summary`. Optional: `updated`.
    - **note**: `title`, `slug`, `date`, `status` (`in-progress` |
-     `published`), `summary`, `voice`.
+     `published`), `summary`, `voice`. Optional: `updated`.
 3. Also check:
    - `slug` matches the filename (minus extension).
-   - `date` is a valid ISO date, not a placeholder like `2024-01-01` left
-     over from scaffolding, unless that's actually correct.
+   - `date` (and `updated` if present) is a valid ISO date, not a
+     placeholder like `2024-01-01` left over from scaffolding, unless that's
+     actually correct.
+   - If `updated` is set, it must be after `date`.
    - No field values outside the enum options listed above.
    - `summary` is actually one sentence, not a paragraph.
    - `voice` is optional.

@@ -48,6 +48,7 @@ or ambiguous rather than guessing.
 title: Project Title
 slug: project-slug
 date: 2024-01-01
+updated: 2024-03-15  # optional — shown under the title only when after date
 type: case-study        # or: showcase
 status: published        # or: draft
 tags: [Next.js, Drupal]
@@ -59,6 +60,7 @@ summary: One sentence description.
 title: Note Title
 slug: note-slug
 date: 2024-01-01
+updated: 2024-03-15  # optional — shown under the title only when after date
 tags: [Apache, Linux]
 summary: One sentence description.
 status: in-progress       # optional — omit or "published"; shows yellow WIP badge

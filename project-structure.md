@@ -122,6 +122,7 @@ portfolio/
 title: Municipal Water Authority Redesign
 slug: municipal-water-authority
 date: 2022-06-01
+updated: 2023-01-10  # optional — omit unless later than date
 type: case-study          # or: showcase
 status: published         # or: draft
 tags: [Drupal, Linux, CSS]
@@ -136,6 +137,7 @@ summary: Rebuilt a city-facing Drupal 7 site. Migrated content, rebuilt the them
 title: Nginx rate limiting for contact form routes
 slug: nginx-rate-limiting
 date: 2024-01-15
+updated: 2024-02-01  # optional — omit unless later than date
 tags: [Nginx, Linux, Security]
 summary: Limit POST requests to specific routes at the server level before they hit Next.js.
 status: in-progress       # optional — omit or published; in-progress shows WIP badge

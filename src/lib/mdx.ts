@@ -14,13 +14,19 @@ function parseFile<T>(filePath: string): T & { content: string } {
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
 
-  // gray-matter parses YAML dates as Date objects.
-  // Coerce to ISO string so downstream code can treat date as a string consistently.
-  if (data.date instanceof Date) {
-    data.date = data.date.toISOString().split("T")[0];
-  }
+  // gray-matter parses unquoted YAML dates as Date objects.
+  // Coerce both fields to YYYY-MM-DD so callers can treat them as strings.
+  coerceIsoDate(data, "date");
+  coerceIsoDate(data, "updated");
 
   return { ...(data as T), content };
+}
+
+function coerceIsoDate(data: Record<string, unknown>, key: string): void {
+  const value = data[key];
+  if (value instanceof Date) {
+    data[key] = value.toISOString().split("T")[0];
+  }
 }
 
 function mdxFiles(dir: string): string[] {

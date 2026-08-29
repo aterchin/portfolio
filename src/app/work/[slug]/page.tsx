@@ -4,6 +4,7 @@ import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ToC } from "@/components/notes/ToC/ToC";
+import { ContentDate } from "@/components/ui/ContentDate/ContentDate";
 import { getProject, getProjectSlugs } from "@/lib/mdx";
 import { getMDXComponents, mdxRemoteOptions } from "@/lib/mdxComponents";
 import styles from "./page.module.css";
@@ -33,8 +34,8 @@ export default async function WorkSlugPage({
 
   if (!project) notFound();
 
-  const { content, title, date, type, tags, headings } = project;
-  const year = new Date(date).getFullYear();
+  const { content, title, date, updated, type, tags, headings } = project;
+  const year = parseInt(date.slice(0, 4), 10);
 
   const { content: MDXContent } = await compileMDX({
     source: content,
@@ -54,6 +55,7 @@ export default async function WorkSlugPage({
           <article>
             <header className={styles.header}>
               <h1 className={styles.title}>{title}</h1>
+              <ContentDate date={date} updated={updated} />
               <div className={styles.tags}>
                 {tags.map((tag) => (
                   <Tag key={tag} linked>
