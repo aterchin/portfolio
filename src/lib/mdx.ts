@@ -42,6 +42,10 @@ function frontmatterOnly<T>(filePath: string): T {
   return frontmatter as T;
 }
 
+function isDraft(status: string | undefined): boolean {
+  return status === "draft";
+}
+
 // ─── Work ─────────────────────────────────────────────────────────────────────
 
 const WORK_DIR = path.join(CONTENT_DIR, "work");
@@ -51,7 +55,7 @@ const WORK_DIR = path.join(CONTENT_DIR, "work");
 export function getProjects(): Project[] {
   return mdxFiles(WORK_DIR)
     .map((file) => frontmatterOnly<Project>(path.join(WORK_DIR, file)))
-    .filter((p) => p.status === "published")
+    .filter((p) => !isDraft(p.status))
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
@@ -64,14 +68,18 @@ export function getProject(
   if (!fs.existsSync(filePath)) return null;
 
   const project = parseFile<Project>(filePath);
+  if (isDraft(project.status)) return null;
+
   const headings = extractMdxHeadings(project.content);
 
   return { ...project, headings };
 }
 
-// All work slugs — used in generateStaticParams.
+// Published work slugs only — used in generateStaticParams.
 export function getProjectSlugs(): string[] {
-  return mdxFiles(WORK_DIR).map((f) => f.replace(".mdx", ""));
+  return mdxFiles(WORK_DIR)
+    .filter((file) => !isDraft(frontmatterOnly<Project>(path.join(WORK_DIR, file)).status))
+    .map((f) => f.replace(".mdx", ""));
 }
 
 // ─── Notes ────────────────────────────────────────────────────────────────────
@@ -81,6 +89,7 @@ const NOTES_DIR = path.join(CONTENT_DIR, "notes");
 export function getNotes(): Note[] {
   return mdxFiles(NOTES_DIR)
     .map((file) => frontmatterOnly<Note>(path.join(NOTES_DIR, file)))
+    .filter((n) => !isDraft(n.status))
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
@@ -89,11 +98,16 @@ export function getNote(slug: string): (Note & { content: string, headings: Head
   if (!fs.existsSync(filePath)) return null;
 
   const note = parseFile<Note>(filePath);
+  if (isDraft(note.status)) return null;
+
   const headings = extractMdxHeadings(note.content);
 
   return {...note, headings};
 }
 
+// Published note slugs only — used in generateStaticParams.
 export function getNoteSlugs(): string[] {
-  return mdxFiles(NOTES_DIR).map((f) => f.replace(".mdx", ""));
+  return mdxFiles(NOTES_DIR)
+    .filter((file) => !isDraft(frontmatterOnly<Note>(path.join(NOTES_DIR, file)).status))
+    .map((f) => f.replace(".mdx", ""));
 }

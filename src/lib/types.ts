@@ -18,6 +18,6 @@ export interface Note {
   updated?: string; // ISO 8601 — YYYY-MM-DD; shown only when after date
   tags: string[];
   summary: string;
-  status?: "published" | "in-progress";
+  status?: "published" | "draft" | "in-progress";
   voice?: "preserve"; // optional — keeps author's tone during MDX cleanup, skips flattening
 }

@@ -44,10 +44,12 @@ summary:
 ---
 ```
 
-Optional on notes only, if the user asked for a WIP:
+Optional on notes only:
 
 ```yaml
-status: in-progress
+status: in-progress   # shows WIP badge on card and detail page
+# or
+status: draft         # stays off getNotes(), search, tags, and direct URLs until published
 ```
 
 **Work** (`src/lib/types.ts` `Project`):
@@ -66,6 +68,7 @@ summary:
 
 - `type` is `case-study` or `showcase`. Default `case-study` unless the user says otherwise.
 - Work `status` is `draft` so it stays off `getProjects()` until they publish.
+- Note `status: draft` keeps the file off `getNotes()`, search, tags, and direct URLs.
 - `tags`: empty array, or tags the user named (existing casing: `Next.js`, `macOS`, `WP-CLI`).
 - `summary`: leave blank unless the user already gave one sentence.
 

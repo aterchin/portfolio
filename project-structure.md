@@ -140,7 +140,7 @@ date: 2024-01-15
 updated: 2024-02-01  # optional — omit unless later than date
 tags: [Nginx, Linux, Security]
 summary: Limit POST requests to specific routes at the server level before they hit Next.js.
-status: in-progress       # optional — omit or published; in-progress shows WIP badge
+status: in-progress       # optional — omit, published, or draft; in-progress shows WIP badge; draft stays off-site
 ---
 ```
 
