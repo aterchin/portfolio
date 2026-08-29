@@ -30,8 +30,8 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Full-stack developer portfolio — case studies and notes.",
+  title: "Really Slow Websites | Adam Terchin",
+  description: "Full stack developer portfolio, notebook, and case studies.",
 };
 
 export default function RootLayout({
