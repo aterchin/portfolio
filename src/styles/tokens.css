@@ -20,9 +20,9 @@
 :root {
 
   /* Foundation — slightly warm near-white / near-black, never pure */
-  --color-bg:          #ffffff;  /* page background */
-  --color-bg-2:        #f6f3ee;  /* card, code block, input background */
-  --color-bg-3:        #ece7dd;  /* deeper surface, hover states on bg-2 */
+  --color-bg:          #fffef9;  /* page background */
+  --color-bg-2:        #f2ede2;  /* card, code block, input background */
+  --color-bg-3:        #e8e0d0;  /* deeper surface, hover states on bg-2 */
 
   --color-ink:         #1c1a17;  /* primary text, headings */
   --color-ink-2:       #423e38;  /* body text, secondary headings */
@@ -197,16 +197,16 @@
 [data-theme="dark"] {
 
   /* Foundation */
-  --color-bg:          #0b0a09;
-  --color-bg-2:        #17150f;
-  --color-bg-3:        #211e17;
+  --color-bg:          #060308;
+  --color-bg-2:        #100e15;
+  --color-bg-3:        #100e15;
 
   --color-ink:         #f2eee5;
   --color-ink-2:       #cac3b6;
   --color-ink-3:       #968f83;
 
-  --color-border:      #34302a;
-  --color-border-2:    #46413a;
+  --color-border:      #2c2932;
+  --color-border-2:    #3d3a43;
 
   /* Primary accent — terracotta, brightened for dark bg */
   --color-accent:           #d9854f;

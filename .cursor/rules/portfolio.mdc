@@ -19,13 +19,14 @@ or ambiguous rather than guessing.
 - Mono (code blocks + inline code **only**, not labels): JetBrains Mono (400/500) → `--font-mono`
 
 ## Colors
-- Foundation: warm near-black `#1c1a17` / warm near-white `#f5f3ef`
+- Foundation: dark mode leans indigo `#060308` / light mode is warm near-white `#fffef9`
 - Primary accent: terracotta (`--color-accent`)
 - Supporting accents: seafoam, aged yellow, washed periwinkle
 - Tags: periwinkle only, uniform across all sections — no per-project colors
 - Inline code: `--color-accent-mute` bg / `--color-accent-text` text (terracotta)
 - Accent text always uses `-text` token on `-mute` background — never raw accent on mute
 - Dark mode: `[data-theme="dark"]` block in `tokens.css` only, foundation + accents only
+- Dark mode accent-mutes remain warm-toned
 
 ## CSS rules
 - One `.module.css` per component, colocated, never styled across component boundaries
