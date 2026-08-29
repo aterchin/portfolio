@@ -1,8 +1,8 @@
 ---
 title: Portfolio design system
 slug: portfolio-design-system
-date: 2024-11-01
-status: in-progress
+date: 2026-08-01
+updated: 2026-08-29
 tags: [Next.js, CSS, Design]
 summary: The type, color, and layout decisions behind this site — documented as they happened rather than reconstructed after the fact.
 ---
@@ -17,15 +17,13 @@ This site was designed in public, decision by decision, with each choice written
 
 ## What got decided and why
 
-The short version: Newsreader for display type because it has presence without trying too hard. Instrument Sans for body and UI because it's clean without being personality-free. Terracotta as the primary accent because the palette needed warmth and the alternatives were either too cold (periwinkle) or too on-the-nose (dusty rose, which got replaced).
+The short version: Instrument Sans for display type and UI because it's clean without being personality-free. Newsreader for body prose because the serif/sans contrast with headings reads well and the voice fits long-form notes — even if sans felt faster in a side-by-side test. Terracotta as the primary accent because the palette needed warmth and the alternatives were either too cold (periwinkle) or too on-the-nose (dusty rose, which got replaced).
 
-The 90s web nod stayed in the color palette only. Dashed borders were considered and rejected.
+Body copy runs at `--text-body: 1.3125rem` with `--leading-relaxed: 1.8`. Newsreader reads smaller than sans at the same CSS size, so those values are paired intentionally — don't shrink them without checking in context.
 
-## What's still in progress
+List rows (`ContentList` on the home page and in search) use `--text-h3` titles and `--text-sm` summaries — same hierarchy as cards and tag results, not the smaller scale list items had at first.
 
-- Whether the project grid should stay 3 columns on desktop or drop to 2 at a mid breakpoint
-- Dark mode accent values — terracotta at full saturation reads slightly hot against the near-black background
-- Whether Newsreader's optical size axis needs explicit tuning at smaller heading sizes
+The 90s web nod stayed in the color palette only.
 
 ## Stack decisions
 
@@ -33,7 +31,7 @@ CSS Modules over Tailwind, MDX file-based over a headless CMS, Linode VPS over V
 
 ## Code blocks
 
-Not using a syntax highlighter at present.  Using basic code formatting.
+Syntax highlighting via highlight.js — scoped themes in `hljs-themes.css`, rendered through the `CodeBlock` MDX component.
 
 ```css
 /* Shared via .prose in styles/utils.css — applied to MDX body wrappers */

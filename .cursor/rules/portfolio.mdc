@@ -14,7 +14,9 @@ or ambiguous rather than guessing.
 
 ## Fonts (loaded in `layout.tsx` via `next/font/google`)
 - Display/headings: Instrument Sans (400/500/600) → `--font-display`
-- Body prose: Public Sans (400/500/600, italic available) → `--font-body`
+- Body prose: Newsreader (400/500/600, italic available) → `--font-body`
+  — sized at `--text-body: 1.3125rem` / `--leading-relaxed: 1.8` (serif reads
+  smaller than sans at the same CSS size; don't shrink these without checking)
 - UI (nav, buttons, inputs, labels, **section labels**): Instrument Sans → `--font-ui`
 - Mono (code blocks + inline code **only**, not labels): JetBrains Mono (400/500) → `--font-mono`
 
@@ -64,7 +66,7 @@ date: 2024-01-01
 updated: 2024-03-15  # optional — shown under the title only when after date
 tags: [Apache, Linux]
 summary: One sentence description.
-status: in-progress       # optional — omit or "published"; shows yellow WIP badge
+status: in-progress       # optional — omit, published, or draft; in-progress shows WIP badge; draft stays off-site
 voice: preserve            # optional — preserves author's tone in cleanup, see Content section
 ```
 
@@ -83,6 +85,9 @@ voice: preserve            # optional — preserves author's tone in cleanup, se
 - Hero (`src/components/home/Hero/`), then two-column layout: main column
   (Notes → Work as `ContentList` rows), narrower right sidebar of linked tags
 - Work is secondary — same list treatment as notes, not a lead section
+- `ContentList` type scale (also used in Search): title `--text-h3` /
+  `--font-display`, summary `--text-sm` / `--font-body` — same hierarchy as
+  NoteCard / tag result rows; don't drop titles back to `--text-sm`
 
 ## Search
 - Search (Fuse.js, frontmatter-only) lives in the Nav as a global dropdown —

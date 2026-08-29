@@ -1,44 +1,52 @@
 ---
-title: Update Apache
+title: Update Apache on RHEL and Ubuntu
 slug: update-apache
 date: 2026-08-29
-tags: []
-summary: "Commnds to update Apache on RHEL and Ubuntu systems"
+tags: [Apache, Linux, RHEL, Ubuntu]
+summary: Check, apply, and verify Apache package updates on RHEL (httpd) and Ubuntu (apache2).
 ---
 
 ## RHEL
 
-Check for updates on RHEL 8,9, 10 (httpd):
+RHEL 8, 9, and 10 ship httpd via Application Streams. Supported versions are listed in the [Red Hat Application Streams life cycle](https://access.redhat.com/support/policy/updates/rhel-app-streams-life-cycle).
 
-Version info: : [Red Hat Enterprise Linux Application Streams Life Cycle](https://access.redhat.com/support/policy/updates/rhel-app-streams-life-cycle#rhel8_full_life_application_streams)
+Check for updates:
 
-```
+```bash
 sudo dnf check-update httpd
 ```
 
-If updates are available: The terminal will display the newer version details.  Apply the update:
-
-```
-sudo dnf update httpd
-
-# version check
-httpd -v
-```
-
-### Other useful commands:
-
-Check all available versions:
+If a newer version is listed, apply it:
 
 ```bash
-sudo dnf module list httpd
+sudo dnf update httpd
+```
+
+Confirm the installed version:
+
+```bash
+httpd -v
 ```
 
 ## Ubuntu
 
+Refresh the index, then upgrade apache2:
+
 ```bash
 sudo apt update
 sudo apt upgrade apache2
+```
 
-# version check
+Confirm the installed version:
+
+```bash
 apache2 -v
+```
+
+## Optional: list available httpd streams
+
+On RHEL, list every stream dnf knows about:
+
+```bash
+sudo dnf module list httpd
 ```

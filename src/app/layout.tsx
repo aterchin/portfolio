@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import { Public_Sans, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ThemeScript } from "@/providers/ThemeScript";
 import { Nav } from "@/components/layout/Nav/Nav";
 import { Footer } from "@/components/layout/Footer/Footer";
 import { getSearchIndex } from "@/lib/search";
 import "./globals.css";
-
-const publicSans = Public_Sans({
-  variable: "--font-public-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
 
 const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
@@ -26,6 +18,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+  display: "swap",
+});
+
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -45,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${publicSans.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}
+      className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${newsreader.variable}`}
       suppressHydrationWarning
     >
       <head>

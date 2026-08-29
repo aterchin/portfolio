@@ -68,28 +68,9 @@
 ───────────────────────────────────────────────────────────────── */
 
   /* Families — wired to next/font CSS variables set in layout.tsx.
-     Fallback chain kept for safety if a variable fails to load.
-
-     NOTE (Aug 2026): --font-body was Newsreader (serif) until this change.
-     Swapped to Public Sans for faster reading at length — serif/sans
-     contrast with headings was nice but Newsreader was slower to read
-     for the site owner specifically. May reconsider later. Previous values,
-     if reverting or building a comparison note:
-       --font-body:       var(--font-newsreader), Georgia, serif;
-       --text-body:       1.3125rem;   (bumped up from base scale for Newsreader)
-       --leading-relaxed: 1.8;         (Newsreader wanted more air between lines)
-     Newsreader was loaded via next/font/google in layout.tsx as:
-       const newsreader = Newsreader({
-         variable: "--font-newsreader",
-         subsets: ["latin"],
-         weight: ["400", "500", "600"],
-         style: ["normal", "italic"],
-         display: "swap",
-       });
-     If restoring, re-add that import/const in layout.tsx and swap it back
-     into the html className alongside instrumentSans and jetbrainsMono. */
+     Fallback chain kept for safety if a variable fails to load. */
   --font-display: var(--font-instrument-sans), system-ui, sans-serif;
-  --font-body:    var(--font-public-sans), system-ui, sans-serif;
+  --font-body:    var(--font-newsreader), Georgia, serif;
   --font-ui:      var(--font-instrument-sans), system-ui, sans-serif;  /* UI controls, buttons, nav, form elements */
   --font-mono:    var(--font-jetbrains-mono), 'Fira Code', monospace;
 
@@ -98,8 +79,8 @@
   --text-h1:     clamp(2rem, 4vw, 2.8rem);     /* section headings */
   --text-h2:     clamp(1.4rem, 2.5vw, 1.8rem);
   --text-h3:     1.2rem;
-  --text-body:   1.0625rem;                     /* sized down from the Newsreader-era value — Public Sans reads comfortably smaller */
-  --text-sm:     1.05rem;                       /* captions, card body, meta */
+  --text-body:   1.3125rem;                     /* Newsreader — larger than sans would need at the same perceived size */
+  --text-sm:     1.05rem;                       /* captions, card/list body, meta */
   --text-xs:     0.92rem;                       /* labels, tags, nav items */
   --text-mono:   0.82rem;                       /* code inline and block */
 
@@ -107,7 +88,7 @@
   --leading-tight:  1.1;   /* display headings */
   --leading-snug:   1.3;   /* h2, h3 */
   --leading-normal: 1.6;   /* UI text, labels */
-  --leading-relaxed:1.7;  /* body prose — sans needs less than serif did */
+  --leading-relaxed:1.8;  /* body prose — Newsreader wants more air between lines */
 
   /* Tracking (letter-spacing) */
   --tracking-tight:  -0.025em;  /* large display headings */
@@ -115,7 +96,7 @@
   --tracking-wide:    0.04em;   /* Instrument Sans nav items */
   --tracking-wider:   0.08em;   /* uppercase UI, eyebrows, section labels */
 
-  /* Weight reference (Instrument Sans: 400, 500, 600 / Public Sans: 400, 500, 600) */
+  /* Weight reference (Instrument Sans: 400, 500, 600 / Newsreader: 400, 500, 600) */
 
 
 /* ─────────────────────────────────────────────────────────────────

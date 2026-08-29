@@ -17,8 +17,9 @@ instructions, without needing a human to eyeball every diff.
    - Every font-size uses a `--text-*` token; nothing smaller than
      `--text-xs`. No raw `px`/`rem` for type.
    - `font-family` only ever references `--font-display`, `--font-body`,
-     or `--font-mono` — never a hardcoded font name.
-   - No `font-style: italic` or `<em>`/`<i>` styled as italic anywhere.
+     `--font-ui`, or `--font-mono` — never a hardcoded font name.
+   - Italics are allowed for body prose (Newsreader italic) — don't flag
+     `font-style: italic` or semantic `<em>` in body copy.
    - Accent text-on-mute pairs use the `-text` variant, not the raw accent,
      for AA contrast (per the tokens.css convention).
    - Motion only uses `--duration-*` / `--ease-*` tokens — nothing bouncy,
