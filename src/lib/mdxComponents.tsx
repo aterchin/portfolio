@@ -3,6 +3,7 @@ import { CodeBlock } from "@/components/ui/CodeBlock/CodeBlock";
 import { Aside } from "@/components/mdx/Aside/Aside";
 import { Figure } from "@/components/mdx/Figure/Figure";
 import { MdxHeading } from "@/components/mdx/MdxHeading/MdxHeading";
+import { MdxLink } from "@/components/mdx/MdxLink/MdxLink";
 import { remarkFencedCodeMeta } from "@/lib/remarkFencedCodeMeta";
 import type { MDXComponents } from "mdx/types";
 
@@ -47,6 +48,7 @@ export function getMDXComponents(): MDXComponents {
 
       return <CodeBlock code={String(code)} lang={lang} wide={wide} />;
     },
+    a: (props) => <MdxLink {...props} />,
     h2: (props) => <MdxHeading as="h2" {...props} />,
     h3: (props) => <MdxHeading as="h3" {...props} />,
     Aside,
