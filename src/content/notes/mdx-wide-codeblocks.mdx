@@ -1,0 +1,216 @@
+---
+title: Wide MDX CodeBlocks
+slug: mdx-wide-codeblocks
+date: 2026-08-30
+status: in-progress
+tags: [Next.js, MDX, CSS]
+summary:  Modification of the code blocks component on this site to include a 'wide' flag to break some of them out of the prose column using a Remark plugin and CSS overflow instead of grid spanning.
+---
+
+This builds on [Create a CodeBlock Component for MDX](/notes/mdx-codeblock-component). This note adds an opt-in `wide` flag so a few long samples can breathe without making every block full width.  I noticed Josh Comeau does this on [his Anchor Positioning post](https://www.joshwcomeau.com/css/anchor-positioning/): the paragraphs stay narrow, and one demo is allowed to run wider, toward the table of contents.
+
+<Aside  variant="success">
+Many of the notes I created I've copied from my Google Docs workspace. I wanted to see them in full width here.
+</Aside>
+
+Stack:
+
+- Next.js App Router
+- `next-mdx-remote/rsc`
+- remark (via `compileMDX` options)
+
+## The problem
+
+On this site, the majority of the content—like this note—render inside a prose column with a max width. That keeps paragraphs readable, but long code lines wrap or scroll inside a narrow box. Mostly this is fine, because you do not want every fence wide, but I wanted to see long code blocks and other full scripts in their entirety.
+
+I wanted to add one extra word on the fence, `wide`. In markdown, the text after the language on a fence is **meta**:
+
+````mdx
+```bash 
+# this block may is normal
+```
+````
+
+````mdx wide
+```bash wide
+# this block is wide. It may overflow the prose column
+```
+````
+
+## Why you need a Remark plugin
+
+In our normal CodeBlock, code fences go through React — override `pre` in `getMDXComponents()`, render `CodeBlock`, done. That works for anything MDX already puts on the element: the code string, the `language-bash` class, the copy button.
+
+When MDX compiles your file, it passes through a **markdown pipeline** before your component map runs. [**Remark**](https://github.com/remarkjs/remark) is the tool that handles that step, specifically for markdown.
+
+The word `wide` after the language — the **meta** — is not copied onto the element by default. By the time `getMDXComponents()` runs, `wide` is already gone.
+
+You cannot fix that inside `CodeBlock`. You need a remark plugin that finds that meta and attaches something the `<pre>` will still carry — a `data-wide` attribute.
+
+<Aside variant="info" title="What about rehype?">
+You may also see **rehype** mentioned in MDX docs. Same idea as remark, one step later: remark works on parsed markdown; rehype works on the HTML tree after that. Fence meta lives on markdown `code` nodes before either of those handoffs, so a remark plugin is the right place to copy it forward.
+</Aside>
+
+## Add a remark plugin
+
+Create `src/lib/remarkFencedCodeMeta.ts`. Walk the tree, find `code` nodes with `wide` in their meta, and copy that onto the node as a data attribute:
+
+```typescript
+type HastProperties = Record<string, unknown>;
+
+type MdastNode = {
+  type: string;
+  meta?: string | null;
+  data?: {
+    hProperties?: HastProperties;
+  };
+  children?: MdastNode[];
+};
+
+function applyMeta(node: MdastNode) {
+  if (node.type === "code" && node.meta) {
+    const tokens = node.meta.split(/\s+/).filter(Boolean);
+    if (tokens.includes("wide")) {
+      node.data ??= {};
+      node.data.hProperties = {
+        ...node.data.hProperties,
+        dataWide: true,
+      };
+    }
+  }
+
+  node.children?.forEach(applyMeta);
+}
+
+export function remarkFencedCodeMeta() {
+  return (tree: MdastNode) => {
+    applyMeta(tree);
+  };
+}
+```
+
+`dataWide` on the parsed markdown node becomes `data-wide` on the rendered `<pre>`.
+
+Register the plugin in shared compile options next to `getMDXComponents()`:
+
+```typescript
+import { remarkFencedCodeMeta } from "@/lib/remarkFencedCodeMeta";
+
+export const mdxRemoteOptions = {
+  parseFrontmatter: false,
+  mdxOptions: {
+    remarkPlugins: [remarkFencedCodeMeta],
+  },
+};
+```
+
+Pass `mdxRemoteOptions` into `compileMDX` on every MDX page — notes and work posts both import the same object so you do not forget the plugin on one route.
+
+## Read the flag in mdxComponents
+
+Update the `pre` override to read `data-wide` from the `<pre>` (or its child) and pass a `wide` prop to `CodeBlock`:
+
+```typescript
+function isWideFlag(value: unknown): boolean {
+  return value === true || value === "" || value === "true";
+}
+
+pre: ({ children, ...props }: PreOverrideProps) => {
+  const child = children as ReactElement<CodeChildProps>;
+  const className = child?.props?.className ?? "";
+  const lang = className.replace("language-", "") || "plaintext";
+  const code = child?.props?.children ?? "";
+  const wide =
+    isWideFlag(props["data-wide"]) || isWideFlag(child?.props?.["data-wide"]);
+
+  return <CodeBlock code={String(code)} lang={lang} wide={wide} />;
+},
+```
+
+Add `wide` to `CodeBlockProps` and append a global class when it is true:
+
+```typescript
+export function CodeBlock({ code, lang, wide = false }: CodeBlockProps) {
+  // ...
+  return (
+    <div className={`${styles.wrapper}${wide ? " code-wide" : ""}`}>
+      {/* ... */}
+    </div>
+  );
+}
+```
+
+Use a global class name (`code-wide`) rather than a CSS module hash so layout styles in `utils.css` can target it from `.prose`.
+
+That is the full MDX path: `wide` on the fence, through remark, onto the `<pre>`, into `CodeBlock`, out as a CSS class. You have added a new opt-in property on a standard code block. Everything below is layout — how wide actually looks on the page.
+
+## Widen with CSS overflow, not grid spanning
+
+Getting `wide` onto the component is one problem. Making the block visually wider is another. It depends entirely on your page layout: prose column width, whether you have a sidebar, and what that sidebar does as the reader scrolls.
+
+The common goal: let certain blocks extend past the prose column into empty space beside it — over a gap, and optionally over a sidebar column (a table of contents, related links, secondary nav, whatever you put there). As the reader scrolls, the wide block can pass over that sidebar track while the sidebar stays put or sticks in place.
+
+On this site, the sidebar is a sticky **table of contents**. Notes and work posts are two columns on a wide viewport: article on the left, table of contents on the right. Wide code blocks overflow into the gap plus that sidebar column. The same CSS idea applies if your sidebar holds something else — you are still adding width equal to "space beside the prose column that I am willing to cover."
+
+### Why not grid spanning?
+
+The tempting fix is CSS Grid: turn the article into a grid and span wide blocks into a second column. That can work when the page is designed as a grid from the start. It broke down here because the layout already had a two-column grid with a sticky sidebar.
+
+`position: sticky` only works while its parent stays on screen. When I tried making every paragraph its own grid row and spanning the sidebar across rows, the sidebar's parent shrank to the height of the header row. The table of contents looked sticky in the inspector but stopped sticking after a few pixels of scroll.
+
+The approach that kept sticky working: **overflow, not spanning**.
+
+- Paragraphs and ordinary code blocks keep `max-width: var(--prose-max)`.
+- `.code-wide` blocks are wider than their siblings and allowed to overflow into the space beside the prose column.
+- The page layout stays a simple two-column grid: article + sidebar, with the sidebar stretching to the full article height.
+
+In `utils.css`:
+
+```css
+.prose > * {
+  max-width: var(--prose-max);
+  min-width: 0;
+}
+
+.prose > .code-wide {
+  width: calc(100% + var(--code-wide-extra, 0px));
+  max-width: none;
+  position: relative;
+  z-index: 1;
+}
+```
+
+- `--code-wide-extra` is the gap plus the sidebar column width — only set when a sidebar is on screen
+- `z-index` lets the block pass over the sidebar track as you scroll
+- The article column needs `overflow: visible` so the extra width is not clipped
+
+Set the variable on the note layout when the sidebar is present:
+
+```css
+@media (min-width: 1024px) {
+  .layout:has(.sidebar) {
+    --code-wide-extra: calc(var(--space-12) + 18rem);
+    grid-template-columns: minmax(0, var(--layout-wide)) minmax(10rem, 18rem);
+    column-gap: var(--space-12);
+  }
+}
+```
+
+Below the breakpoint, or on pages without a sidebar, `--code-wide-extra` falls back to `0px` and wide blocks behave like normal blocks.
+
+This block is set to wide:
+
+```css wide
+.prose > .code-wide {
+  width: calc(100% + var(--code-wide-extra, 0px));
+  max-width: none;
+  position: relative;
+  z-index: 1;
+}
+```
+
+## Conclusion
+
+Ordinary fences are unchanged. Authors opt in with `wide` on the fence. Highlighting, copy button, and the `pre` override path are the same as the baseline CodeBlock — you are only threading one extra boolean from markdown meta through to a CSS class.
+
+Prerequisite: [Create a CodeBlock Component for MDX](/notes/mdx-codeblock-component).

@@ -1,0 +1,281 @@
+---
+title: Create a CodeBlock Component for MDX
+slug: mdx-codeblock-component
+date: 2026-08-29
+updated: 2026-08-30
+tags: [Next.js, MDX, React]
+summary: Replace MDX's default fenced-code output with a custom CodeBlock — syntax highlighting, copy button, and styling wired through compileMDX.
+---
+
+When you write a fenced code block in MDX — created by containing your code within 3 backticks — the compiler turns it into a plain `<pre><code>` pair. That works, but it looks like raw monospace text: no syntax colors, no copy button, no consistent spacing with the rest of the site.
+
+This note walks through building a `CodeBlock` component and wiring it into `next-mdx-remote` so every fence in a note or case study gets the same treatment.
+
+Stack:
+
+- Next.js App Router
+- `next-mdx-remote/rsc`
+- highlight.js 11
+
+## What MDX gives you by default
+
+A fence like this in MDX — three backticks (`) above and below:
+
+```bash
+echo "hello"
+```
+
+...compiles to something equivalent to:
+
+```html
+<pre><code class="language-bash">echo "hello"
+</code></pre>
+```
+
+The language tag becomes a `language-*` class on the inner `<code>`. MDX does not apply syntax highlighting or add UI — it just passes the string through. To get colors and a copy button, you intercept that `<pre>` and render your own component instead.
+
+## Pick a syntax highlighter
+
+You need something that turns a raw code string plus a language id into marked-up HTML. Common lightweight options:
+
+- **highlight.js** — register only the languages you use; large ecosystem of themes
+- **Prism** — similar model, popular in static sites and many theme ports
+- **Shiki** — TextMate grammars, very accurate colors, heavier setup
+
+This site uses highlight.js. Install it:
+
+```bash
+npm install highlight.js
+```
+
+Import from `highlight.js/lib/core` and register only the languages you actually use rather than importing the full library.
+
+## Add a highlight helper
+
+Create `src/lib/highlight.ts`. Register languages once, map common fence aliases (`sh` -> `bash`, `ts` -> `typescript`), and export a single function the component can call:
+
+```typescript
+import hljs from "highlight.js/lib/core";
+import bash from "highlight.js/lib/languages/bash";
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
+// ...register others as you need them
+
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("typescript", typescript);
+
+const LANG_ALIASES: Record<string, string> = {
+  sh: "bash",
+  shell: "bash",
+  js: "javascript",
+  ts: "typescript",
+  plaintext: "plaintext",
+};
+
+function escapeHtml(code: string): string {
+  return code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+export function highlightCode(code: string, lang: string): string {
+  const resolved = LANG_ALIASES[lang] ?? lang;
+
+  if (resolved === "plaintext" || !hljs.getLanguage(resolved)) {
+    return escapeHtml(code);
+  }
+
+  return hljs.highlight(code, { language: resolved, ignoreIllegals: true }).value;
+}
+```
+
+<Aside variant="info" title="Why escapeHtml?">
+When highlight.js does not recognize a language, the fallback path renders plain text through `dangerouslySetInnerHTML`. Without escaping, characters like `&lt;` or `&amp;` in the source would be parsed as HTML. `escapeHtml` keeps unknown-language blocks safe and displays the raw characters you typed.
+</Aside>
+
+Two details worth keeping:
+
+- **Fallback:** unknown or unsupported languages render as escaped plain text instead of throwing.
+- **Aliases:** fence labels do not always match highlight.js ids. Map them once in `LANG_ALIASES` rather than guessing in the component.
+
+## Build CodeBlock
+
+Create `src/components/ui/CodeBlock/CodeBlock.tsx`. This is a Server Component — no `"use client"`. It trims the fence string, calls `highlightCode`, and renders the result:
+
+```typescript
+import { highlightCode } from "@/lib/highlight";
+import { CopyButton } from "./CopyButton";
+import styles from "./CodeBlock.module.css";
+
+export interface CodeBlockProps {
+  code: string;
+  lang?: string;
+}
+
+export function CodeBlock({ code, lang }: CodeBlockProps) {
+  const trimmed = code.trim();
+  const language = lang ?? "plaintext";
+  const highlighted = highlightCode(trimmed, language);
+
+  return (
+    <div className={styles.wrapper}>
+      <CopyButton code={trimmed} className={styles.copyButton} />
+      <pre className={`${styles.pre} language-${language}`}>
+        <code
+          className={`hljs language-${language}`}
+          dangerouslySetInnerHTML={{ __html: highlighted }}
+        />
+      </pre>
+    </div>
+  );
+}
+```
+
+**Why `dangerouslySetInnerHTML`?** highlight.js returns an HTML string with `<span class="hljs-keyword">` markup. React will not parse that as elements if you pass it as `{highlighted}` inside `<code>`. The innerHTML path is the standard approach for pre-rendered highlight output.
+
+**Why trim?** MDX fences often include a trailing newline. Trimming keeps the copy button from copying an extra blank line.
+
+## Add a copy button
+
+Copying requires browser APIs (`navigator.clipboard`) and click state, so the button lives in a separate Client Component:
+
+```typescript
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import styles from "./CopyButton.module.css";
+
+export interface CopyButtonProps {
+  code: string;
+  className?: string;
+}
+
+export function CopyButton({ code, className }: CopyButtonProps) {
+  const [copied, setCopied] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current !== null) {
+        window.clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className={`${styles.button} ${className ?? ""}`}
+      onClick={handleCopy}
+      aria-label={copied ? "Copied" : "Copy code"}
+    >
+      {copied ? "✓" : "⎘"}
+    </button>
+  );
+}
+```
+
+`CodeBlock` (server) renders `CopyButton` (client). Next.js draws the boundary automatically — you do not wrap anything in a provider. Swap the placeholder characters above for SVG icons when you polish the UI.
+
+## Wire it through compileMDX
+
+Notes and case studies on this site are MDX files on disk — not React pages. Something has to read that string and turn it into renderable output. That job belongs to `compileMDX` from `next-mdx-remote/rsc`, which runs on each note and work detail page:
+
+```typescript
+import { compileMDX } from "next-mdx-remote/rsc";
+import { getMDXComponents } from "@/lib/mdxComponents";
+
+const { content: MDXContent } = await compileMDX({
+  source: content,
+  components: getMDXComponents(),
+});
+```
+
+`compileMDX` does two things at once:
+
+1. **Parse the MDX string** into a React tree — headings, paragraphs, fenced code, and JSX like `<Aside>` all become elements you can render as `{MDXContent}`.
+2. **Apply your component map** — swap default HTML elements and register custom components before that tree is returned.
+
+CodeBlock is only one entry in that map. The same `getMDXComponents()` also wires `<Aside>`, `<Figure>`, and custom heading components. You are not calling `compileMDX` because of CodeBlock specifically; you need it for any MDX content page. CodeBlock is just the override that replaces the default `<pre>` output for fenced code.
+
+Override `pre`, not `code`: MDX nests them, and the language class and raw string both live on the child.
+
+Create `src/lib/mdxComponents.tsx`:
+
+```typescript
+import type { ReactElement } from "react";
+import { CodeBlock } from "@/components/ui/CodeBlock/CodeBlock";
+import type { MDXComponents } from "mdx/types";
+
+type CodeChildProps = {
+  className?: string;
+  children?: string;
+};
+
+export function getMDXComponents(): MDXComponents {
+  return {
+    pre: ({ children }) => {
+      const child = children as ReactElement<CodeChildProps>;
+      const className = child?.props?.className ?? "";
+      const lang = className.replace("language-", "") || "plaintext";
+      const code = child?.props?.children ?? "";
+
+      return <CodeBlock code={String(code)} lang={lang} />;
+    },
+  };
+}
+```
+
+Every fenced block in that MDX file now flows through `CodeBlock` instead of the default `<pre>`. Add other overrides (`h2`, `Aside`, `Figure`) to the same return object as you build them — one place controls all MDX rendering for the site.
+
+## Style the block
+
+Split styling across three layers:
+
+1. **Layout** — `CodeBlock.module.css` for spacing, border, monospace font, horizontal scroll.
+2. **Copy button** — `CopyButton.module.css` for the button itself; position it from the wrapper (absolute top-right, reveal on hover).
+3. **Token colors** — highlight.js theme rules scoped under `[data-theme="light"]` and `[data-theme="dark"]` in something like `src/styles/hljs-themes.css`, imported from `globals.css`.
+
+The `.hljs` class on `<code>` is what highlight.js targets. Your theme file sets colors on `.hljs-keyword`, `.hljs-string`, and so on. The block's background and border come from design tokens (`--color-code-bg`, `--color-code-border`) so light and dark mode stay in sync with the rest of the site.
+
+Minimal wrapper styles to start:
+
+```css
+.wrapper {
+  position: relative;
+  margin-block: var(--space-6);
+}
+
+.copyButton {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 1;
+}
+
+.pre:global([class*="language-"]) {
+  padding: var(--space-6);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-code-border);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  overflow-x: auto;
+}
+```
+
+## Follow-up: wide blocks
+
+The baseline `CodeBlock` stays inside the prose column. If you want certain fences to extend into the space beside the main column — over a gap or sidebar as the reader scrolls — see [Wide MDX CodeBlocks](/notes/mdx-wide-codeblocks). That note adds an opt-in `wide` flag on the fence, a remark plugin to carry it through, and the layout CSS to make it work without breaking a sticky sidebar.
