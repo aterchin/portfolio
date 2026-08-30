@@ -43,6 +43,14 @@
   --prose-max: var(--layout-wide);
 }
 
+@media (max-width: 768px) {
+  .body:global(.prose) {
+    --prose-font-size: 1.0625rem;
+    --prose-leading: 1.65;
+    --prose-p-margin: var(--space-4);
+  }
+}
+
 .title {
   font-family: var(--font-display);
   font-size: var(--text-h1);

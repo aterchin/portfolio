@@ -91,10 +91,13 @@
    has a full-height sidebar to stick inside. */
 .prose {
   --prose-max: var(--layout-prose);
+  --prose-font-size: var(--text-body);
+  --prose-leading: var(--leading-relaxed);
+  --prose-p-margin: var(--space-5);
   max-width: none;
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: var(--leading-relaxed);
+  font-size: var(--prose-font-size);
+  line-height: var(--prose-leading);
   color: var(--color-text-secondary);
   padding-bottom: var(--space-24);
 }
@@ -136,11 +139,11 @@
 
 .prose p {
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: var(--prose-font-size);
   font-weight: 400;
-  line-height: var(--leading-relaxed);
+  line-height: var(--prose-leading);
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--prose-p-margin);
 }
 
 .prose a {
@@ -203,8 +206,8 @@
 
 .prose li {
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: var(--leading-relaxed);
+  font-size: var(--prose-font-size);
+  line-height: var(--prose-leading);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-2);
 }

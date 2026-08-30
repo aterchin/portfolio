@@ -7,7 +7,7 @@
 
 .label {
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: var(--prose-font-size, var(--text-body));
   font-weight: 600;
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
@@ -16,8 +16,8 @@
 
 .body {
   font-family: var(--font-body);
-  font-size: var(--text-body);
-  line-height: var(--leading-relaxed);
+  font-size: var(--prose-font-size, var(--text-body));
+  line-height: var(--prose-leading, var(--leading-relaxed));
   color: var(--color-text-secondary);
 }
 
