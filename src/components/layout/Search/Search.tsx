@@ -221,7 +221,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
                   summary: item.summary,
                   tags: item.tags,
                   typeLabel: TYPE_LABELS[item.type],
-                  badge: item.badge,
+                  inProgress: item.inProgress,
                 }))}
               />
             )

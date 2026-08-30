@@ -46,25 +46,14 @@ export default async function NoteSlugPage({
   return (
     <PageWrapper>
       {/* Label sits above the grid so the ToC can align with the title row */}
-      <SectionLabel>
-        Note{isWIP ? " — in progress" : ""}
-      </SectionLabel>
+      <SectionLabel>Note</SectionLabel>
 
       <div className={styles.layout}>
         <div className={styles.main}>
           <article>
             <header className={styles.header}>
-              <div className={styles.titleRow}>
-                <h1 className={styles.title}>{title}</h1>
-                {/*
-                  WIP badge — same toggle as on NoteCard.
-                  Set `status: in-progress` in MDX frontmatter to show this badge
-                  on both the card and the detail page. Omit status or set
-                  `status: published` to hide it. No code change needed.
-                */}
-                {isWIP && <span className={styles.wip}>In progress</span>}
-              </div>
-              <ContentDate date={date} updated={updated} />
+              <h1 className={styles.title}>{title}</h1>
+              <ContentDate date={date} updated={updated} inProgress={isWIP} />
               <div className={styles.tags}>
                 {tags.map((tag) => (
                   <Tag key={tag} linked>{tag}</Tag>

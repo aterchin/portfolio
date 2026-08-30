@@ -12,8 +12,8 @@ export interface SearchItem {
   date: string;
   summary: string;
   tags: string[];
-  // Only set for in-progress notes — mirrors NoteCard's WIP badge.
-  badge?: string;
+  // Only set for in-progress notes — inline label on title in list/search UI.
+  inProgress?: boolean;
 }
 
 // Combined, newest-first index across notes and work.
@@ -28,7 +28,7 @@ export function getSearchIndex(): SearchItem[] {
     date: n.date,
     summary: n.summary,
     tags: n.tags,
-    badge: n.status === "in-progress" ? "In progress" : undefined,
+    inProgress: n.status === "in-progress",
   }));
 
   const work: SearchItem[] = getProjects().map((p) => ({

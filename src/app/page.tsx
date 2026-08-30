@@ -42,10 +42,7 @@ export default function Home() {
                   title: note.title,
                   summary: note.summary,
                   tags: note.tags,
-                  badge:
-                    note.status === "in-progress"
-                      ? "In progress"
-                      : undefined,
+                  inProgress: note.status === "in-progress",
                 }))}
               />
             </section>

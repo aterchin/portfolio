@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { InProgressLabel } from "@/components/ui/InProgressLabel/InProgressLabel";
 import styles from "./ContentList.module.css";
 
 export interface ContentListItemProps {
@@ -8,8 +9,7 @@ export interface ContentListItemProps {
   tags: string[];
   /** Shown above the title — Search uses "Note" / "Work". */
   typeLabel?: string;
-  /** e.g. "In progress" on notes. */
-  badge?: string;
+  inProgress?: boolean;
 }
 
 export interface ContentListProps {
@@ -24,20 +24,20 @@ function ContentListItem({
   summary,
   tags,
   typeLabel,
-  badge,
+  inProgress,
 }: ContentListItemProps) {
-  const showMeta = Boolean(typeLabel || badge);
-
   return (
     <li>
       <Link href={href} className={`list-item ${styles.link}`}>
-        {showMeta && (
+        {typeLabel && (
           <div className={styles.meta}>
-            {typeLabel && <span className={styles.type}>{typeLabel}</span>}
-            {badge && <span className={styles.badge}>{badge}</span>}
+            <span className={styles.type}>{typeLabel}</span>
           </div>
         )}
-        <h3 className={styles.title}>{title}</h3>
+        <h3 className={styles.title}>
+          {title}
+          {inProgress && <InProgressLabel />}
+        </h3>
         <p className={styles.summary}>{summary}</p>
         {tags.length > 0 && (
           <p className={styles.tags}>{tags.join(" · ")}</p>

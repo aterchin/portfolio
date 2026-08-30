@@ -4,9 +4,10 @@ import styles from "./ContentDate.module.css";
 interface ContentDateProps {
   date: string;
   updated?: string;
+  inProgress?: boolean;
 }
 
-export function ContentDate({ date, updated }: ContentDateProps) {
+export function ContentDate({ date, updated, inProgress }: ContentDateProps) {
   const showUpdated = updated !== undefined && isAfter(updated, date);
 
   return (
@@ -17,10 +18,11 @@ export function ContentDate({ date, updated }: ContentDateProps) {
           {" "}
           <em>
             Last updated{" "}
-            <time dateTime={updated}>{formatLongDateOrdinal(updated)}</time>
           </em>
+          <time dateTime={updated}>{formatLongDateOrdinal(updated)}</time>
         </>
       )}
+      {inProgress && <em> - Work In Progress</em>}
     </p>
   );
 }
