@@ -1,0 +1,150 @@
+---
+title: "Network utilities: Windows and macOS"
+slug: network-utilities
+date: 2026-09-02
+tags: [Windows, macOS, PowerShell]
+summary: Side-by-side reference for common network diagnostics on Windows (PowerShell/CMD) and macOS (Terminal).
+---
+
+Same diagnostic task, different command depending on the OS. Match Windows (PowerShell/CMD) to macOS (Terminal) below.
+
+## Test a TCP port
+
+Check whether a host accepts TCP connections on a given port.
+
+**Windows**
+
+```bash
+Test-NetConnection <address> -Port <port>
+```
+
+**macOS**
+
+```bash
+nc -vz <address> <port>
+```
+
+## Ping (ICMP)
+
+Verify that a host responds on the network.
+
+**Windows**
+
+```bash
+# Stops automatically after 4 packets
+ping 8.8.8.8
+```
+
+**macOS**
+
+```bash
+# Runs until stopped with Ctrl+C
+ping 8.8.8.8
+
+# Limit to 4 packets (Windows default)
+ping -c 4 8.8.8.8
+```
+
+## Trace route
+
+Show the hop path and transit delays to a host.
+
+**Windows**
+
+```bash
+tracert google.com
+
+# Or using modern PowerShell:
+Test-NetConnection google.com -TraceRoute
+```
+
+**macOS**
+
+```bash
+traceroute google.com
+```
+
+## DNS lookup
+
+Resolve a hostname or query DNS records.
+
+**Windows**
+
+```bash
+nslookup google.com
+
+# Or using modern PowerShell:
+Resolve-DnsName google.com
+```
+
+**macOS**
+
+```bash
+nslookup google.com
+
+# Preferred for scripts (cleaner output):
+dig google.com
+```
+
+## View IP and adapters
+
+List current TCP/IP configuration.
+
+**Windows**
+
+```bash
+ipconfig
+
+# Or using modern PowerShell:
+Get-NetIPAddress
+```
+
+**macOS**
+
+```bash
+# All adapters and details
+ifconfig
+
+# Primary Wi-Fi IPv4 only
+ipconfig getifaddr en0
+```
+
+## Active connections
+
+List open TCP connections, listening ports, and routing tables.
+
+**Windows**
+
+```bash
+netstat -an
+
+# Or using modern PowerShell:
+Get-NetTCPConnection
+```
+
+**macOS**
+
+```bash
+netstat -an
+
+# See which process owns a port (e.g. port 80):
+lsof -i :80
+```
+
+## Routing table
+
+Display the kernel routing table.
+
+**Windows**
+
+```bash
+route print
+# Or using modern PowerShell:
+Get-NetRoute
+```
+
+**macOS**
+
+```bash
+netstat -nr
+```

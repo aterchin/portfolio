@@ -10,9 +10,9 @@ summary: A location-based physician finder for a specialty pharmaceutical produc
 
 ## Context
 
-A pharmaceutical client needed a public-facing tool to help patients and caregivers find physicians who prescribe a specific specialty neurological product. The requirements were straightforward: search by location, show results on a map, let users switch to a list. The data source was a CSV of physician names and addresses, updated and re-imported every night.
+Pharma client needed a public tool to help patients find physicians who prescribe a specific specialty neurological product. Search by location, results on a map, switch to a list. Data came from a CSV of names and addresses, re-imported every night.
 
-The front-end complexity turned out to be the easy part.
+Front-end was the easy part.
 
 <Aside variant="info" title="Stack">
   React on the front end, Laravel API, MySQL, Google Maps + Geocoding APIs.
@@ -20,26 +20,39 @@ The front-end complexity turned out to be the easy part.
 
 ## What it does
 
-Users search by zip code, city and state, or a free-form address using Google Places autocomplete. Results appear both on a map — custom-styled markers, no default Google chrome — and in a synchronized list view. Clicking a marker highlights the corresponding list item. Clicking a list item pans the map. The two views stay in sync without any coordination overhead because they're both reading from the same React state.
+- Search by zip, city/state, or free-form address (Google Places autocomplete)
+- Results on a custom-styled map and in a synced list
+- Click a marker — highlights the list item; click a list item — pans the map
+- Both views read the same React state, no coordination layer
 
-## The problem worth talking about
+## The problem
 
-Every night, the client's internal system would generate a fresh CSV export of the current physician list and drop it on the server. Their instruction was to truncate the physicians table and re-import from scratch.
+Every night the client's system dropped a fresh CSV on the server. Instruction: truncate the physicians table and re-import from scratch.
+
+I pushed back. A CRUD interface would keep data stable and auditable. Short of that: diff-based import, or a geocode cache table that never gets truncated. They wanted the nightly wipe anyway.
 
 <Aside variant="error">
-  Truncating and re-importing every night meant the database had no memory between runs —
-  which created an expensive geocoding problem.
+  Truncating every night meant the database had no memory between runs — and
+  an expensive geocoding problem.
 </Aside>
 
-I pushed back on this. A proper approach would have been a CRUD interface where physicians could be added and removed individually, keeping the data stable and auditable. The truncate-and-reimport method meant the database had no memory between runs — which created a specific and expensive problem: geocoding.
+Google Geocoding charges per request. Re-import 800 physicians, you don't want 800 geocode calls every night.
 
-The Google Geocoding API charges per request. If you truncate 800 physicians and reimport them, you don't want to geocode 800 addresses every night. Most of those addresses haven't changed. Some physicians share an office. Some addresses have slight variations in the CSV that still resolve to the same coordinates. The client's approach required the nightly wipe. So the solution had to work around it.
+- Most addresses haven't changed
+- Some physicians share an office
+- Some CSV rows look different but resolve to the same coordinates
+
+The constraint wasn't mine. The solution had to work around it.
 
 ## The seeder
 
-The import script separates the concepts of *physician* and *location* into two tables with a one-to-many relationship: many physicians can share a location, but a location is geocoded once.
+Split *physician* and *location* into two tables — one-to-many. Many physicians can share a location; geocode each location once.
 
-When the seeder processes a row from the CSV, it hashes the address components (street, city, state, postal code) with MD5 to produce a stable location identifier. It does the same for the physician, hashing name plus address. Before touching the geocoding API, it checks whether a location with that hash already exists in the database.
+For each CSV row:
+
+- Hash address parts (street, city, state, postal) with MD5 for a stable location ID
+- Hash name + address for the physician—*catches duplicates at the same address*
+- If the location hash already exists, skip geocoding and attach the physician to that location
 
 ```php
 // Location hash — street + city + state + postal
@@ -55,7 +68,7 @@ $location_id = DB::table('locations')
     ->value('id');
 ```
 
-If the location exists, we skip geocoding entirely and attach the physician to the existing location ID. If the hash is new, we geocode — but before inserting a new location record, there's one more check: whether the geocoding API returned a formatted address that already exists in the database. This catches the case where two slightly different CSV inputs (a typo, an abbreviated street name) resolve to the same real-world address.
+One more check before inserting a new location: does the geocoding API's formatted address already exist in the database? Catches typos and abbreviations that still resolve to the same real-world address.
 
 ```php
 // Geocoding API returned a canonical address —
@@ -69,16 +82,16 @@ $location_id = DB::table('locations')
   Most nightly reimports hit the location hash cache — geocoding only ran for genuinely new addresses.
 </Aside>
 
-The result: on a typical nightly run, fewer than 5% of records require a geocoding API call. The other 95% match an existing location hash and pass straight through.
+Typical nightly run: fewer than 5% of records hit the geocoding API. The rest match an existing hash and pass through.
 
 ## What I'd do differently
 
-The nightly truncation was a constraint I inherited, not one I'd design. Given a second pass, I'd have pushed harder for a diff-based import: compare the incoming CSV against the existing physician list, insert new records, remove stale ones, and leave everything else untouched. No truncation, no hash dance, no edge cases around addresses that geocode identically but look different on paper.
+Nightly truncation was inherited, not designed. Diff-based import would have made most of the seeder unnecessary.
 
-The current solution works well within the constraint. It just didn't need to be a constraint.
+Works well within the constraint. Didn't need to be one.
 
 ## Demo
 
-The production deployment runs for a pharmaceutical client and isn't publicly accessible. To demonstrate the front-end without any data concerns, I rebuilt the same application with a dataset of about 20 bars in my neighborhood.
+Production runs for a pharma client and isn't public. I rebuilt the same front end with ~20 bars in my neighborhood so there's something to click through.
 
 [View demo →](https://locator.adamterchin.com) — username: `visitor` / password: `drive-arrive5`

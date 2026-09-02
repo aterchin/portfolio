@@ -5,53 +5,55 @@ date: 2024-06-01
 type: case-study
 status: published
 tags: [React, Laravel, ApexCharts, PHP, REST API]
-summary: A relative benchmarking tool for a global pharmaceutical aesthetics brand — scoring and ranking social media profiles across regional markets using peer-relative, logarithmically scaled metrics from the Sprout Social API.
+summary: A peer-comparison dashboard for a global pharma aesthetics brand — pulls Sprout Social metrics, scores regional profiles against each other, and ranks them on a 0–100 scale.
 ---
 
 ## Context
 
-A global pharmaceutical aesthetics brand manages social media accounts across dozens of regional markets — US, Mexico, Germany, and many others. Each account operates independently, but the brand needed a way to understand how each region was performing relative to the others.
+A global pharma aesthetics brand runs social accounts in dozens of markets — US, Mexico, Germany, and more. Each region operates on its own, but the brand needed to see who's ahead and who's lagging.
 
-The ask was a scoring and ranking system: pull metrics from the Sprout Social API, score each profile against its peers, and visualize the results in a way brand managers could actually read.
+The tool: pull metrics from Sprout Social, score each profile against its peers, show the results in something brand managers can actually use.
 
 <Aside variant="info" title="Stack">
-  Scaffolded with Laravel Breeze + React using the **Inertia.js** starter kit. Inertia handles the bridge between Laravel's server-side routing and the React front-end &ndash; Laravel renders React components directly. ApexCharts for visualization, Sprout Social API as the data source.
+  Laravel Breeze + React via **Inertia.js**. Laravel handles routing; React renders on the client. ApexCharts for charts, Sprout Social API for data.
 </Aside>
 
 ## How the scoring works
 
-Eight metrics are pulled per profile for a given date range: engagement rate, likes, comments, video views, and others. Each metric is scored on a 0–100 scale using a logarithmic, peer-relative formula — meaning a profile's score on any given metric is a function of how it compares to the other profiles in the dataset, not against any external benchmark.
+Eight metrics per profile for a date range:
 
-The overall score (called `rating`) is a simple average of the eight per-metric scores. Profiles are then ranked by rating within the dataset.
+- engagement rate, likes, comments, video views, and others
 
-Detail views include donut and bar charts breaking down per-metric scores, color-coded by rating band:
+Each metric gets a 0–100 score using a **logarithmic, peer-relative** formula — you're compared to other profiles in the dataset, not some external benchmark.
+
+The overall `rating` is a flat average of those eight scores. Profiles rank by rating within the dataset.
+
+Detail views use donut and bar charts for per-metric breakdowns, color-coded by band:
 
 - **0–40:** red
 - **41–70:** yellow
 - **71–100:** green
 
-The main table shows the rating alongside raw metric values — the per-metric scores feed the charts rather than the table, so managers see actual numbers (likes, comments, views) alongside the overall score.
+The main table shows the rating plus raw numbers — likes, comments, views. Per-metric scores drive the charts, not the table.
 
 ## What the scores actually mean
 
-This is worth being precise about. The scoring system is a **relative benchmarking tool**, not a performance grade. A score of 80 means this profile outperforms most of its peers in the current dataset — it does not mean the profile is objectively performing well at social media.
+This is relative benchmarking, not a grade.
 
-This has real consequences:
+A score of 80 means you're beating most peers **in this dataset**. It does not mean you're objectively good at social media.
 
-- A profile can score 85 while performing genuinely poorly, if every other profile in the dataset is worse
-- The same profile can score 65 in one date range and 45 in another with no change in actual performance, simply because a peer had a strong month that shifted the distribution
-- The logarithmic scaling compresses outliers (a profile with 10x the followers doesn't automatically dominate), but scores are still only meaningful relative to each other
+That matters:
 
-For a global brand comparing regional accounts against each other, this framing is actually useful — it answers "which regions are lagging behind peers?" rather than "is any given region good at social media?" Those are different questions, and the tool answers the first one well.
+- You can score 85 while doing badly — if everyone else is worse
+- The same profile can jump from 45 to 65 with zero real change — a peer had a big month and shifted the distribution
+- Log scaling keeps one outlier from dominating, but scores only mean something compared to each other
 
-## What it doesn't do
+For a global brand, that's the point. It answers "which regions are lagging?" not "is Germany good at Instagram?" Different questions.
 
-The system has no guidance layer. Germany scoring 42 tells a brand manager that Germany is underperforming relative to peers — it doesn't tell Germany whether to post more video, improve response time, focus on engagement rate, or something else entirely.
+## Gaps
 
-The per-metric scores exist and are computed, they're just surfaced in charts rather than surfaced as actionable information. A follow-on feature that identified which specific metrics were pulling a profile's score down — and offered some context on what levers move those metrics — would make the tool significantly more useful as a management instrument rather than just a report.
+No guidance layer. Germany at 42 means Germany is behind peers — not "post more video" or "fix response time."
 
-Weights were explored (engagement rate weighted higher than likes, reflecting that engagement rate normalizes for audience size in a way raw likes don't) but ultimately removed in favor of a simple average. The case for weighting was real; the organizational simplicity of an unweighted average won out.
+Per-metric scores exist but live in charts, not as action items. If video views are killing the average, that should be visible and labeled — not buried in a donut chart. The data's already there; it's a presentation problem, not a technical one.
 
-## What I'd do differently
-
-Surface the per-metric breakdown as actionable guidance, not just chart data. If a profile scores low because video views are dragging the average, that should be visible and labeled in a way that suggests a direction — not buried in a donut chart that requires interpretation. The data is already there; it's a presentation and product thinking problem more than a technical one.
+We tried weighting metrics — engagement rate over raw likes, since it normalizes for audience size — but landed on a flat average. Simpler to sell internally.
