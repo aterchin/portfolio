@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
@@ -14,28 +15,15 @@ export default function Home() {
   const recentNotes = allNotes.slice(0, RECENT_NOTE_LIMIT);
   const tags = getTopDisplayTags(TAG_PREVIEW_LIMIT);
   const projects = getProjects();
+  const showAllNotes = allNotes.length > RECENT_NOTE_LIMIT;
 
   return (
     <PageWrapper>
-
       <div className={styles.layout}>
         <div className={styles.main}>
           {recentNotes.length > 0 && (
             <section className={styles.section}>
-              <SectionLabel
-                href={
-                  allNotes.length > RECENT_NOTE_LIMIT
-                    ? "/notes"
-                    : undefined
-                }
-                actionLabel={
-                  allNotes.length > RECENT_NOTE_LIMIT
-                    ? "View all →"
-                    : undefined
-                }
-              >
-                Notes
-              </SectionLabel>
+              <SectionLabel>Notes</SectionLabel>
               <ContentList
                 items={recentNotes.map((note) => ({
                   href: `/notes/${note.slug}`,
@@ -45,14 +33,17 @@ export default function Home() {
                   inProgress: note.status === "in-progress",
                 }))}
               />
+              {showAllNotes ? (
+                <Link href="/notes" className={styles.viewAll}>
+                  View all →
+                </Link>
+              ) : null}
             </section>
           )}
 
           {projects.length > 0 && (
             <section className={styles.section}>
-              <SectionLabel href="/work" actionLabel="View all →">
-                Selected work
-              </SectionLabel>
+              <SectionLabel>Selected work</SectionLabel>
               <ContentList
                 items={projects.map((project) => ({
                   href: `/work/${project.slug}`,
@@ -61,6 +52,9 @@ export default function Home() {
                   tags: project.tags,
                 }))}
               />
+              <Link href="/work" className={styles.viewAll}>
+                View all →
+              </Link>
             </section>
           )}
         </div>
