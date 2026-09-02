@@ -33,22 +33,22 @@
 
   /* Primary accent — terracotta */
   --color-accent:           #b56330;  /* primary use: buttons, active states, accent text on light bg */
-  --color-accent-mute:      #e2c2ac;  /* background for tags, highlights */
+  --color-accent-mute:      #f4bf9a;  /* background for tags, highlights */
   --color-accent-text:      #8a3f1c;  /* text on --color-accent-mute (AA contrast confirmed) */
 
   /* Supporting accent — faded seafoam */
   --color-seafoam:          #7fab9f;
-  --color-seafoam-mute:     #c3dad4;
+  --color-seafoam-mute:     #bce1d8;
   --color-seafoam-text:     #2c5249;  /* text on --color-seafoam-mute */
 
   /* Supporting accent — aged yellow */
   --color-yellow:           #b59c4c;
-  --color-yellow-mute:      #ddd09e;
+  --color-yellow-mute:      #f1dc8a;
   --color-yellow-text:      #5c4a14;  /* text on --color-yellow-mute */
 
   /* Supporting accent — washed periwinkle */
   --color-periwinkle:       #7c87b3;
-  --color-periwinkle-mute:  #bfc5db;
+  --color-periwinkle-mute:  #b6c0e4;
   --color-periwinkle-text:  #353c5e;  /* text on --color-periwinkle-mute */
 
   /* Semantic — map to foundation/accent tokens above */
@@ -191,22 +191,22 @@
 
   /* Primary accent — terracotta, brightened for dark bg */
   --color-accent:           #d9854f;
-  --color-accent-mute:      #4a2e1c;
+  --color-accent-mute:      #694127;
   --color-accent-text:      #e8a26f;
 
   /* Supporting — seafoam */
   --color-seafoam:          #6a9f94;
-  --color-seafoam-mute:     #283a36;
+  --color-seafoam-mute:     #37504b;
   --color-seafoam-text:     #a9d3c8;
 
   /* Supporting — aged yellow */
   --color-yellow:           #c9ab56;
-  --color-yellow-mute:      #332c10;
+  --color-yellow-mute:      #54481f;
   --color-yellow-text:      #ddc77f;
 
   /* Supporting — periwinkle */
   --color-periwinkle:       #8c97c4;
-  --color-periwinkle-mute:  #232744;
+  --color-periwinkle-mute:  #3a4060;
   --color-periwinkle-text:  #b3b9dc;
 
   /* Code blocks — Atom One Dark surface (hljs-themes.css) */
