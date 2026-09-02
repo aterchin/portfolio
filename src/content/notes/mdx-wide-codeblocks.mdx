@@ -8,17 +8,15 @@ summary:  Modification of the code blocks component on this site to include a 'w
 
 This builds on [Create a CodeBlock Component for MDX](/notes/mdx-codeblock-component). This note adds an opt-in `wide` flag so a few long samples can breathe without making every block full width.  I noticed Josh Comeau does this on [his Anchor Positioning post](https://www.joshwcomeau.com/css/anchor-positioning/): the paragraphs stay narrow, and one demo is allowed to run wider, toward the table of contents.
 
-Stack:
-
-- Next.js App Router
-- `next-mdx-remote/rsc`
-- remark (via `compileMDX` options)
+<Aside variant="info" title="Stack">
+  Next.js App Router, `next-mdx-remote/rsc`, remark (via `compileMDX` options)
+</Aside>
 
 ## The problem
 
 On this site, the majority of the content—like this note—render inside a prose column with a max width. That keeps paragraphs readable, but long code lines wrap or scroll inside a narrow box. Mostly this is fine, because you do not want every fence wide, but I wanted to see long code blocks and other full scripts in their entirety.
 
-<Aside variant="success">
+<Aside variant="success" title="Why make a wide block?">
 Many of the notes I created I've copied from my Google Docs workspace have code blocks which span the width of the page; I wanted that look to be mirrored here when I felt it was needed.
 </Aside>
 

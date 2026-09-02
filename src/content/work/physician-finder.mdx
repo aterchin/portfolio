@@ -14,13 +14,13 @@ A pharmaceutical client needed a public-facing tool to help patients and caregiv
 
 The front-end complexity turned out to be the easy part.
 
-## What it does
-
-Users search by zip code, city and state, or a free-form address using Google Places autocomplete. Results appear both on a map — custom-styled markers, no default Google chrome — and in a synchronized list view. Clicking a marker highlights the corresponding list item. Clicking a list item pans the map. The two views stay in sync without any coordination overhead because they're both reading from the same React state.
-
 <Aside variant="info" title="Stack">
   React on the front end, Laravel API, MySQL, Google Maps + Geocoding APIs.
 </Aside>
+
+## What it does
+
+Users search by zip code, city and state, or a free-form address using Google Places autocomplete. Results appear both on a map — custom-styled markers, no default Google chrome — and in a synchronized list view. Clicking a marker highlights the corresponding list item. Clicking a list item pans the map. The two views stay in sync without any coordination overhead because they're both reading from the same React state.
 
 ## The problem worth talking about
 

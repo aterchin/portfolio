@@ -11,11 +11,9 @@ When you write a fenced code block in MDX — created by containing your code wi
 
 This note walks through building a `CodeBlock` component and wiring it into `next-mdx-remote` so every fence in a note or case study gets the same treatment.
 
-Stack:
-
-- Next.js App Router
-- `next-mdx-remote/rsc`
-- highlight.js 11
+<Aside variant="info" title="Stack">
+  Next.js App Router, `next-mdx-remote/rsc`, highlight.js
+</Aside>
 
 ## What MDX gives you by default
 
@@ -91,7 +89,7 @@ export function highlightCode(code: string, lang: string): string {
 }
 ```
 
-<Aside variant="info" title="escapeHtml">
+<Aside variant="warning" title="escapeHtml">
 Without escaping, characters like `&lt;` or `&amp;` in the source would be parsed as HTML. `escapeHtml` keeps unknown-language blocks safe and displays the raw characters you typed.
 </Aside>
 
