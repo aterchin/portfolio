@@ -91,8 +91,8 @@ export function highlightCode(code: string, lang: string): string {
 }
 ```
 
-<Aside variant="info" title="Why escapeHtml?">
-When highlight.js does not recognize a language, the fallback path renders plain text through `dangerouslySetInnerHTML`. Without escaping, characters like `&lt;` or `&amp;` in the source would be parsed as HTML. `escapeHtml` keeps unknown-language blocks safe and displays the raw characters you typed.
+<Aside variant="info" title="escapeHtml">
+Without escaping, characters like `&lt;` or `&amp;` in the source would be parsed as HTML. `escapeHtml` keeps unknown-language blocks safe and displays the raw characters you typed.
 </Aside>
 
 Two details worth keeping:
@@ -132,10 +132,6 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
   );
 }
 ```
-
-**Why `dangerouslySetInnerHTML`?** highlight.js returns an HTML string with `<span class="hljs-keyword">` markup. React will not parse that as elements if you pass it as `{highlighted}` inside `<code>`. The innerHTML path is the standard approach for pre-rendered highlight output.
-
-**Why trim?** MDX fences often include a trailing newline. Trimming keeps the copy button from copying an extra blank line.
 
 ## Add a copy button
 

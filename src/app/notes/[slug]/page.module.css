@@ -47,7 +47,7 @@
   .body:global(.prose) {
     --prose-font-size: 1.0625rem;
     --prose-leading: 1.65;
-    --prose-p-margin: var(--space-4);
+    --prose-p-margin: var(--space-8);
   }
 }
 

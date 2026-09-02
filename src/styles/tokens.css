@@ -25,7 +25,7 @@
   --color-bg-3:        #e8e0d0;  /* deeper surface, hover states on bg-2 */
 
   --color-ink:         #1c1a17;  /* primary text, headings */
-  --color-ink-2:       #423e38;  /* body text, secondary headings */
+  --color-ink-2:       #2f2c28;  /* body text — halfway between ink and former ink-2 */
   --color-ink-3:       #6b665d;  /* labels, meta, captions — never below 0.9rem */
 
   --color-border:      #d8d3c9;  /* dividers, card outlines, input borders */
@@ -183,7 +183,7 @@
   --color-bg-3:        #100e15;
 
   --color-ink:         #f2eee5;
-  --color-ink-2:       #cac3b6;
+  --color-ink-2:       #ded9ce;  /* body text — halfway between ink and former ink-2 */
   --color-ink-3:       #968f83;
 
   --color-border:      #2c2932;

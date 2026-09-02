@@ -15,8 +15,9 @@ or ambiguous rather than guessing.
 ## Fonts (loaded in `layout.tsx` via `next/font/google`)
 - Display/headings: Instrument Sans (400/500/600) → `--font-display`
 - Body prose: Newsreader (400/500/600, italic available) → `--font-body`
-  — sized at `--text-body: 1.3125rem` / `--leading-relaxed: 1.8` (serif reads
-  smaller than sans at the same CSS size; don't shrink these without checking)
+  — sized at `--text-body: 1.3125rem`; `.prose` uses `--prose-leading: 1.7`
+  (the `--leading-relaxed: 1.8` token remains for non-prose UI). Serif reads
+  smaller than sans at the same CSS size; don't shrink these without checking.
 - UI (nav, buttons, inputs, labels, **section labels**): Instrument Sans → `--font-ui`
 - Mono (code blocks + inline code **only**, not labels): JetBrains Mono (400/500) → `--font-mono`
 

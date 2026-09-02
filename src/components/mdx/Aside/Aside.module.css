@@ -1,22 +1,35 @@
 .aside {
-  margin-block: var(--space-8);
-  padding: var(--space-5) var(--space-6);
+  /* Override the inherited prose size so nested .prose p / li rules
+     pick up the smaller callout type instead of body copy. */
+  --prose-font-size: var(--text-sm);
+  margin-block: var(--space-12);
+  padding: var(--space-8) var(--space-4);
   border-radius: var(--radius-sm);
   border-left: 3px solid;
 }
 
+/* Full-bleed into the page gutter so callout text aligns with body copy;
+   drop the left accent bar — the wash alone is enough on a narrow screen. */
+@media (max-width: 768px) {
+  .aside {
+    margin-inline: calc(var(--layout-gutter) * -1);
+    padding-inline: var(--layout-gutter);
+    border-left: none;
+    border-radius: 0;
+  }
+}
+
 .label {
+  display: block;
   font-family: var(--font-body);
-  font-size: var(--prose-font-size, var(--text-body));
+  font-size: var(--text-sm);
   font-weight: 600;
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
 }
 
 .body {
   font-family: var(--font-body);
-  font-size: var(--prose-font-size, var(--text-body));
+  font-size: var(--text-sm);
   line-height: var(--prose-leading, var(--leading-relaxed));
   color: var(--color-text-secondary);
 }
@@ -30,9 +43,11 @@
   margin-top: var(--space-4);
 }
 
-/* Variant colors — background + border + label text */
+/* Variant colors — background + border + label text.
+   color-mix softens the shared mute tokens toward the page bg
+   (lighter in light mode, darker in dark) without changing tags etc. */
 .info {
-  background: var(--color-periwinkle-mute);
+  background: color-mix(in oklab, var(--color-periwinkle-mute) 80%, var(--color-bg));
   border-left-color: var(--color-periwinkle);
 }
 .info .label {
@@ -40,7 +55,7 @@
 }
 
 .success {
-  background: var(--color-seafoam-mute);
+  background: color-mix(in oklab, var(--color-seafoam-mute) 80%, var(--color-bg));
   border-left-color: var(--color-seafoam);
 }
 .success .label {
@@ -48,7 +63,7 @@
 }
 
 .warning {
-  background: var(--color-yellow-mute);
+  background: color-mix(in oklab, var(--color-yellow-mute) 80%, var(--color-bg));
   border-left-color: var(--color-yellow);
 }
 .warning .label {
@@ -56,7 +71,7 @@
 }
 
 .error {
-  background: var(--color-accent-mute);
+  background: color-mix(in oklab, var(--color-accent-mute) 80%, var(--color-bg));
   border-left-color: var(--color-accent);
 }
 .error .label {

@@ -197,17 +197,17 @@ not mid-deploy.
 
 ### Variants
 
-| Variant | Default label | Use for |
-|---|---|---|
-| `info` | Note | Context or a detail worth calling out, not urgent |
-| `success` | Resolved | A problem that came up and how it was fixed |
-| `warning` | Caution | Something to watch for before acting |
-| `error` | Problem | A failure mode or a mistake worth flagging explicitly |
+| Variant | Use for |
+|---|---|
+| `info` | Context or a detail worth calling out, not urgent |
+| `success` | A problem that came up and how it was fixed |
+| `warning` | Something to watch for before acting |
+| `error` | A failure mode or a mistake worth flagging explicitly |
 
-- `title` is optional — omit it to use the default label above. Only set a
-  custom `title` when it's meaningfully more specific than the default
-  (e.g. `title="Apache 2.4+ only"` on a `warning`), not as a rephrasing of
-  the same word.
+- There is **no default title** — omit `title` for an unlabeled wash; the
+  colored border/background carries the tone. Set `title` only when a short
+  heading helps (e.g. `title="Apache 2.4+ only"`), not as a restatement of
+  the variant name (`title="Warning"`).
 - Keep the body short — a sentence or two. If a callout needs several
   sentences or a code block, it's probably a real `##` section, not an aside.
 - Don't stack asides back-to-back. If a step needs both a warning and a
@@ -216,7 +216,8 @@ not mid-deploy.
 - Convert Google Docs–style bolded warning text ("**Note:** …", "**Important:**
   …") into an `<Aside>` with the matching variant rather than leaving it as
   inline bold — that's exactly the paste-artifact pattern this callout
-  replaces.
+  replaces. Prefer putting the old bold label into `title` when it adds
+  specificity; otherwise drop it and let the variant speak.
 
 ### ASCII / directory trees
 

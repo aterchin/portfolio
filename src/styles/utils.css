@@ -92,8 +92,9 @@
 .prose {
   --prose-max: var(--layout-prose);
   --prose-font-size: var(--text-body);
-  --prose-leading: var(--leading-relaxed);
-  --prose-p-margin: var(--space-5);
+  /* Slightly tighter than --leading-relaxed (1.8) so paragraph gaps read clearly */
+  --prose-leading: 1.7;
+  --prose-p-margin: var(--space-8);
   max-width: none;
   font-family: var(--font-body);
   font-size: var(--prose-font-size);

@@ -29,9 +29,9 @@ export function Aside({
     <aside
       className={`${styles.aside} ${styles[variant]}`}
       role="note"
-      aria-label={label}
+      aria-label={label || undefined}
     >
-      <span className={styles.label}>{label}</span>
+      {label ? <span className={styles.label}>{label}</span> : null}
       <div className={styles.body}>{children}</div>
     </aside>
   );
