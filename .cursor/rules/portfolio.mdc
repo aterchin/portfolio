@@ -18,8 +18,9 @@ or ambiguous rather than guessing.
   — sized at `--text-body: 1.3125rem`; `.prose` uses `--prose-leading: 1.7`
   (the `--leading-relaxed: 1.8` token remains for non-prose UI). Serif reads
   smaller than sans at the same CSS size; don't shrink these without checking.
-- UI (nav, buttons, inputs, labels, **section labels**): Instrument Sans → `--font-ui`
-- Mono (code blocks + inline code **only**, not labels): JetBrains Mono (400/500) → `--font-mono`
+- UI (nav, buttons, inputs, labels, **section labels**, meta): Instrument Sans → `--font-ui`
+- Mono (code blocks + inline code **only**, not labels/meta): system stack → `--font-mono`
+  (no third webfont — `ui-monospace` / Menlo / Consolas fallbacks in `tokens.css`)
 
 ## Colors
 - Foundation: dark mode leans indigo `#060308` / light mode is warm near-white `#fffef9`
@@ -98,7 +99,7 @@ voice: preserve            # optional — preserves author's tone in cleanup, se
 
 ## Tags
 - All tags link to `/tags/[normalized-slug]` via `linked` prop on `Tag` component
-- Cards (NoteCard, ProjectCard): tags render as plain mono text, ` · ` separated — not `Tag` components
+- Cards (NoteCard, ProjectCard): tags render as plain `--font-ui` text, ` · ` separated — not `Tag` components
 - `Tag` component (linked pill) only on detail pages and the tag results page
 
 ## Images

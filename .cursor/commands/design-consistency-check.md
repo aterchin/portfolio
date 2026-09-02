@@ -18,6 +18,8 @@ instructions, without needing a human to eyeball every diff.
      `--text-xs`. No raw `px`/`rem` for type.
    - `font-family` only ever references `--font-display`, `--font-body`,
      `--font-ui`, or `--font-mono` — never a hardcoded font name.
+     (`--font-mono` is a system stack in `tokens.css`, used for code only;
+     do not load a mono webfont.)
    - Italics are allowed for body prose (Newsreader italic) — don't flag
      `font-style: italic` or semantic `<em>` in body copy.
    - Accent text-on-mute pairs use the `-text` variant, not the raw accent,

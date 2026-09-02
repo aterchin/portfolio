@@ -1,6 +1,6 @@
 import styles from "./InProgressLabel.module.css";
 
-/** Inline note status — mono " · WIP" after a title, no pill treatment. */
+/** Inline note status — " · WIP" after a title, no pill treatment. */
 export function InProgressLabel() {
   return (
     <span className={styles.label} title="In progress">

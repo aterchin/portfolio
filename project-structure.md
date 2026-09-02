@@ -6,7 +6,7 @@
 - **Content:** MDX file-based with frontmatter
 - **Email:** Resend + Next.js API route handler
 - **Deployment:** Linode VPS — Node.js + PM2 + Apache (reverse proxy)
-- **Fonts:** Instrument Sans (display/UI) + Newsreader (body) + JetBrains Mono (code)
+- **Fonts:** Instrument Sans (display/UI) + Newsreader (body); system monospace for code only
 - **Accent:** Terracotta primary, seafoam/yellow/periwinkle supporting
 
 ---

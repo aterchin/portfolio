@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, JetBrains_Mono, Newsreader } from "next/font/google";
+import { Instrument_Sans, Newsreader } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ThemeScript } from "@/providers/ThemeScript";
 import { Nav } from "@/components/layout/Nav/Nav";
@@ -11,13 +11,6 @@ const instrumentSans = Instrument_Sans({
   variable: "--font-instrument-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -45,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${newsreader.variable}`}
+      className={`${instrumentSans.variable} ${newsreader.variable}`}
       suppressHydrationWarning
     >
       <head>

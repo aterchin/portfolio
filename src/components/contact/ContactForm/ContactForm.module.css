@@ -12,7 +12,7 @@
 }
 
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
@@ -56,7 +56,7 @@
 }
 
 .fieldError {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   color: var(--color-accent-text);
 }

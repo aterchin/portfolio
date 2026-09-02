@@ -14,7 +14,7 @@
 
 .groupHeading {
   position: relative;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
@@ -35,7 +35,7 @@
 }
 
 .itemMeta {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
   margin-bottom: var(--space-2);

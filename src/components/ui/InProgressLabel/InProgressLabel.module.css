@@ -1,5 +1,5 @@
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: var(--text-xs);
   font-weight: 400;
   letter-spacing: var(--tracking-wide);

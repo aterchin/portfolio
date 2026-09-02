@@ -71,8 +71,8 @@
      Fallback chain kept for safety if a variable fails to load. */
   --font-display: var(--font-instrument-sans), system-ui, sans-serif;
   --font-body:    var(--font-newsreader), Georgia, serif;
-  --font-ui:      var(--font-instrument-sans), system-ui, sans-serif;  /* UI controls, buttons, nav, form elements */
-  --font-mono:    var(--font-jetbrains-mono), 'Fira Code', monospace;
+  --font-ui:      var(--font-instrument-sans), system-ui, sans-serif;  /* UI controls, buttons, nav, labels, meta */
+  --font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;  /* code only — system stack, no webfont */
 
   /* Scale — fluid where display, fixed where UI */
   --text-hero:   clamp(2.8rem, 6vw, 4.2rem);  /* page hero h1 only */
