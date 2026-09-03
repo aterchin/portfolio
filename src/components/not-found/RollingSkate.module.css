@@ -1,0 +1,47 @@
+.lane {
+  position: relative;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 6rem;
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-16);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.skate {
+  position: absolute;
+  bottom: 0;
+  width: 6rem;
+  height: auto;
+  animation: rollAcross 14s linear infinite;
+}
+
+@keyframes rollAcross {
+  from {
+    left: -6rem;
+  }
+
+  to {
+    left: calc(100% + 1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skate {
+    left: 50%;
+    translate: -50% 0;
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .lane {
+    height: 5rem;
+  }
+
+  .skate {
+    width: 4.75rem;
+  }
+}
