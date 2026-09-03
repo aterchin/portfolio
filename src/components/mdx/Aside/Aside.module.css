@@ -34,12 +34,13 @@
   color: var(--color-text-secondary);
 }
 
-/* Reset prose margins when Aside wraps MDX-generated <p> tags */
-.body :global(p) {
+/* Reset prose margins when Aside wraps MDX-generated <p> tags.
+   .aside .body beats .prose p specificity so margin-bottom stays off. */
+.aside .body :global(p) {
   margin: 0;
 }
 
-.body :global(p + p) {
+.aside .body :global(p + p) {
   margin-top: var(--space-4);
 }
 
