@@ -2,9 +2,9 @@ import Link from "next/link";
 import type { Project } from "@/lib/types";
 import styles from "./ProjectCard.module.css";
 
-type ProjectCardProps = Pick<Project, "title" | "slug" | "date" | "type" | "tags" | "summary">;
+type ProjectCardProps = Pick<Project, "title" | "subtitle" | "slug" | "date" | "type" | "tags" | "summary">;
 
-export function ProjectCard({ title, slug, date, type, tags, summary }: ProjectCardProps) {
+export function ProjectCard({ title, subtitle, slug, date, type, tags, summary }: ProjectCardProps) {
   const year = parseInt(date.slice(0, 4), 10);
 
   return (
@@ -14,6 +14,7 @@ export function ProjectCard({ title, slug, date, type, tags, summary }: ProjectC
         <span className={styles.type}>{type === "case-study" ? "Case study" : "Showcase"}</span>
       </div>
       <h3 className={styles.title}>{title}</h3>
+      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
         <p className={styles.tags}>{tags.join(" · ")}</p>

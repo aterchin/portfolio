@@ -21,7 +21,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return { title: project.title };
+  return {
+    title: project.subtitle
+      ? `${project.title} — ${project.subtitle}`
+      : project.title,
+  };
 }
 
 export default async function WorkSlugPage({
@@ -34,7 +38,7 @@ export default async function WorkSlugPage({
 
   if (!project) notFound();
 
-  const { content, title, date, updated, type, tags, headings } = project;
+  const { content, title, subtitle, date, updated, type, tags, headings } = project;
   const year = parseInt(date.slice(0, 4), 10);
 
   const { content: MDXContent } = await compileMDX({
@@ -55,6 +59,7 @@ export default async function WorkSlugPage({
           <article>
             <header className={styles.header}>
               <h1 className={styles.title}>{title}</h1>
+              {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
               <ContentDate date={date} updated={updated} />
               <div className={styles.tags}>
                 {tags.map((tag) => (

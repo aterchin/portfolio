@@ -28,6 +28,7 @@ export default function Home() {
                 items={recentNotes.map((note) => ({
                   href: `/notes/${note.slug}`,
                   title: note.title,
+                  subtitle: note.subtitle,
                   summary: note.summary,
                   tags: note.tags,
                   inProgress: note.status === "in-progress",
@@ -48,6 +49,7 @@ export default function Home() {
                 items={projects.map((project) => ({
                   href: `/work/${project.slug}`,
                   title: project.title,
+                  subtitle: project.subtitle,
                   summary: project.summary,
                   tags: project.tags,
                 }))}

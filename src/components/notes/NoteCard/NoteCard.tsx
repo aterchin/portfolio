@@ -5,13 +5,14 @@ import styles from "./NoteCard.module.css";
 
 export interface NoteCardProps {
   title: Note["title"];
+  subtitle?: Note["subtitle"];
   slug: Note["slug"];
   summary: Note["summary"];
   tags: Note["tags"];
   status?: Note["status"];
 }
 
-export function NoteCard({ title, slug, status, summary, tags }: NoteCardProps) {
+export function NoteCard({ title, subtitle, slug, status, summary, tags }: NoteCardProps) {
   const isWIP = status === "in-progress";
 
   return (
@@ -20,6 +21,7 @@ export function NoteCard({ title, slug, status, summary, tags }: NoteCardProps) 
         {title}
         {isWIP && <InProgressLabel />}
       </h3>
+      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
         <p className={styles.tags}>{tags.join(" · ")}</p>

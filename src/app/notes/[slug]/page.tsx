@@ -21,7 +21,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const note = getNote(slug);
   if (!note) return {};
-  return { title: note.title };
+  return {
+    title: note.subtitle ? `${note.title} — ${note.subtitle}` : note.title,
+  };
 }
 
 export default async function NoteSlugPage({
@@ -33,7 +35,7 @@ export default async function NoteSlugPage({
   const note = getNote(slug);
   if (!note) notFound();
 
-  const { content, title, status, tags, headings, date, updated } = note;
+  const { content, title, subtitle, status, tags, headings, date, updated } = note;
   const isWIP = status === "in-progress";
 
   const { content: MDXContent } = await compileMDX({
@@ -53,6 +55,7 @@ export default async function NoteSlugPage({
           <article>
             <header className={styles.header}>
               <h1 className={styles.title}>{title}</h1>
+              {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
               <ContentDate date={date} updated={updated} inProgress={isWIP} />
               <div className={styles.tags}>
                 {tags.map((tag) => (

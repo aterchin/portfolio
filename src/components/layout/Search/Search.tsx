@@ -78,6 +78,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
         keys: [
           { name: "title", weight: 2 },
           { name: "tags", weight: 1.5 },
+          { name: "subtitle", weight: 1.25 },
           { name: "summary", weight: 1 },
         ],
         threshold: 0.34,
@@ -218,6 +219,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
                 items={results.map((item) => ({
                   href: item.href,
                   title: item.title,
+                  subtitle: item.subtitle,
                   summary: item.summary,
                   tags: item.tags,
                   typeLabel: TYPE_LABELS[item.type],

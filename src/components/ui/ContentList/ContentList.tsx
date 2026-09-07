@@ -5,6 +5,7 @@ import styles from "./ContentList.module.css";
 export interface ContentListItemProps {
   href: string;
   title: string;
+  subtitle?: string;
   summary: string;
   tags: string[];
   /** Shown above the title — Search uses "Note" / "Work". */
@@ -21,6 +22,7 @@ export interface ContentListProps {
 function ContentListItem({
   href,
   title,
+  subtitle,
   summary,
   tags,
   typeLabel,
@@ -38,6 +40,7 @@ function ContentListItem({
           {title}
           {inProgress && <InProgressLabel />}
         </h3>
+        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         <p className={styles.summary}>{summary}</p>
         {tags.length > 0 && (
           <p className={styles.tags}>{tags.join(" · ")}</p>

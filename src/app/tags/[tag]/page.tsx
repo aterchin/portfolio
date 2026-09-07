@@ -51,6 +51,7 @@ export default async function TagPage({
                 key={project.slug}
                 href={`/work/${project.slug}`}
                 title={project.title}
+                subtitle={project.subtitle}
                 summary={project.summary}
                 tags={project.tags}
                 meta={project.type === "case-study" ? "Case study" : "Showcase"}
@@ -68,6 +69,7 @@ export default async function TagPage({
                 key={note.slug}
                 href={`/notes/${note.slug}`}
                 title={note.title}
+                subtitle={note.subtitle}
                 summary={note.summary}
                 tags={note.tags}
                 meta="Note"
@@ -86,6 +88,7 @@ export default async function TagPage({
 interface TagResultItemProps {
   href: string;
   title: string;
+  subtitle?: string;
   summary: string;
   tags: string[];
   meta: string;
@@ -95,6 +98,7 @@ interface TagResultItemProps {
 function TagResultItem({
   href,
   title,
+  subtitle,
   summary,
   tags,
   meta,
@@ -107,6 +111,7 @@ function TagResultItem({
         {title}
         {inProgress && <InProgressLabel />}
       </Link>
+      {subtitle && <p className={styles.itemSubtitle}>{subtitle}</p>}
       <p className={styles.itemSummary}>{summary}</p>
       <div className={styles.itemTags}>
         {tags.map((t) => (

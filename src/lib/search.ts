@@ -7,6 +7,7 @@ export type SearchItemType = "note" | "work";
 export interface SearchItem {
   type: SearchItemType;
   title: string;
+  subtitle?: string;
   slug: string;
   href: string;
   date: string;
@@ -23,6 +24,7 @@ export function getSearchIndex(): SearchItem[] {
   const notes: SearchItem[] = getNotes().map((n) => ({
     type: "note",
     title: n.title,
+    subtitle: n.subtitle,
     slug: n.slug,
     href: `/notes/${n.slug}`,
     date: n.date,
@@ -34,6 +36,7 @@ export function getSearchIndex(): SearchItem[] {
   const work: SearchItem[] = getProjects().map((p) => ({
     type: "work",
     title: p.title,
+    subtitle: p.subtitle,
     slug: p.slug,
     href: `/work/${p.slug}`,
     date: p.date,

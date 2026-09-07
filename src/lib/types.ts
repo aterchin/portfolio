@@ -1,6 +1,7 @@
 // Work project — case study or showcase
 export interface Project {
   title: string;
+  subtitle?: string;
   slug: string;
   date: string; // ISO 8601 — YYYY-MM-DD
   updated?: string; // ISO 8601 — YYYY-MM-DD; shown only when after date
@@ -13,6 +14,7 @@ export interface Project {
 // Note — code snippet, write-up, or WIP
 export interface Note {
   title: string;
+  subtitle?: string;
   slug: string;
   date: string; // ISO 8601 — YYYY-MM-DD
   updated?: string; // ISO 8601 — YYYY-MM-DD; shown only when after date
