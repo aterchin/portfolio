@@ -8,6 +8,7 @@
   margin-bottom: var(--space-16);
   overflow: hidden;
   pointer-events: none;
+  contain: layout paint;
 }
 
 .skate {
@@ -15,17 +16,15 @@
   bottom: 0;
   width: 6rem;
   height: auto;
+  left: 0;
+  position: absolute;
+  will-change: transform;
   animation: rollAcross 14s linear infinite;
 }
 
 @keyframes rollAcross {
-  from {
-    left: -6rem;
-  }
-
-  to {
-    left: calc(100% + 1rem);
-  }
+  0% { transform: translateX(-6rem); }
+  100% { transform: translateX(calc(100vw + 1rem)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
