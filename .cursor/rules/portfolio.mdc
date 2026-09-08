@@ -104,7 +104,7 @@ voice: preserve            # optional — preserves author's tone in cleanup, se
 
 ## Images
 - WebP; 1440px wide source for body/hero images, 720px for card thumbnails
-- Path: `public/images/{content-type}/filename-matches-slug.webp`
+- Flat path: `public/images/descriptive-name.webp` (no category/slug folders)
 
 ## API
 - `api/contact/route.ts`: validate → rate-limit (in-memory) → Resend

@@ -11,21 +11,23 @@ SVG for icons and illustrations that are vector-based — never rasterize these.
 
 ## Directory structure
 
+Everything lives flat under `public/images/`. No category or slug folders.
+
 ```
 public/
   images/
-    work/
-      project-slug-thumb.webp    ← card thumbnail (if used)
-      project-slug-hero.webp     ← case study header image
-    notes/
-      note-slug.webp             ← single image
-      note-slug/                 ← multiple images (step-by-step, etc.)
-        step-name.webp
+    descriptive-name.webp
+    another-descriptive-name.webp
 ```
 
-File names should match the MDX slug for the corresponding content. Use a
-subfolder when a piece of content has two or more images; use a single file at
-the category level when there is only one.
+Use **descriptive filenames** that say what the image shows, not the content
+URL slug. Prefix with a short topic or project label when you need uniqueness
+across notes/work (e.g. `sourcetree-commit.webp`,
+`social-media-scorecard-ranked-table.webp`).
+
+Renaming a note or project URL must not require moving or renaming image
+files — only update the `src` path in MDX/components if the filename itself
+changes for clarity.
 
 ---
 
@@ -56,7 +58,17 @@ Use standard markdown image syntax — renders as a plain `<img>` tag,
 styled by the `.body :global(img)` rule in each slug page CSS module:
 
 ```markdown
-![Alt text describing the image](/images/work/project-slug-hero.webp)
+![Alt text describing the image](/images/descriptive-name.webp)
+```
+
+Or a `<Figure>` / responsive image component:
+
+```mdx
+<Figure
+  src="/images/descriptive-name.webp"
+  alt="Descriptive alt — what the image shows"
+  caption="Optional caption."
+/>
 ```
 
 Alt text is required — keep it descriptive, not decorative.
@@ -73,7 +85,7 @@ to prevent layout shift:
 import Image from "next/image";
 
 <Image
-  src="/images/work/project-slug-thumb.webp"
+  src="/images/descriptive-name.webp"
   alt="Brief description"
   width={720}
   height={405}

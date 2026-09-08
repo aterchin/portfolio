@@ -5,7 +5,7 @@ export function RollingSkate() {
     <div className={styles.lane} aria-hidden="true">
       <img
         className={styles.skate}
-        src="/images/not-found/rollerskate.png"
+        src="/images/rollerskate.png"
         alt=""
         width={800}
         height={800}

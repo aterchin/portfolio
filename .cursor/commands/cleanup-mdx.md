@@ -156,8 +156,9 @@ file list with no UI chrome worth illustrating.
 
 - **WebP only** for raster images. Convert PNG/JPEG before committing
   (`cwebp -q 85 input.png -o output.webp`).
-- **One image**: `public/images/{work|notes}/{slug}.webp`
-- **Two or more images**: `public/images/{category}/{slug}/descriptive-name.webp`
+- **Flat directory**: `public/images/descriptive-name.webp` — no category or
+  slug folders. Prefix with a short topic/project label when needed for
+  uniqueness (e.g. `sourcetree-commit.webp`).
 - Delete replaced or unused image files from `public/images/`.
 
 ### `<Figure>` usage
@@ -167,7 +168,7 @@ from a caption:
 
 ```mdx
 <Figure
-  src="/images/notes/my-slug/step-name.webp"
+  src="/images/descriptive-name.webp"
   alt="Descriptive alt — what the image shows, not what to do"
   caption="Short instruction or context the alt doesn't cover."
 />
