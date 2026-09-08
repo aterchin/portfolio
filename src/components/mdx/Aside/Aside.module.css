@@ -2,21 +2,39 @@
   /* Override the inherited prose size so nested .prose p / li rules
      pick up the smaller callout type instead of body copy. */
   --prose-font-size: var(--text-sm);
+  --aside-badge-size: 1.75rem;
+  position: relative;
   margin-block: var(--space-12);
+  /* Extra top padding so the corner badge does not crowd the title */
   padding: var(--space-8) var(--space-4);
+  padding-top: calc(var(--space-8) + var(--space-2));
   border-radius: var(--radius-sm);
   border-left: 3px solid;
 }
 
-/* Full-bleed into the page gutter so callout text aligns with body copy;
-   drop the left accent bar — the wash alone is enough on a narrow screen. */
-@media (max-width: 768px) {
-  .aside {
-    margin-inline: calc(var(--layout-gutter) * -1);
-    padding-inline: var(--layout-gutter);
-    border-left: none;
-    border-radius: 0;
-  }
+/* Pin a circular badge on the top-left corner — overlaps the accent bar
+   on purpose. Page bg fill + variant ring; no fake "carve" of the border. */
+.badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--aside-badge-size);
+  height: var(--aside-badge-size);
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  border: 1.5px solid;
+  transform: translate(-40%, -40%);
+}
+
+.icon {
+  display: block;
+}
+
+.content {
+  min-width: 0;
 }
 
 .label {
@@ -44,37 +62,70 @@
   margin-top: var(--space-4);
 }
 
-/* Variant colors — background + border + label text.
+/* Full-bleed into the page gutter so callout text aligns with body copy;
+   drop the left accent bar — the wash alone is enough on a narrow screen.
+   Badge stays on the top edge at the content column, not hanging off-screen. */
+@media (max-width: 768px) {
+  .aside {
+    margin-inline: calc(var(--layout-gutter) * -1);
+    padding-inline: var(--layout-gutter);
+    border-left: none;
+    border-radius: 0;
+  }
+
+  .badge {
+    left: var(--layout-gutter);
+    transform: translate(-50%, -40%);
+  }
+}
+
+/* Variant colors — background + border + label/badge.
    color-mix softens the shared mute tokens toward the page bg
    (lighter in light mode, darker in dark) without changing tags etc. */
 .info {
   background: color-mix(in oklab, var(--color-periwinkle-mute) 80%, var(--color-bg));
   border-left-color: var(--color-periwinkle);
 }
-.info .label {
+.info .label,
+.info .badge {
   color: var(--color-periwinkle-text);
+}
+.info .badge {
+  border-color: var(--color-periwinkle);
 }
 
 .success {
   background: color-mix(in oklab, var(--color-seafoam-mute) 80%, var(--color-bg));
   border-left-color: var(--color-seafoam);
 }
-.success .label {
+.success .label,
+.success .badge {
   color: var(--color-seafoam-text);
+}
+.success .badge {
+  border-color: var(--color-seafoam);
 }
 
 .warning {
   background: color-mix(in oklab, var(--color-yellow-mute) 80%, var(--color-bg));
   border-left-color: var(--color-yellow);
 }
-.warning .label {
+.warning .label,
+.warning .badge {
   color: var(--color-yellow-text);
+}
+.warning .badge {
+  border-color: var(--color-yellow);
 }
 
 .error {
   background: color-mix(in oklab, var(--color-accent-mute) 80%, var(--color-bg));
   border-left-color: var(--color-accent);
 }
-.error .label {
+.error .label,
+.error .badge {
   color: var(--color-accent-text);
+}
+.error .badge {
+  border-color: var(--color-accent);
 }

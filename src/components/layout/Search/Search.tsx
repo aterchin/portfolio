@@ -10,6 +10,7 @@ import {
   type ChangeEvent,
 } from "react";
 import Fuse from "fuse.js";
+import { Search as SearchLucide, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import type { SearchItem, SearchItemType } from "@/lib/search";
@@ -20,38 +21,17 @@ const TYPE_LABELS: Record<SearchItemType, string> = {
   work: "Work",
 };
 
+const iconProps = {
+  size: 20,
+  strokeWidth: 1.5,
+  "aria-hidden": true,
+} as const;
+
 export interface SearchProps {
   items: SearchItem[];
   exampleTags: string[];
   menuOpen?: boolean;
   onActivate?: () => void;
-}
-
-function SearchIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M12.5 12.5L16.5 16.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path
-        d="M5 5l10 10M15 5L5 15"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
 }
 
 export function Search({ items, exampleTags, menuOpen = false, onActivate }: SearchProps) {
@@ -156,7 +136,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
         aria-controls={listId}
         aria-label="Open search"
       >
-        <SearchIcon />
+        <SearchLucide {...iconProps} />
       </button>
 
       <button
@@ -184,7 +164,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
               onClick={closePanel}
               aria-label="Close search"
             >
-              <CloseIcon />
+              <X {...iconProps} />
             </button>
           </div>
           <div className={styles.field}>

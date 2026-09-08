@@ -1,3 +1,10 @@
+import {
+  CircleAlert,
+  CircleCheck,
+  Info,
+  TriangleAlert,
+  type LucideIcon,
+} from "lucide-react";
 import styles from "./Aside.module.css";
 
 // Union type restricts variant to exactly these four strings —
@@ -11,11 +18,18 @@ interface AsideProps {
   children: React.ReactNode;
 }
 
-const defaultLabels: Record<AsideVariant, string> = {
-  info: "",
-  success: "",
-  warning: "",
-  error: "",
+const variantIcons: Record<AsideVariant, LucideIcon> = {
+  info: Info,
+  success: CircleCheck,
+  warning: TriangleAlert,
+  error: CircleAlert,
+};
+
+const variantAriaLabels: Record<AsideVariant, string> = {
+  info: "Info",
+  success: "Success",
+  warning: "Warning",
+  error: "Error",
 };
 
 export function Aside({
@@ -23,16 +37,21 @@ export function Aside({
   title,
   children,
 }: AsideProps) {
-  const label = title ?? defaultLabels[variant];
+  const Icon = variantIcons[variant];
 
   return (
     <aside
       className={`${styles.aside} ${styles[variant]}`}
       role="note"
-      aria-label={label || undefined}
+      aria-label={title ?? variantAriaLabels[variant]}
     >
-      {label ? <span className={styles.label}>{label}</span> : null}
-      <div className={styles.body}>{children}</div>
+      <span className={styles.badge} aria-hidden="true">
+        <Icon size={16} strokeWidth={1.5} className={styles.icon} />
+      </span>
+      <div className={styles.content}>
+        {title ? <span className={styles.label}>{title}</span> : null}
+        <div className={styles.body}>{children}</div>
+      </div>
     </aside>
   );
 }

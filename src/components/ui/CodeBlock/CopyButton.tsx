@@ -1,5 +1,6 @@
 "use client";
 
+import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import styles from "./CopyButton.module.css";
 
@@ -9,41 +10,11 @@ export interface CopyButtonProps {
   className?: string;
 }
 
-function ClipboardIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <rect
-        x="5.5"
-        y="5.5"
-        width="8"
-        height="9"
-        rx="1.25"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M10.5 5.5V4.25A1.25 1.25 0 009.25 3H3.75A1.25 1.25 0 002.5 4.25v8A1.25 1.25 0 003.75 13.5H5.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M3.5 8.5l3 3 6-6.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const iconProps = {
+  size: 16,
+  strokeWidth: 1.5,
+  "aria-hidden": true,
+} as const;
 
 export function CopyButton({ code, className }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
@@ -77,7 +48,7 @@ export function CopyButton({ code, className }: CopyButtonProps) {
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy code"}
     >
-      {copied ? <CheckIcon /> : <ClipboardIcon />}
+      {copied ? <Check {...iconProps} /> : <Copy {...iconProps} />}
     </button>
   );
 }

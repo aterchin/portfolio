@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useCallback, useEffect, useId, useState } from "react";
 import { Search } from "@/components/layout/Search/Search";
 import type { SearchItem } from "@/lib/search";
@@ -14,58 +15,11 @@ const links = [
   { href: "/notes", label: "Notebook" },
 ];
 
-function MenuIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path
-        d="M3 5h14M3 10h14M3 15h14"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path
-        d="M5 5l10 10M15 5L5 15"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function SunIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <circle cx="10" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.4 4.4l1.4 1.4M14.2 14.2l1.4 1.4M4.4 15.6l1.4-1.4M14.2 5.8l1.4-1.4"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path
-        d="M15.5 11.5a5.5 5.5 0 01-7-7 5.5 5.5 0 107 7z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+const iconProps = {
+  size: 20,
+  strokeWidth: 1.5,
+  "aria-hidden": true,
+} as const;
 
 export interface NavProps {
   searchItems: SearchItem[];
@@ -131,7 +85,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
             aria-controls={menuId}
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            {isOpen ? <CloseIcon /> : <MenuIcon />}
+            {isOpen ? <X {...iconProps} /> : <Menu {...iconProps} />}
           </button>
           <button
             type="button"
@@ -139,7 +93,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
           >
-            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            {theme === "dark" ? <Sun {...iconProps} /> : <Moon {...iconProps} />}
           </button>
         </div>
       </div>
