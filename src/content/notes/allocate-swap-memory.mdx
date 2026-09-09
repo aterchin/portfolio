@@ -1,0 +1,124 @@
+---
+title: Allocate Swap Memory
+slug: allocate-swap-memory
+date: 2026-09-09
+tags: [Linux, Optimization, Linode]
+summary: Reallocate swap memory for Out of Memory (OOM) errors.
+---
+
+Quick reference on adding swap memory to a Linux VPS.
+
+## The issue
+
+My <a href="/notes/self-hosting-next-js-pm2-apache">Next.js deploy script</a> got to the `npm ci` line (clean install) and died with an OOM (Out of Memory) error.
+
+## Method 1: Add memory to the Ubuntu disk
+
+My Linode VPS only had 512 MB of swap. I could build the project locally and deploy just the distribution, but I wanted a better long-term fix. Also, 512 MB fills up fast.
+
+<Aside variant="info" title="Recommended Swap Sizes">
+- 1 GB Swap: Doubles your total available memory and fits most light workloads.
+- 2 GB Swap: Server runs heavy background tasks or experiences sudden traffic spikes (WordPress, MySQL).
+</Aside>
+
+Let's bump it to 2 GB. Create the swap file:
+
+```bash
+# 1. Create a 2GB swap file
+sudo fallocate -l 2G /swapfile
+
+# 2. Secure the file permissions
+sudo chmod 600 /swapfile
+
+# 3. Set up the swap area
+sudo mkswap /swapfile
+
+# 4. Enable the swap
+sudo swapon /swapfile
+```
+
+Edit the filesystem table:
+
+```bash
+sudo nano /etc/fstab
+```
+
+Append this line so the swap file is mounted and activated on reboot:
+
+- `/swapfile`: location on the storage drive
+- `none`: the mount point
+- `swap`: the type of filesystem
+- `sw`: mount options (short for swap)
+- `0 0`: flags that mean don't back it up or scan for errors on boot
+
+```
+/swapfile none swap sw 0 0
+```
+
+Save and verify the swap space:
+
+```bash
+sudo swapon --show
+```
+
+## Method 2: Linode dashboard version
+
+I only realized afterward that I could do this in the Linode dashboard so Linode manages it. That involves a few steps:
+
+1. Power off the Linode so you can resize the disk — *three dots (...) at top*
+2. Resize the disk by 1.5 GB — *three dots (...) at top*
+- Calculate `1.5 * 1024 = 1536`
+- Subtract from the amount in MB: `25088 - 1536 = 23552`
+- *New Size Calculation: Change 25088 MB to 23552 MB*
+3. Delete the 512 MB swap disk, and create an empty disk (filesystem: `swap`, size: `2048`, label: `2 GB Swap Image`)
+- Calculate `2 * 1024 = 2048`
+4. Boot back up — **Power On** button *three dots (...) at top*
+
+Now remove the swap file created in *Method 1*:
+
+```bash
+# 1. Turn off the internal swap file so Linux stops using it
+sudo swapoff /swapfile
+
+# 2. Delete the actual swap file from your disk
+sudo rm /swapfile
+
+# 3. Open the file system table to remove the automatic boot rule
+sudo nano /etc/fstab
+```
+
+Remove the line from earlier, `/swapfile none swap sw 0 0`, and save.
+
+Test:
+
+```bash
+free -h
+```
+
+## Extra: PM2 optimization
+
+If you use PM2 to manage standalone Next.js/Node apps, set a memory cap in `ecosystem.config.js`:
+
+```javascript
+module.exports = {
+  apps: [
+    {
+      name: "next-app-1",
+      script: "server.js",
+      cwd: "/var/www/mysite/directory", // path to your standalone build
+      max_memory_restart: "150M",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3000
+      }
+    }
+  ]
+};
+```
+
+To launch or update all apps using this file, run:
+
+```bash
+pm2 start ecosystem.config.js
+pm2 save
+```
