@@ -22,7 +22,6 @@ export default function Home() {
     <PageWrapper>
       <div className={styles.layout}>
         <div className={styles.main}>
-          <Hero />
           {recentNotes.length > 0 && (
             <section className={styles.section}>
               <SectionLabel>Notes</SectionLabel>
