@@ -1,0 +1,29 @@
+.figure {
+  margin: 0 0 var(--space-6);
+}
+
+.flag {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+}
+
+/* Matches Figure MDX caption */
+.caption {
+  margin-top: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-tertiary);
+}
+
+.caption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
+.caption a:hover {
+  color: var(--color-accent-text);
+}

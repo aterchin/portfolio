@@ -51,6 +51,11 @@
   --color-periwinkle-mute:  #b6c0e4;
   --color-periwinkle-text:  #353c5e;  /* text on --color-periwinkle-mute */
 
+  /* City of Chicago municipal flag — https://design.chicago.gov/all
+     Keep these stable across themes; they are brand colors, not UI chrome. */
+  --color-chicago-flag-blue: #41B6E6;  /* Flag Blue */
+  --color-chicago-star-red:  #E4002B;  /* Star Red */
+
   /* Semantic — map to foundation/accent tokens above */
   --color-text-primary:     var(--color-ink);
   --color-text-secondary:   var(--color-ink-2);

@@ -3,15 +3,6 @@
   max-width: var(--layout-narrow);
 }
 
-.eyebrow {
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--color-accent-text);
-  margin-bottom: var(--space-4);
-}
-
 .heading {
   font-family: var(--font-display);
   font-size: var(--text-hero);

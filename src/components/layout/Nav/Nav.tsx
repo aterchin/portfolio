@@ -10,9 +10,9 @@ import { useTheme } from "@/providers/ThemeProvider";
 import styles from "./Nav.module.css";
 
 const links = [
-  { href: "/about", label: "About" },
-  { href: "/work", label: "Work" },
   { href: "/notes", label: "Notebook" },
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
 ];
 
 const iconProps = {
