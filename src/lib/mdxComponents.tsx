@@ -4,29 +4,25 @@ import { Aside } from "@/components/mdx/Aside/Aside";
 import { Figure } from "@/components/mdx/Figure/Figure";
 import { MdxHeading } from "@/components/mdx/MdxHeading/MdxHeading";
 import { MdxLink } from "@/components/mdx/MdxLink/MdxLink";
-import { remarkFencedCodeMeta } from "@/lib/remarkFencedCodeMeta";
+import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import type { MDXComponents } from "mdx/types";
 
 type CodeChildProps = {
   className?: string;
   children?: string;
-  "data-wide"?: unknown;
 };
 
 type PreOverrideProps = {
   children?: ReactNode;
-  "data-wide"?: unknown;
+  wide?: boolean;
 };
 
-function isWideFlag(value: unknown): boolean {
-  return value === true || value === "" || value === "true";
-}
-
-// Shared compileMDX options so every MDX page gets the same remark pipeline.
+// Shared compileMDX options so every MDX page gets the same plugin pipeline.
 export const mdxRemoteOptions = {
   parseFrontmatter: false,
   mdxOptions: {
-    remarkPlugins: [remarkFencedCodeMeta],
+    // rehype (not remark): this package runs after markdown becomes HTML-ish nodes
+    rehypePlugins: [rehypeMdxCodeProps],
   },
 };
 
@@ -37,16 +33,15 @@ export function getMDXComponents(): MDXComponents {
     // MDX renders fenced code blocks as <pre><code className="language-php">...</code></pre>
     // We intercept at the <pre> level, extract the language from the child <code> className,
     // and pass both to CodeBlock for highlight.js rendering.
-    pre: ({ children, ...props }: PreOverrideProps) => {
+    // Fence meta like `wide` is turned into props by rehype-mdx-code-props.
+    pre: ({ children, wide }: PreOverrideProps) => {
       const child = children as ReactElement<CodeChildProps>;
 
       const className = child?.props?.className ?? "";
       const lang = className.replace("language-", "") || "plaintext";
       const code = child?.props?.children ?? "";
-      const wide =
-        isWideFlag(props["data-wide"]) || isWideFlag(child?.props?.["data-wide"]);
 
-      return <CodeBlock code={String(code)} lang={lang} wide={wide} />;
+      return <CodeBlock code={String(code)} lang={lang} wide={Boolean(wide)} />;
     },
     a: (props) => <MdxLink {...props} />,
     h2: (props) => <MdxHeading as="h2" {...props} />,

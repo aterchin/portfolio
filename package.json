@@ -22,6 +22,7 @@
     "postcss-nesting": "^14.0.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "rehype-mdx-code-props": "^3.0.1",
     "resend": "^6.16.0"
   },
   "devDependencies": {

@@ -4,16 +4,13 @@ slug: mdx-codeblock-component
 date: 2026-08-29
 updated: 2026-08-30
 tags: [Next.js, MDX, React]
-summary: Replace MDX's default fenced-code output with a custom CodeBlock — syntax highlighting, copy button, and styling wired through compileMDX.
+voice: preserve
+summary: Replace MDX's default fenced-code output with a custom CodeBlock — syntax highlighting, copy button, and styling.
 ---
 
-When you write a fenced code block in MDX — created by containing your code within 3 backticks — the compiler turns it into a plain `<pre><code>` pair. That works, but it looks like raw monospace text: no syntax colors, no copy button, no consistent spacing with the rest of the site.
+When you write a fenced code block in MDX — 3 backticks — the compiler turns it into a plain `<pre><code>` pair. That works, but it looks like raw monospace text: no syntax colors, no copy button, no consistent spacing with the rest of the site.
 
-This note walks through building a `CodeBlock` component and wiring it into `next-mdx-remote` so every fence in a note or case study gets the same treatment.
-
-<Aside variant="info" title="Stack">
-  Next.js App Router, `next-mdx-remote/rsc`, highlight.js
-</Aside>
+This article walks through building a `CodeBlock` component and wiring it into `next-mdx-remote` so every MDX file gets the same treatment.
 
 ## What MDX gives you by default
 
@@ -32,15 +29,9 @@ echo "hello"
 
 The language tag becomes a `language-*` class on the inner `<code>`. MDX does not apply syntax highlighting or add UI — it just passes the string through. To get colors and a copy button, you intercept that `<pre>` and render your own component instead.
 
-## Pick a syntax highlighter
+## Adding a syntax highlighter
 
-You need something that turns a raw code string plus a language id into marked-up HTML. Common lightweight options:
-
-- **highlight.js** — register only the languages you use; large ecosystem of themes
-- **Prism** — similar model, popular in static sites and many theme ports
-- **Shiki** — TextMate grammars, very accurate colors, heavier setup
-
-This site uses highlight.js. Install it:
+I went with `highlight.js`. I liked all theme options it offered:
 
 ```bash
 npm install highlight.js
@@ -48,9 +39,11 @@ npm install highlight.js
 
 Import from `highlight.js/lib/core` and register only the languages you actually use rather than importing the full library.
 
-## Add a highlight helper
+### Create a helper
 
-Create `src/lib/highlight.ts`. Register languages once, map common fence aliases (`sh` -> `bash`, `ts` -> `typescript`), and export a single function the component can call:
+Register languages once and export a single function the component can call.
+
+Create `src/lib/highlight.ts`: 
 
 ```typescript
 import hljs from "highlight.js/lib/core";
@@ -90,17 +83,20 @@ export function highlightCode(code: string, lang: string): string {
 ```
 
 <Aside variant="warning" title="escapeHtml">
-Without escaping, characters like `&lt;` or `&amp;` in the source would be parsed as HTML. `escapeHtml` keeps unknown-language blocks safe and displays the raw characters you typed.
+Without escaping, characters like `<` or `&` in the source can be parsed as real HTML.
+`escapeHtml` turns them into `&lt;` / `&amp;` so unknown-language blocks stay safe and show the characters you typed.
 </Aside>
 
-Two details worth keeping:
+Two details worth noting:
 
 - **Fallback:** unknown or unsupported languages render as escaped plain text instead of throwing.
-- **Aliases:** fence labels do not always match highlight.js ids. Map them once in `LANG_ALIASES` rather than guessing in the component.
+- **Aliases:** fence labels do not always match highlight.js ids. Map them once in `LANG_ALIASES` rather than guessing in the component (`sh` -> `bash`, `js` -> `javascript`).
 
-## Build CodeBlock
+## CodeBlock component
 
-Create `src/components/ui/CodeBlock/CodeBlock.tsx`. This is a Server Component — no `"use client"`. It trims the fence string, calls `highlightCode`, and renders the result:
+This is a Server Component — no `"use client"`. It trims the fence string, calls `highlightCode`, and renders the result.  In this component, we also add a **CopyButton** which is detailed in the following section.
+
+Create `src/components/ui/CodeBlock/CodeBlock.tsx`:
 
 ```typescript
 import { highlightCode } from "@/lib/highlight";
@@ -131,7 +127,9 @@ export function CodeBlock({ code, lang }: CodeBlockProps) {
 }
 ```
 
-## Add a copy button
+## CopyButton component
+
+`CodeBlock` (server) renders `CopyButton` (client).
 
 Copying requires browser APIs (`navigator.clipboard`) and click state, so the button lives in a separate Client Component:
 
@@ -182,11 +180,7 @@ export function CopyButton({ code, className }: CopyButtonProps) {
 }
 ```
 
-`CodeBlock` (server) renders `CopyButton` (client). Next.js draws the boundary automatically — you do not wrap anything in a provider. Swap the placeholder characters above for SVG icons when you polish the UI.
-
 ## Wire it through compileMDX
-
-Notes and case studies on this site are MDX files on disk — not React pages. Something has to read that string and turn it into renderable output. That job belongs to `compileMDX` from `next-mdx-remote/rsc`, which runs on each note and work detail page:
 
 ```typescript
 import { compileMDX } from "next-mdx-remote/rsc";
@@ -198,14 +192,16 @@ const { content: MDXContent } = await compileMDX({
 });
 ```
 
+That call lives on the route that renders the MDX page.
+
+<Aside variant="info">
 `compileMDX` does two things at once:
 
 1. **Parse the MDX string** into a React tree — headings, paragraphs, fenced code, and JSX like `<Aside>` all become elements you can render as `{MDXContent}`.
-2. **Apply your component map** — swap default HTML elements and register custom components before that tree is returned.
+2. **Apply your component map** — swap default HTML elements and register custom components before the content is returned as React.
+</Aside>
 
-CodeBlock is only one entry in that map. The same `getMDXComponents()` also wires `<Aside>`, `<Figure>`, and custom heading components. You are not calling `compileMDX` because of CodeBlock specifically; you need it for any MDX content page. CodeBlock is just the override that replaces the default `<pre>` output for fenced code.
-
-Override `pre`, not `code`: MDX nests them, and the language class and raw string both live on the child.
+You are not calling `compileMDX` because of CodeBlock specifically; you need to import it for any MDX content page. CodeBlock is just the override that replaces the default `<pre>` output for fenced code.
 
 Create `src/lib/mdxComponents.tsx`:
 
@@ -233,19 +229,29 @@ export function getMDXComponents(): MDXComponents {
 }
 ```
 
-Every fenced block in that MDX file now flows through `CodeBlock` instead of the default `<pre>`. Add other overrides (`h2`, `Aside`, `Figure`) to the same return object as you build them — one place controls all MDX rendering for the site.
+Every fenced block in that MDX file now flows through `CodeBlock` instead of the default `<pre>`.
 
-## Style the block
+Add other overrides (`h2`, `Aside`, `Figure`) to the same return object as you build them — one place controls all custom MDX rendering for the site.  In the same object as the `pre` override above:
 
-Split styling across three layers:
+```typescript
+return {
+  a: (props) => <MdxLink {...props} />,
+  h2: (props) => <MdxHeading as="h2" {...props} />,
+  h3: (props) => <MdxHeading as="h3" {...props} />,
+  Aside,
+  Figure,
+};
+```
 
-1. **Layout** — `CodeBlock.module.css` for spacing, border, monospace font, horizontal scroll.
-2. **Copy button** — `CopyButton.module.css` for the button itself; position it from the wrapper (absolute top-right, reveal on hover).
-3. **Token colors** — highlight.js theme rules scoped under `[data-theme="light"]` and `[data-theme="dark"]` in something like `src/styles/hljs-themes.css`, imported from `globals.css`.
+Until that runs in the page file, `CodeBlock` and `getMDXComponents()` never touch the rendered note.
 
-The `.hljs` class on `<code>` is what highlight.js targets. Your theme file sets colors on `.hljs-keyword`, `.hljs-string`, and so on. The block's background and border come from design tokens (`--color-code-bg`, `--color-code-border`) so light and dark mode stay in sync with the rest of the site.
+## Styling
 
-Minimal wrapper styles to start:
+Split styling across three layers: *layout*, *copy button*, and *highlight.js theme*.
+
+### Layout
+
+Minimal wrapper styles to start in `src/components/ui/CodeBlock/CodeBlock.module.css`:
 
 ```css
 .wrapper {
@@ -253,23 +259,99 @@ Minimal wrapper styles to start:
   margin-block: var(--space-6);
 }
 
+/* Placement + hover-reveal live here because they depend on .wrapper.
+   Appearance is CopyButton.module.css; this class is passed in as className. */
 .copyButton {
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
   z-index: 1;
+  opacity: 1;
 }
 
+@media (hover: hover) {
+  .copyButton {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .wrapper:hover .copyButton,
+  .wrapper:focus-within .copyButton {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Layout overrides — colors come from scoped hljs themes in hljs-themes.css */
 .pre:global([class*="language-"]) {
   padding: var(--space-6);
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-code-border);
   font-family: var(--font-mono);
   font-size: var(--text-mono);
+  line-height: var(--leading-relaxed);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pre code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+```
+
+### Copy button
+
+Basic styling in `src/components/ui/CodeBlock/CopyButton.module.css` for the button itself; position it from the wrapper (absolute top-right, reveal on hover).
+
+```css
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-code-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition:
+    opacity var(--duration-fast) var(--ease-base),
+    color var(--duration-fast) var(--ease-base),
+    border-color var(--duration-fast) var(--ease-base);
+}
+
+.button:hover {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-2);
+}
+```
+
+### highlight.js theme
+
+The `.hljs` class on `<code>` is what highlight.js targets within the `CodeBlock.tsx` component. Your theme file sets colors on `.hljs-keyword`, `.hljs-string`, and so on.
+
+highlight.js theme rules are scoped under `[data-theme="light"]` and `[data-theme="dark"]` in something like `src/styles/hljs-themes.css`.  Start by copying the light or dark library within `node_modules/highlight.js/styles` into that file under the light / dark declarations and curate to your specs.  You then import that file from a global stylesheet higher up in your app.   
+
+```css
+[data-theme="light"] {
+  & pre[class*="language-"] {
+    background: var(--color-code-bg);
+  }
+  //...
+}
+
+[data-theme="dark"] {
+  & pre[class*="language-"] {
+    background: var(--color-code-bg);
+  }
+  //...
 }
 ```
 
 ## Follow-up: wide blocks
 
-The baseline `CodeBlock` stays inside the prose column. If you want certain fences to extend into the space beside the main column — over a gap or sidebar as the reader scrolls — see [Wide MDX CodeBlocks](/notes/mdx-wide-codeblocks). That note adds an opt-in `wide` flag on the fence, a remark plugin to carry it through, and the layout CSS to make it work without breaking a sticky sidebar.
+The baseline `CodeBlock` stays inside the prose column. If you want certain fences to extend into the space beside the main column — over a gap or sidebar as the reader scrolls — see [Wide MDX CodeBlocks](/notes/mdx-wide-codeblocks).
