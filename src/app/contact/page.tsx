@@ -14,11 +14,13 @@ export default function ContactPage() {
       <div className={styles.layout}>
         <div className={styles.intro}>
           <h1 className={styles.heading}>Get in touch.</h1>
-          <p className={styles.body}>
+          <div className={styles.body}>
+          <p>
             Whether you have a project in mind, a role you think I&apos;d be a
             good fit for, or just want to talk through a technical problem —
             I&apos;m happy to hear it.
           </p>
+          </div>
         </div>
         <ContactForm />
       </div>

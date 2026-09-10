@@ -70,7 +70,7 @@ Custom REST route in a WordPress plugin instead. Front-end sends the resource po
 4. Streams the zip to the browser with the correct `Content-Type` and `Content-Disposition` headers
 5. Increments a download count field in the post's meta
 
-```php
+```php wide
 $media_ids = get_post_meta($post_id, 'resource_files', true);
 
 foreach ($media_ids as $media_id) {

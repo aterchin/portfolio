@@ -38,6 +38,74 @@
   padding-inline: var(--layout-gutter);
 }
 
+/* Content slug layout — shared by work and notes detail pages.
+   Prose column + optional ToC sidebar from lg up. Stretch keeps the
+   sidebar as tall as the article so sticky ToC has a full track. */
+.content-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.content-main {
+  min-width: 0;
+  overflow: visible;
+}
+
+.content-sidebar {
+  display: none;
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .content-layout {
+    grid-template-columns: minmax(0, var(--layout-prose)) minmax(0, 1fr);
+  }
+
+  .content-layout:has(.content-sidebar) {
+    --code-wide-extra: calc(var(--space-12) + 18rem);
+    grid-template-columns: minmax(0, var(--layout-prose)) minmax(10rem, 18rem);
+    column-gap: var(--space-12);
+  }
+
+  .content-sidebar {
+    display: block;
+  }
+}
+
+.content-header {
+  padding-bottom: var(--space-10);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-12);
+  max-width: var(--layout-prose);
+}
+
+.content-title {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.content-subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  color: var(--color-text-tertiary);
+  margin-top: calc(-1 * var(--space-2));
+  margin-bottom: var(--space-3);
+}
+
+.content-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
 /* Stacked content lists (homepage, search, tag results). Gap keeps hover
    surfaces from touching; list-style is reset because these are not prose lists. */
 .list-stack {
@@ -101,6 +169,13 @@
   line-height: var(--prose-leading);
   color: var(--color-text-secondary);
   padding-bottom: var(--space-24);
+}
+
+@media (max-width: 768px) {
+  .prose {
+    --prose-font-size: var(--text-body-sm);
+    --prose-leading: 1.65;
+  }
 }
 
 .prose > * {
