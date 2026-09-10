@@ -53,8 +53,9 @@
 }
 
 .arrow {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
   color: var(--color-text-tertiary);
   transition: transform var(--duration-base) var(--ease-out),
               color var(--duration-base) var(--ease-base);

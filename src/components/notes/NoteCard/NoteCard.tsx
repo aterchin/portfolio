@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { InProgressLabel } from "@/components/ui/InProgressLabel/InProgressLabel";
+import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import type { Note } from "@/lib/types";
 import styles from "./NoteCard.module.css";
 
@@ -11,6 +12,10 @@ export interface NoteCardProps {
   tags: Note["tags"];
   status?: Note["status"];
 }
+
+const arrowProps = {
+  strokeWidth: 1,
+} as const;
 
 export function NoteCard({ title, subtitle, slug, status, summary, tags }: NoteCardProps) {
   const isWIP = status === "in-progress";
@@ -25,7 +30,7 @@ export function NoteCard({ title, subtitle, slug, status, summary, tags }: NoteC
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
         <p className={styles.tags}>{tags.join(" · ")}</p>
-        <span className={styles.arrow} aria-hidden>→</span>
+        <span className={styles.arrow} aria-hidden><ArrowRight {...arrowProps}/></span>
       </div>
     </Link>
   );

@@ -1,8 +1,21 @@
 import Link from "next/link";
 import type { Project } from "@/lib/types";
+import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import styles from "./ProjectCard.module.css";
 
-type ProjectCardProps = Pick<Project, "title" | "subtitle" | "slug" | "date" | "type" | "tags" | "summary">;
+export interface ProjectCardProps {
+  title: Project["title"];
+  subtitle?: Project["subtitle"];
+  slug: Project["slug"];
+  date: Project["date"];
+  type: Project["type"];
+  tags: Project["tags"];
+  summary: Project["summary"];
+}
+
+const arrowProps = {
+  strokeWidth: 1,
+} as const;
 
 export function ProjectCard({ title, subtitle, slug, date, type, tags, summary }: ProjectCardProps) {
   const year = parseInt(date.slice(0, 4), 10);
@@ -18,7 +31,7 @@ export function ProjectCard({ title, subtitle, slug, date, type, tags, summary }
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>
         <p className={styles.tags}>{tags.join(" · ")}</p>
-        <span className={styles.arrow} aria-hidden>→</span>
+        <span className={styles.arrow} aria-hidden><ArrowRight {...arrowProps}/></span>
       </div>
     </Link>
   );
