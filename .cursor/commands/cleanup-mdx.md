@@ -32,7 +32,7 @@ Canonical reference for a polished note with images and an ASCII tree:
 
 By default, cleanup flattens conversational tone into the dry, imperative
 style described under **Tone**. Some notes are meant to keep the author's
-voice — warmer, more sarcastic, a little rambling on a genuine annoyance.
+voice — warmer, more sarcastic, sometimes genuinely annoyed but understanding...
 For those, add to frontmatter:
 
 ```yaml
@@ -132,6 +132,7 @@ Applies in full unless the file has `voice: preserve` (see **Voice** above).
 - Imperative verbs: "Save this as…", "Open…", "Set…".
 - Dry and direct — no filler ("In this article we will…", "It's worth noting
   that…").
+- Don't say "Bump up", say "Increase".
 - First-person backstory is OK in one opening sentence when it explains *why*
   the note exists; don't carry it through every section.
 
