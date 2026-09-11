@@ -25,7 +25,7 @@ const variantIcons: Record<AsideVariant, LucideIcon> = {
   error: CircleAlert,
 };
 
-const variantAriaLabels: Record<AsideVariant, string> = {
+const variantTitles: Record<AsideVariant, string> = {
   info: "Info",
   success: "Success",
   warning: "Warning",
@@ -38,18 +38,19 @@ export function Aside({
   children,
 }: AsideProps) {
   const Icon = variantIcons[variant];
+  const resolvedTitle = title ?? variantTitles[variant];
 
   return (
     <aside
       className={`${styles.aside} ${styles[variant]}`}
       role="note"
-      aria-label={title ?? variantAriaLabels[variant]}
+      aria-label={resolvedTitle}
     >
-      <span className={styles.badge} aria-hidden="true">
-        <Icon size={16} strokeWidth={1.5} className={styles.icon} />
-      </span>
       <div className={styles.content}>
-        {title ? <span className={styles.label}>{title}</span> : null}
+        <span className={styles.badge} aria-hidden="true">
+          <Icon size={32} strokeWidth={1.5} className={styles.icon} />
+        </span>
+        <span className={styles.label}>{resolvedTitle}</span>
         <div className={styles.body}>{children}</div>
       </div>
     </aside>

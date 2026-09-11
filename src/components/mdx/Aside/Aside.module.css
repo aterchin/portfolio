@@ -2,31 +2,16 @@
   /* Override the inherited prose size so nested .prose p / li rules
      pick up the smaller callout type instead of body copy. */
   --prose-font-size: var(--text-sm);
-  --aside-badge-size: 1.75rem;
   position: relative;
   margin-block: var(--space-12);
-  /* Extra top padding so the corner badge does not crowd the title */
-  padding: var(--space-8) var(--space-4);
-  padding-top: calc(var(--space-8) + var(--space-2));
+  padding: var(--space-6) var(--space-4);
+  padding-top: calc(var(--space-4) + var(--space-2));
   border-radius: var(--radius-sm);
   border-left: 3px solid;
 }
 
-/* Pin a circular badge on the top-left corner — overlaps the accent bar
-   on purpose. Page bg fill + variant ring; no fake "carve" of the border. */
 .badge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: var(--aside-badge-size);
-  height: var(--aside-badge-size);
-  border-radius: var(--radius-full);
-  background: var(--color-bg);
-  border: 1.5px solid;
-  transform: translate(-40%, -40%);
+  transform: translateY(-0.25rem) rotate(-0.05turn);
 }
 
 .icon {
@@ -34,6 +19,10 @@
 }
 
 .content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
   min-width: 0;
 }
 
@@ -42,7 +31,7 @@
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
-  margin: 0 0 var(--space-4);
+  margin: 0;
 }
 
 .body {
@@ -50,6 +39,7 @@
   font-size: var(--text-sm);
   line-height: var(--prose-leading, var(--leading-relaxed));
   color: var(--color-text-secondary);
+  flex: 1 1 100%; /* full width: wraps under the header row */
 }
 
 /* Reset prose margins when Aside wraps MDX-generated <p> tags.
@@ -63,19 +53,13 @@
 }
 
 /* Full-bleed into the page gutter so callout text aligns with body copy;
-   drop the left accent bar — the wash alone is enough on a narrow screen.
-   Badge stays on the top edge at the content column, not hanging off-screen. */
+   drop the left accent bar — the wash alone is enough on a narrow screen. */
 @media (max-width: 768px) {
   .aside {
     margin-inline: calc(var(--layout-gutter) * -1);
     padding-inline: var(--layout-gutter);
     border-left: none;
     border-radius: 0;
-  }
-
-  .badge {
-    left: var(--layout-gutter);
-    transform: translate(-50%, -40%);
   }
 }
 
