@@ -15,8 +15,8 @@ parsing or a page render.
    - **work**: `title`, `slug`, `date`, `type` (`case-study` | `showcase`),
      `status` (`published` | `draft`), `tags` (array), `accent` (must be
      one of the four palette accents), `summary`. Optional: `updated`.
-   - **note**: `title`, `slug`, `date`, `status` (`in-progress` |
-     `published` | `draft`), `summary`, `voice`. Optional: `updated`.
+   - **note**: `title`, `slug`, `date`, `status` (`published` |
+     `draft`), `summary`, `voice`. Optional: `updated`.
 3. Also check:
    - `slug` matches the filename (minus extension).
    - `date` (and `updated` if present) is a valid ISO date, not a

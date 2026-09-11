@@ -47,8 +47,6 @@ summary:
 Optional on notes only:
 
 ```yaml
-status: in-progress   # shows WIP badge on card and detail page
-# or
 status: draft         # stays off getNotes(), search, tags, and direct URLs until published
 ```
 

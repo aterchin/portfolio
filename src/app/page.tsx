@@ -32,7 +32,6 @@ export default function Home() {
                   subtitle: note.subtitle,
                   summary: note.summary,
                   tags: note.tags,
-                  inProgress: note.status === "in-progress",
                 }))}
               />
               {showAllNotes ? (

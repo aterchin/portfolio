@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { InProgressLabel } from "@/components/ui/InProgressLabel/InProgressLabel";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Tag } from "@/components/ui/Tag/Tag";
 import {
@@ -73,7 +72,6 @@ export default async function TagPage({
                 summary={note.summary}
                 tags={note.tags}
                 meta="Note"
-                inProgress={note.status === "in-progress"}
               />
             ))}
           </ul>
@@ -92,7 +90,6 @@ interface TagResultItemProps {
   summary: string;
   tags: string[];
   meta: string;
-  inProgress?: boolean;
 }
 
 function TagResultItem({
@@ -102,14 +99,12 @@ function TagResultItem({
   summary,
   tags,
   meta,
-  inProgress,
 }: TagResultItemProps) {
   return (
     <li className="list-item">
       <div className={styles.itemMeta}>{meta}</div>
       <Link href={href} className={styles.itemTitle}>
         {title}
-        {inProgress && <InProgressLabel />}
       </Link>
       {subtitle && <p className={styles.itemSubtitle}>{subtitle}</p>}
       <p className={styles.itemSummary}>{summary}</p>

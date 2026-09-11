@@ -1,5 +1,5 @@
 ---
-description: Draft a WIP process/learning MDX note from a design or implementation thread
+description: Draft a process/learning MDX note from a design or implementation thread
 ---
 
 # Draft process note
@@ -27,7 +27,7 @@ title: …
 slug: …          # must match the filename
 date: YYYY-MM-DD # real date, not a scaffold placeholder
 updated: YYYY-MM-DD # optional — only if later than date
-status: in-progress
+status: draft
 voice: preserve  # unless the user says to flatten
 tags: […]
 summary: one sentence — the what, not the backstory

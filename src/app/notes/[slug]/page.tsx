@@ -34,8 +34,7 @@ export default async function NoteSlugPage({
   const note = getNote(slug);
   if (!note) notFound();
 
-  const { content, title, subtitle, status, tags, headings, date, updated } = note;
-  const isWIP = status === "in-progress";
+  const { content, title, subtitle, tags, headings, date, updated } = note;
 
   const { content: MDXContent } = await compileMDX({
     source: content,
@@ -55,7 +54,7 @@ export default async function NoteSlugPage({
             <header className="content-header">
               <h1 className="content-title">{title}</h1>
               {subtitle && <p className="content-subtitle">{subtitle}</p>}
-              <ContentDate date={date} updated={updated} inProgress={isWIP} />
+              <ContentDate date={date} updated={updated} />
               <div className="content-tags">
                 {tags.map((tag) => (
                   <Tag key={tag} linked>{tag}</Tag>

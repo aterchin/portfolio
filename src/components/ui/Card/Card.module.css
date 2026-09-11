@@ -1,6 +1,6 @@
 /*
- * Shared card shell — lift, shadow, anti-flicker, shine.
- * Domain cards compose this class; content styles stay local.
+ * Shared card chrome + common content styles.
+ * Domain cards supply slots / local styles for their extras only.
  */
 
 .card {
@@ -63,15 +63,15 @@
 }
 
 /* add as a child layer if you wanna do this effect, patrick */
-.card .patrickBateman {
+.patrickBateman {
   position: absolute;
   inset: 0;
 
   /* clip-path bounds patrick to the card radius, ignoring parent overflow rules */
-  clip-path: inset(0 round 12px);
+  clip-path: inset(0 round var(--radius-lg));
 }
 
-.card .patrickBateman::after {
+.patrickBateman::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -90,4 +90,63 @@
 
 .card:hover .patrickBateman::after {
   transform: translateX(100%) translateY(100%);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+  color: var(--color-text-tertiary);
+  margin-top: calc(-1 * var(--space-2));
+  margin-bottom: var(--space-3);
+}
+
+.summary {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+  flex: 1;
+  margin-bottom: var(--space-5);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.tags {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  color: var(--color-text-tertiary);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-base);
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+  color: var(--color-accent-text);
 }

@@ -11,7 +11,7 @@ export interface Project {
   summary: string;
 }
 
-// Note — code snippet, write-up, or WIP
+// Note — code snippet or write-up
 export interface Note {
   title: string;
   subtitle?: string;
@@ -20,6 +20,6 @@ export interface Note {
   updated?: string; // ISO 8601 — YYYY-MM-DD; shown only when after date
   tags: string[];
   summary: string;
-  status?: "published" | "draft" | "in-progress";
+  status?: "published" | "draft";
   voice?: "preserve"; // optional — keeps author's tone during MDX cleanup, skips flattening
 }
