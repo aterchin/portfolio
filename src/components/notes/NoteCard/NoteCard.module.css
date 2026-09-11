@@ -1,19 +1,90 @@
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  background-color: var(--color-surface-raised);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
   text-decoration: none;
-  transition: background var(--duration-base) var(--ease-base),
-              border-color var(--duration-base) var(--ease-base);
+  box-shadow: var(--shadow-card);
+  /* critical so the anti-flicker box can extend past the card */
+  overflow: visible;
+
+  will-change: transform, background-color;
+  transition: 
+    transform var(--duration-slow) var(--ease-out), 
+    background-color var(--duration-slow) var(--ease-out);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: var(--shadow-card-hover);
+
+  will-change: opacity;
+  transition: opacity var(--duration-slow) var(--ease-out);
 }
 
 .card:hover {
-  background: var(--color-surface-raised);
-  border-color: var(--color-border-2);
+  transform: translateY(-6px) scale(1.01);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* anti-flicker box (when the card transforms up, it pushes out of hover) */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* 6px transform up, so needs to cover that at least */
+  height: 12px; 
+  transform: translateY(100%);
+  pointer-events: none;
+}
+
+/* anti-flicker box activates when hovered */
+.card:hover::before {
+  /* cursor is now active */
+  pointer-events: auto;
+}
+
+/* add as a child layer if you wanna do this effect, patrick */
+.card .patrick-bateman {
+  position: absolute;
+  inset: 0;
+ 
+  /* clip-path bounds patrick to the card radius, ignoring parent overflow rules */
+  clip-path: inset(0 round 12px); 
+}
+
+.card .patrick-bateman::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translateX(-100%) translateY(-100%);
+  transition: transform var(--duration-page) var( --ease-out);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card:hover .patrick-bateman::after {
+  transform: translateX(100%) translateY(100%);
 }
 
 .title {
@@ -57,10 +128,10 @@
   align-items: center;
   line-height: 1;
   color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  margin-left: auto;
   transition: transform var(--duration-base) var(--ease-out),
               color var(--duration-base) var(--ease-base);
-  margin-left: auto;
-  flex-shrink: 0;
 }
 
 .card:hover .arrow {

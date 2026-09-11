@@ -161,6 +161,7 @@
 
   --radius-sm:  6px;   /* tags, badges, buttons, inputs — soft, not sharp */
   --radius-md:  10px;  /* cards, panels, modals */
+  --radius-lg:  12px;
   --radius-full:999px; /* pills only */
 
   /* Organic accent stroke — the short "underline mark" motif used in place of
@@ -169,12 +170,28 @@
   --stroke-width:   2px;
   --stroke-length:  1.75rem;
 
+
+/* ─────────────────────────────────────────────────────────────────
+   7. SHADOWS
+───────────────────────────────────────────────────────────────── */
+
+  --shadow-card:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  --shadow-card-hover:
+    0 4px 6px -1px rgba(110, 105, 90, 0.05),
+    0 20px 32px -8px rgba(110, 105, 90, 0.15),
+    0 0 0 1px rgba(186, 150, 90, 0.15),
+    inset 0 1px 0 rgba(0, 0, 0, 0.3);
+
 }
 
 
 /* ─────────────────────────────────────────────────────────────────
-   7. DARK MODE
-   Overrides foundation and accent tokens only.
+   8. DARK MODE
+   Overrides foundation, accent, and shadow tokens where needed.
    Everything else (spacing, type scale, motion, radius) is unchanged.
    Note: system preference handled in layout via data-theme attribute
    set by ThemeProvider — matches prefers-color-scheme on first load.
@@ -185,7 +202,7 @@
   /* Foundation */
   --color-bg:          #060308;
   --color-bg-2:        #100e15;
-  --color-bg-3:        #100e15;
+  --color-bg-3:        #1a1721;
 
   --color-ink:         #f2eee5;
   --color-ink-2:       #ded9ce;  /* body text — halfway between ink and former ink-2 */
@@ -217,5 +234,12 @@
   /* Code blocks — Atom One Dark surface (hljs-themes.css) */
   --color-code-bg:     #1d1d1d;
   --color-code-border: #3d3d3d;
+
+  /* Shadows — inset highlight flips for dark surfaces */
+  --shadow-card-hover:
+    0 4px 6px -1px rgba(110, 105, 90, 0.05),
+    0 20px 32px -8px rgba(110, 105, 90, 0.15),
+    0 0 0 1px rgba(186, 150, 90, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 
 }
