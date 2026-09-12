@@ -26,7 +26,9 @@
 }
 
 .viewAll {
-  display: inline-block;
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
   margin-top: var(--space-6);
   font-family: var(--font-ui);
   font-size: var(--text-xs);
@@ -47,4 +49,14 @@
   flex-wrap: wrap;
   gap: var(--space-1);
   margin-bottom: var(--space-8);
+}
+
+.arrow {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  margin-right: auto;
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-base);
 }

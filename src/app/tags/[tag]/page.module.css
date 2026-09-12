@@ -71,7 +71,7 @@
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   margin-bottom: var(--space-3);
   max-width: var(--layout-prose);
 }

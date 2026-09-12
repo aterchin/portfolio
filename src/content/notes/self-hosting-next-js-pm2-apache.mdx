@@ -111,7 +111,7 @@ cp -r .next/static .next/standalone/.next/static
 pm2 reload ecosystem.config.js
 ```
 
-<Aside variant="warning">
+<Aside variant="info">
 What the docs mention but don't exactly put in bold: **it does not copy `public/` or `.next/static/` into that standalone folder.** Skip that step and the build succeeds, PM2 starts it happily, and the site comes up with no images, no fonts, no CSS.
 </Aside>
 

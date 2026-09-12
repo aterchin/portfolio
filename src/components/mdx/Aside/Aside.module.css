@@ -1,7 +1,4 @@
 .aside {
-  /* Override the inherited prose size so nested .prose p / li rules
-     pick up the smaller callout type instead of body copy. */
-  --prose-font-size: var(--text-sm);
   position: relative;
   margin-block: var(--space-12);
   padding: var(--space-6) var(--space-4);
@@ -10,8 +7,36 @@
   border-left: 3px solid;
 }
 
-.badge {
-  transform: translateY(-0.25rem) rotate(-0.05turn);
+.wrapper {
+  position: absolute;
+  top: calc(var(--space-6) * -1);
+  left: var(--space-2);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: calc(100% - var(--space-4));
+  padding: var(--space-1) var(--space-3) var(--space-2);
+  /* Wash tab: same fill as the aside so long titles melt into the panel
+     instead of floating on the page bg as a separate chip. */
+  background: var(--aside-wash);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.wrapper .badge {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--aside-ink);
+  transform: translateY(0.1rem) rotate(-0.05turn);
+}
+
+.wrapper .label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  margin: 0;
+  color: var(--aside-ink);
+  line-height: var(--leading-snug);
 }
 
 .icon {
@@ -26,30 +51,30 @@
   min-width: 0;
 }
 
-.label {
-  display: block;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  margin: 0;
-}
-
 .body {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  line-height: var(--prose-leading, var(--leading-relaxed));
+  line-height: var(--prose-leading, var(--leading-normal));
   color: var(--color-text-secondary);
   flex: 1 1 100%; /* full width: wraps under the header row */
 }
 
-/* Reset prose margins when Aside wraps MDX-generated <p> tags.
-   .aside .body beats .prose p specificity so margin-bottom stays off. */
-.aside .body :global(p) {
-  margin: 0;
-}
-
-.aside .body :global(p + p) {
-  margin-top: var(--space-4);
+/* prose overrides */
+.aside {
+  .body {
+    p {
+      font-size: var(--text-sm);
+    }
+    ul,
+    ol {
+      li {
+        font-size: var(--text-sm);
+      } 
+    }
+    *:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 /* Full-bleed into the page gutter so callout text aligns with body copy;
@@ -63,53 +88,36 @@
   }
 }
 
-/* Variant colors — background + border + label/badge.
-   color-mix softens the shared mute tokens toward the page bg
-   (lighter in light mode, darker in dark) without changing tags etc. */
+/* Variant colors — one wash shared by panel + label tab.
+   color-mix softens mute tokens toward the page bg without changing tags etc. */
 .info {
-  background: color-mix(in oklab, var(--color-periwinkle-mute) 80%, var(--color-bg));
-  border-left-color: var(--color-periwinkle);
-}
-.info .label,
-.info .badge {
-  color: var(--color-periwinkle-text);
-}
-.info .badge {
-  border-color: var(--color-periwinkle);
+  --aside-wash: color-mix(in oklab, var(--color-periwinkle-mute) 80%, var(--color-bg));
+  --aside-accent: var(--color-periwinkle);
+  --aside-ink: var(--color-periwinkle-text);
+  background: var(--aside-wash);
+  border-left-color: var(--aside-accent);
 }
 
 .success {
-  background: color-mix(in oklab, var(--color-seafoam-mute) 80%, var(--color-bg));
-  border-left-color: var(--color-seafoam);
-}
-.success .label,
-.success .badge {
-  color: var(--color-seafoam-text);
-}
-.success .badge {
-  border-color: var(--color-seafoam);
+  --aside-wash: color-mix(in oklab, var(--color-seafoam-mute) 80%, var(--color-bg));
+  --aside-accent: var(--color-seafoam);
+  --aside-ink: var(--color-seafoam-text);
+  background: var(--aside-wash);
+  border-left-color: var(--aside-accent);
 }
 
 .warning {
-  background: color-mix(in oklab, var(--color-yellow-mute) 80%, var(--color-bg));
-  border-left-color: var(--color-yellow);
-}
-.warning .label,
-.warning .badge {
-  color: var(--color-yellow-text);
-}
-.warning .badge {
-  border-color: var(--color-yellow);
+  --aside-wash: color-mix(in oklab, var(--color-yellow-mute) 80%, var(--color-bg));
+  --aside-accent: var(--color-yellow);
+  --aside-ink: var(--color-yellow-text);
+  background: var(--aside-wash);
+  border-left-color: var(--aside-accent);
 }
 
 .error {
-  background: color-mix(in oklab, var(--color-accent-mute) 80%, var(--color-bg));
-  border-left-color: var(--color-accent);
-}
-.error .label,
-.error .badge {
-  color: var(--color-accent-text);
-}
-.error .badge {
-  border-color: var(--color-accent);
+  --aside-wash: color-mix(in oklab, var(--color-accent-mute) 80%, var(--color-bg));
+  --aside-accent: var(--color-accent);
+  --aside-ink: var(--color-accent-text);
+  background: var(--aside-wash);
+  border-left-color: var(--aside-accent);
 }

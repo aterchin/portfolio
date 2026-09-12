@@ -46,11 +46,13 @@ export function Aside({
       role="note"
       aria-label={resolvedTitle}
     >
-      <div className={styles.content}>
+      <div className={styles.wrapper}>
         <span className={styles.badge} aria-hidden="true">
           <Icon size={32} strokeWidth={1.5} className={styles.icon} />
         </span>
         <span className={styles.label}>{resolvedTitle}</span>
+      </div>
+      <div className={styles.content}>
         <div className={styles.body}>{children}</div>
       </div>
     </aside>

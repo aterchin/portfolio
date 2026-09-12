@@ -33,7 +33,7 @@
   border: 1px solid var(--color-code-border);
   font-family: var(--font-mono);
   font-size: var(--text-mono);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }

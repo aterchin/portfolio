@@ -1,15 +1,19 @@
 import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { Hero } from "@/components/home/Hero/Hero";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Tag } from "@/components/ui/Tag/Tag";
+import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import { getNotes, getProjects } from "@/lib/mdx";
 import { getTopDisplayTags } from "@/lib/tags";
 import styles from "./page.module.css";
 
 const RECENT_NOTE_LIMIT = 6;
 const TAG_PREVIEW_LIMIT = 6;
+
+const arrowProps = {
+  strokeWidth: 1,
+} as const;
 
 export default function Home() {
   const allNotes = getNotes();
@@ -36,7 +40,10 @@ export default function Home() {
               />
               {showAllNotes ? (
                 <Link href="/notes" className={styles.viewAll}>
-                  View all →
+                  View all
+                  <span className={styles.arrow} aria-hidden>
+                    <ArrowRight {...arrowProps} />
+                  </span>
                 </Link>
               ) : null}
             </section>

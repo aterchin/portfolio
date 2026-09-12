@@ -17,7 +17,7 @@
   font-family: var(--font-body);
   font-size: 1.05rem;
   font-weight: 400;
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-8);
 }

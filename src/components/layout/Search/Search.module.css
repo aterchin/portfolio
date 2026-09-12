@@ -173,7 +173,7 @@
   font-style: italic;
   color: var(--color-text-secondary);
   text-align: center;
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   padding: var(--space-8) var(--space-4) var(--space-4);
 }
 

@@ -45,15 +45,15 @@ sudo nano /etc/fstab
 
 Append this line so the swap file is mounted and activated on reboot:
 
+```
+/swapfile none swap sw 0 0
+```
+
 - `/swapfile`: location on the storage drive
 - `none`: the mount point
 - `swap`: the type of filesystem
 - `sw`: mount options (short for swap)
 - `0 0`: flags that mean don't back it up or scan for errors on boot
-
-```
-/swapfile none swap sw 0 0
-```
 
 Save and verify the swap space:
 
@@ -67,11 +67,13 @@ I only realized afterward that I could do this in the Linode dashboard so Linode
 
 1. Power off the Linode so you can resize the disk — *three dots (...) at top*
 2. Resize the disk by 1.5 GB — *three dots (...) at top*
-- Calculate `1.5 * 1024 = 1536`
-- Subtract from the amount in MB: `25088 - 1536 = 23552`
-- *New Size Calculation: Change 25088 MB to 23552 MB*
-3. Delete the 512 MB swap disk, and create an empty disk (filesystem: `swap`, size: `2048`, label: `2 GB Swap Image`)
-- Calculate `2 * 1024 = 2048`
+    - Calculate `1.5 * 1024 = 1536`
+    - Subtract from the amount in MB: `25088 - 1536 = 23552`
+    - *New Size Calculation:* Change 25088 MB to 23552 MB
+3. Delete the 512 MB swap disk, and create an empty disk
+    - filesystem: `swap`
+    - size: Calculate `2 * 1024 = 2048`
+    - label: `2 GB Swap Image`
 4. Boot back up — **Power On** button *three dots (...) at top*
 
 Now remove the swap file created in *Method 1*:

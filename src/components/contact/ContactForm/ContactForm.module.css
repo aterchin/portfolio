@@ -52,7 +52,7 @@
 .textarea {
   resize: vertical;
   min-height: 140px;
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
 }
 
 .fieldError {
@@ -88,5 +88,5 @@
   font-family: var(--font-body);
   font-size: var(--text-body);
   color: var(--color-text-secondary);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
 }

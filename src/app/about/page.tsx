@@ -43,7 +43,8 @@ export default function AboutPage() {
 
         <div className={styles.main}>
           <h1 className={styles.heading}>
-            Full-stack developer.<br />Chicago {`>`} Brooklyn.
+            Full-stack developer.<br />
+            <span className="text-nowrap">Chicago → Brooklyn.</span>
           </h1>
 
           <div className={styles.bio}>

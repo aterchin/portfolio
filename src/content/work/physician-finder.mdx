@@ -31,7 +31,7 @@ Every night the client's system dropped a fresh CSV on the server. Instruction: 
 
 I pushed back. A CRUD interface would keep data stable and auditable. Short of that: diff-based import, or a geocode cache table that never gets truncated. They wanted the nightly wipe anyway.
 
-<Aside variant="error">
+<Aside variant="error" title="Same geocoding every night">
   Truncating every night meant the database had no memory between runs — and
   an expensive geocoding problem.
 </Aside>
