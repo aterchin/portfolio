@@ -27,8 +27,16 @@ function nestHeadings(headings: HeadingData[]): TocItem[] {
   return tree;
 }
 
+/** True when at least one h2 exists — orphan h3s alone do not count. */
+export function hasTocHeadings(headings: HeadingData[]): boolean {
+  return headings.some((heading) => heading.level === 2);
+}
+
 export function ToC({ headings }: ToCProps) {
   const items = nestHeadings(headings);
+
+  // nestHeadings drops orphan h3s; without an h2 there is nothing to show
+  if (items.length === 0) return null;
 
   return (
     <div className={styles.wrapper}>

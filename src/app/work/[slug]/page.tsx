@@ -3,7 +3,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
-import { ToC } from "@/components/notes/ToC/ToC";
+import { ToC, hasTocHeadings } from "@/components/notes/ToC/ToC";
 import { ContentDate } from "@/components/ui/ContentDate/ContentDate";
 import { getProject, getProjectSlugs } from "@/lib/mdx";
 import { getMDXComponents, mdxRemoteOptions } from "@/lib/mdxComponents";
@@ -71,7 +71,7 @@ export default async function WorkSlugPage({
             <div className="prose">{MDXContent}</div>
           </article>
         </div>
-        {headings.length > 0 && (
+        {hasTocHeadings(headings) && (
           <aside className="content-sidebar">
             <ToC headings={headings} />
           </aside>

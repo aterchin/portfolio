@@ -1,0 +1,24 @@
+---
+title: "Address Scraper"
+slug: address-scraper
+date: 2026-09-13
+tags: [JavaScript, Lists]
+summary: Stupid simple console log thing whenever I want to grab a list of addresses
+voice: preserve
+---
+
+Stupid simple console log thing whenever I want to grab a list of addresses. Selectors vary by site obviously, so I'm just dropping them all here.
+
+## Yellow Pages
+
+[Pizza in Dallas, Texas](https://www.yellowpages.com/search?search_terms=Pizza&geo_location_terms=Dallas%2C%20TX&page=2)
+
+```javascript
+const infos = document.querySelectorAll('.search-results.organic .info');
+infos.forEach(function(el){
+  let i_name = el.querySelector('.business-name');
+  let i_addr = el.querySelector('.street-address');
+  let i_locl = el.querySelector('.locality');
+  console.log(i_name.innerText + '|' + i_addr.innerText + '|' + i_locl.innerText);
+});
+```
