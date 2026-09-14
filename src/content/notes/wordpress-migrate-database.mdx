@@ -1,9 +1,10 @@
 ---
 title: WordPress database import and export with WP-CLI
-slug: wordpress-import-export-database
+slug: wordpress-migrate-database
 date: 2026-08-27
-tags: [WordPress, WP-CLI, Bash]
-summary: Two WP-CLI wrapper scripts for dumping and loading a WordPress database, with search-replace, plugin deactivation, and admin-user promotion on import.
+updated: 2026-09-14
+tags: [WordPress, WP-CLI, Bash, Snippets]
+summary: Two WP-CLI wrapper scripts for migrating a WordPress database between environments.
 voice: preserve
 ---
 
@@ -14,6 +15,12 @@ Each script will run automated commands from WP-CLI common to migrating your dat
 
 <Aside variant="info">
 If it's been a while, update your WP-CLI binary with `wp cli update`. See the official [WP-CLI docs](https://make.wordpress.org/cli/handbook/guides/installing/) for first-time installation.
+
+If you get `Error: /usr/local/bin/wp is not writable by current user.`, run it as `sudo`:
+
+```bash
+sudo /usr/local/bin/wp cli update
+```
 </Aside>
 
 ## Export database
@@ -38,11 +45,13 @@ echo "exporting db...."
 ${WP} db export "$1" --add-drop-table --single-transaction
 ```
 
+[get script](https://gist.github.com/aterchin/3fc44224be24281801ba5d718fdb763d)
+
 ## Import database
 
 `db-import.sh`:
 
-```bash wide
+```bash
 #!/bin/bash
 
 # Usage: bash db-import.sh filename.sql
@@ -53,12 +62,13 @@ WP="php -d display_errors=0 -d max_execution_time=0 /usr/local/bin/wp"
 # dev to prod
 SEARCH="https://dev.example.com"
 REPLACE="https://www.example.com"
-# Comma-separated emails, no spaces
-ADMIN_USERS="adam@example.com,other@example.com"
 
-# Check if either variable is empty (-z)
-if [[ -z "$SEARCH" || -z "$REPLACE" || -z "$ADMIN_USERS" ]]; then
-    echo "Error: SEARCH, REPLACE, and/or ADMIN_USERS variables are not set."
+# separate users with spaces (4: dev@merakode.com, 6: another user)
+ADMIN_IDS=(4 5)
+
+# Check if any variable is empty
+if [[ -z "$SEARCH" || -z "$REPLACE" || ${#ADMIN_IDS[@]} -eq 0 ]]; then
+    echo "Error: SEARCH, REPLACE, and/or ADMIN_IDS variables are not set."
     exit 1
 fi
 
@@ -84,32 +94,43 @@ echo "disabling dev plugins..."
 
 ${WP} plugin deactivate password-protected
 
-# Resolve admin emails to IDs before demoting. Regex filters printed PHP notices.
-ADMIN_IDS=()
-IFS=',' read -r -a ADMIN_EMAILS <<< "$ADMIN_USERS" 
-for email in "${ADMIN_EMAILS[@]}"; do
-    ADMIN_ID="$(${WP} user get "$email" --field=ID | grep -E '^[0-9]+$')"
-    [[ -n "$ADMIN_ID" ]] || { echo "User not found after import: $email"; exit 1; }
-    ADMIN_IDS+=("$ADMIN_ID")
-done
+echo "set to allow indexing..."
+
+${WP} option update blog_public 1
 
 echo "demoting everyone..."
-${WP} user list --field=ID | grep -E '^[0-9]+$' | xargs -n1 -I{} ${WP} user set-role {} ""
+${WP} user list --field=ID | grep -E '^[0-9]+$' | xargs -n1 -I{} ${WP} user set-role {} ''
 
 echo "promoting admins..."
-for ADMIN_ID in "${ADMIN_IDS[@]}"; do
-    ${WP} user set-role "$ADMIN_ID" administrator
+for admin_id in "${ADMIN_IDS[@]}"; do
+    ${WP} user set-role "$admin_id" administrator
 done
 ```
+[get script](https://gist.github.com/aterchin/dd17d833d335d3178fba18484221e8db)
+
+## Run from a different directory
+
+If you don't want to put this in your main repo—for example, you want to run it from your home user directory—add a variable which tells WP CLI the *path* to your WordPress installation:
+
+At the top with the other variables, add: 
+
+```bash
+WP_PATH="/var/www/example.com"
+```
+
+Add to the end of EACH `${WP}` command:
+
+```bash
+${WP} db import "$1" --path="$WP_PATH"
+```
+<Aside variant="error">
+Don't use `PATH` which is a shell environment variable.  Name it `WP_PATH`. That tripped me up the first time.
+</Aside>
 
 ## Optional: exclude tables on export
 
-To skip All-In-One WP Security tables, replace the export line with:
+To skip All-In-One WP Security tables, add to the export line with:
 
 ```bash wide
-${WP} db export "$1" --add-drop-table --single-transaction --exclude_tables="$(${WP} db tables 'wp_aiowps_*' --all-tables --format=csv)"
+--exclude_tables="$(${WP} db tables 'wp_aiowps_*' 'wp_actionscheduler_*' --all-tables --format=csv)"
 ```
-
-<Aside variant="info" title="How the email list is split">
-`IFS=',' read -r -a ADMIN_EMAILS <<< "$ADMIN_USERS"` splits the comma-separated email string into an array. `IFS=','` sets the delimiter for that `read` only, `-a` fills `ADMIN_EMAILS`, `-r` leaves backslashes alone, and `<<<` feeds in the string.
-</Aside>

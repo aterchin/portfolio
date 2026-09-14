@@ -36,6 +36,7 @@ export default function Home() {
                   subtitle: note.subtitle,
                   summary: note.summary,
                   tags: note.tags,
+                  status: note.status,
                 }))}
               />
               {showAllNotes ? (
@@ -59,6 +60,7 @@ export default function Home() {
                   subtitle: project.subtitle,
                   summary: project.summary,
                   tags: project.tags,
+                  status: project.status,
                 }))}
               />
               <Link href="/work" className={styles.viewAll}>

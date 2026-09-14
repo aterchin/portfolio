@@ -10,9 +10,19 @@ export interface ProjectCardProps {
   type: Project["type"];
   tags: Project["tags"];
   summary: Project["summary"];
+  status?: Project["status"];
 }
 
-export function ProjectCard({ title, subtitle, slug, date, type, tags, summary }: ProjectCardProps) {
+export function ProjectCard({
+  title,
+  subtitle,
+  slug,
+  date,
+  type,
+  tags,
+  summary,
+  status,
+}: ProjectCardProps) {
   const year = parseInt(date.slice(0, 4), 10);
 
   return (
@@ -22,10 +32,13 @@ export function ProjectCard({ title, subtitle, slug, date, type, tags, summary }
       subtitle={subtitle}
       summary={summary}
       tags={tags}
+      status={status}
     >
       <div className={styles.meta}>
         <span className={styles.year}>{year}</span>
-        <span className={styles.type}>{type === "case-study" ? "Case study" : "Showcase"}</span>
+        <span className={styles.type}>
+          {type === "case-study" ? "Case study" : "Showcase"}
+        </span>
       </div>
     </Card>
   );

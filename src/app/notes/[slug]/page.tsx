@@ -34,7 +34,7 @@ export default async function NoteSlugPage({
   const note = getNote(slug);
   if (!note) notFound();
 
-  const { content, title, subtitle, tags, headings, date, updated } = note;
+  const { content, title, subtitle, tags, headings, date, updated, status } = note;
 
   const { content: MDXContent } = await compileMDX({
     source: content,
@@ -52,7 +52,15 @@ export default async function NoteSlugPage({
         <div className="content-main">
           <article>
             <header className="content-header">
-              <h1 className="content-title">{title}</h1>
+              <h1
+                className={
+                  status === "draft"
+                    ? "content-title draft-title"
+                    : "content-title"
+                }
+              >
+                {title}
+              </h1>
               {subtitle && <p className="content-subtitle">{subtitle}</p>}
               <ContentDate date={date} updated={updated} />
               <div className="content-tags">

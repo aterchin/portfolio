@@ -7,9 +7,17 @@ export interface NoteCardProps {
   slug: Note["slug"];
   summary: Note["summary"];
   tags: Note["tags"];
+  status?: Note["status"];
 }
 
-export function NoteCard({ title, subtitle, slug, summary, tags }: NoteCardProps) {
+export function NoteCard({
+  title,
+  subtitle,
+  slug,
+  summary,
+  tags,
+  status,
+}: NoteCardProps) {
   return (
     <Card
       href={`/notes/${slug}`}
@@ -17,6 +25,7 @@ export function NoteCard({ title, subtitle, slug, summary, tags }: NoteCardProps
       subtitle={subtitle}
       summary={summary}
       tags={tags}
+      status={status}
     />
   );
 }

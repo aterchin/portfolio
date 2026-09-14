@@ -9,6 +9,7 @@ export interface ContentListItemProps {
   tags: string[];
   /** Shown above the title — Search uses "Note" / "Work". */
   typeLabel?: string;
+  status?: "published" | "draft";
 }
 
 export interface ContentListProps {
@@ -24,6 +25,7 @@ function ContentListItem({
   summary,
   tags,
   typeLabel,
+  status,
 }: ContentListItemProps) {
   return (
     <li>
@@ -33,7 +35,13 @@ function ContentListItem({
             <span className={styles.type}>{typeLabel}</span>
           </div>
         )}
-        <h3 className={styles.title}>{title}</h3>
+        <h3
+          className={
+            status === "draft" ? `${styles.title} draft-title` : styles.title
+          }
+        >
+          {title}
+        </h3>
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         <p className={styles.summary}>{summary}</p>
         {tags.length > 0 && (

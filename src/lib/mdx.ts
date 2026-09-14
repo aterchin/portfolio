@@ -42,8 +42,9 @@ function frontmatterOnly<T>(filePath: string): T {
   return frontmatter as T;
 }
 
+// Drafts are hidden in production; `next dev` keeps them visible for preview.
 function isDraft(status: string | undefined): boolean {
-  return status === "draft";
+  return status === "draft" && process.env.NODE_ENV !== "development";
 }
 
 // ─── Work ─────────────────────────────────────────────────────────────────────

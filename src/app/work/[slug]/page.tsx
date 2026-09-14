@@ -37,7 +37,7 @@ export default async function WorkSlugPage({
 
   if (!project) notFound();
 
-  const { content, title, subtitle, date, updated, type, tags, headings } = project;
+  const { content, title, subtitle, date, updated, type, tags, headings, status } = project;
   const year = parseInt(date.slice(0, 4), 10);
 
   const { content: MDXContent } = await compileMDX({
@@ -57,7 +57,15 @@ export default async function WorkSlugPage({
         <div className="content-main">
           <article>
             <header className="content-header">
-              <h1 className="content-title">{title}</h1>
+              <h1
+                className={
+                  status === "draft"
+                    ? "content-title draft-title"
+                    : "content-title"
+                }
+              >
+                {title}
+              </h1>
               {subtitle && <p className="content-subtitle">{subtitle}</p>}
               <ContentDate date={date} updated={updated} />
               <div className="content-tags">

@@ -13,6 +13,7 @@ export interface SearchItem {
   date: string;
   summary: string;
   tags: string[];
+  status?: "published" | "draft";
 }
 
 // Combined, newest-first index across notes and work.
@@ -28,6 +29,7 @@ export function getSearchIndex(): SearchItem[] {
     date: n.date,
     summary: n.summary,
     tags: n.tags,
+    status: n.status,
   }));
 
   const work: SearchItem[] = getProjects().map((p) => ({
@@ -39,6 +41,7 @@ export function getSearchIndex(): SearchItem[] {
     date: p.date,
     summary: p.summary,
     tags: p.tags,
+    status: p.status,
   }));
 
   return [...notes, ...work].sort((a, b) =>

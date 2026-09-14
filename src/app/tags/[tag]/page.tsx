@@ -54,6 +54,7 @@ export default async function TagPage({
                 summary={project.summary}
                 tags={project.tags}
                 meta={project.type === "case-study" ? "Case study" : "Showcase"}
+                status={project.status}
               />
             ))}
           </ul>
@@ -72,6 +73,7 @@ export default async function TagPage({
                 summary={note.summary}
                 tags={note.tags}
                 meta="Note"
+                status={note.status}
               />
             ))}
           </ul>
@@ -90,6 +92,7 @@ interface TagResultItemProps {
   summary: string;
   tags: string[];
   meta: string;
+  status?: "published" | "draft";
 }
 
 function TagResultItem({
@@ -99,11 +102,19 @@ function TagResultItem({
   summary,
   tags,
   meta,
+  status,
 }: TagResultItemProps) {
   return (
     <li className="list-item">
       <div className={styles.itemMeta}>{meta}</div>
-      <Link href={href} className={styles.itemTitle}>
+      <Link
+        href={href}
+        className={
+          status === "draft"
+            ? `${styles.itemTitle} draft-title`
+            : styles.itemTitle
+        }
+      >
         {title}
       </Link>
       {subtitle && <p className={styles.itemSubtitle}>{subtitle}</p>}

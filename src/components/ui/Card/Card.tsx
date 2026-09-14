@@ -11,8 +11,9 @@ export interface CardProps {
   tags: string[];
   /** Optional content above the title (e.g. ProjectCard meta row) */
   children?: ReactNode;
-  /** Diagonal shine sweep on hover */
+  /** Patrick Bateman effect */
   shine?: boolean;
+  status?: "published" | "draft";
 }
 
 const arrowProps = {
@@ -27,12 +28,19 @@ export function Card({
   tags,
   children,
   shine = false,
+  status,
 }: CardProps) {
   return (
     <Link href={href} className={styles.card}>
       {shine && <div className={styles.patrickBateman} aria-hidden />}
       {children}
-      <h3 className={styles.title}>{title}</h3>
+      <h3
+        className={
+          status === "draft" ? `${styles.title} draft-title` : styles.title
+        }
+      >
+        {title}
+      </h3>
       {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       <p className={styles.summary}>{summary}</p>
       <div className={styles.footer}>

@@ -71,6 +71,14 @@
   }
 }
 
+/* Local draft preview */
+.draft-title {
+  &::after {
+    content: '*';
+    float: left;
+  }
+}
+
 .content-header {
   padding-bottom: var(--space-10);
   border-bottom: 1px solid var(--color-border);
