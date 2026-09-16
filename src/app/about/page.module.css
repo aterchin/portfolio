@@ -18,12 +18,12 @@
 
 .heading {
   font-family: var(--font-display);
-  font-size: var(--text-h1);
+  font-size: var(--text-hero);
   font-weight: 600;
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   color: var(--color-text-primary);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .bio {

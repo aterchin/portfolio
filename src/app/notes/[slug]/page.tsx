@@ -3,7 +3,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { Tag } from "@/components/ui/Tag/Tag";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
-import { ToC, hasTocHeadings } from "@/components/notes/ToC/ToC";
+import { ToC, hasTocHeadings } from "@/components/ui/ToC/ToC";
 import { ContentDate } from "@/components/ui/ContentDate/ContentDate";
 import { getNote, getNoteSlugs } from "@/lib/mdx";
 import { getMDXComponents, mdxRemoteOptions } from "@/lib/mdxComponents";

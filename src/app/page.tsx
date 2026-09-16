@@ -2,9 +2,9 @@ import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
-import { Tag } from "@/components/ui/Tag/Tag";
 import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import { getNotes, getProjects } from "@/lib/mdx";
+import { Tag } from "@/components/ui/Tag/Tag";
 import { getTopDisplayTags } from "@/lib/tags";
 import styles from "./page.module.css";
 
@@ -26,6 +26,24 @@ export default function Home() {
     <PageWrapper>
       <div className={styles.layout}>
         <div className={styles.main}>
+          {projects.length > 0 && (
+            <section className={styles.section}>
+              <SectionLabel>Selected work</SectionLabel>
+              <ContentList
+                items={projects.map((project) => ({
+                  href: `/work/${project.slug}`,
+                  title: project.title,
+                  subtitle: project.subtitle,
+                  summary: project.summary,
+                  tags: project.tags,
+                  status: project.status,
+                }))}
+              />
+              <Link href="/work" className={styles.viewAll}>
+                View all →
+              </Link>
+            </section>
+          )}
           {recentNotes.length > 0 && (
             <section className={styles.section}>
               <SectionLabel>Notes</SectionLabel>
@@ -47,25 +65,6 @@ export default function Home() {
                   </span>
                 </Link>
               ) : null}
-            </section>
-          )}
-
-          {projects.length > 0 && (
-            <section className={styles.section}>
-              <SectionLabel>Selected work</SectionLabel>
-              <ContentList
-                items={projects.map((project) => ({
-                  href: `/work/${project.slug}`,
-                  title: project.title,
-                  subtitle: project.subtitle,
-                  summary: project.summary,
-                  tags: project.tags,
-                  status: project.status,
-                }))}
-              />
-              <Link href="/work" className={styles.viewAll}>
-                View all →
-              </Link>
             </section>
           )}
         </div>

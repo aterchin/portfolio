@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ChicagoFlag } from "@/components/about/ChicagoFlag/ChicagoFlag";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
+import { ChicagoFlag } from "@/components/about/ChicagoFlag/ChicagoFlag";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -48,12 +48,12 @@ export default function AboutPage() {
           </h1>
 
           <div className={styles.bio}>
-            <ChicagoFlag />
             <p className={styles.lead}>I grew up in Chicago.</p>
             <p>
               A suburb, actually — and I spent most of my adult life in the city
               before moving to Brooklyn in 2021.
             </p>
+            <ChicagoFlag />
             <h3>Marketing?</h3>
             <p className={styles.drupalMark}>
               I went to school for marketing, which wasn&apos;t the right fit —
