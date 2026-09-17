@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ChicagoFlag } from "@/components/about/ChicagoFlag/ChicagoFlag";
 import styles from "./page.module.css";
 
@@ -38,7 +37,6 @@ const TECH_ICONS = [
 export default function AboutPage() {
   return (
     <PageWrapper>
-      <SectionLabel>About</SectionLabel>
       <div className={styles.layout}>
 
         <div className={styles.main}>
@@ -65,15 +63,14 @@ export default function AboutPage() {
             <p>
               I&apos;m self-taught, which means I&apos;ve had to be deliberate
               about how I learn. Back then, it was getting my wrist slapped by
-              a lot of bosses and co-workers.  Then it was a lot of long nights
-              reading books and blogs and <code style={{ fontSize: "var(--text-sm)" }}>doing stuff</code>.  Later on, it was helping anyone
-              I worked with and learning from them.  Do it right the first time,
-              don&apos;t repeat yourself, learn from your mistakes, <em>measure twice, 
-              cut once.</em>
+              a lot of bosses and co-workers.  Then a lot of long nights
+              reading books and blogs, trying some of the same things on my own.  
+              Do it right the first time, don&apos;t repeat yourself, learn from your mistakes, <em>measure twice, 
+              cut once.</em> Now I pass along whatever I can.
             </p>
             <h3>AI?</h3>
             <p>
-              Right now that includes working out how to use
+              I have been working out how to use
               AI effectively — not to replace what I know, but to move faster
               and take on things I couldn&apos;t before.  I&apos;m more efficient with
               repetitious tasks and workflows.

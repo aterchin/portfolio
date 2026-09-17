@@ -23,6 +23,22 @@ sudo /usr/local/bin/wp cli update
 ```
 </Aside>
 
+## Usage
+
+1.  Update search variables at the start of the script:
+
+```bash
+SEARCH="https://dev.example.com"
+REPLACE="https://www.example.com"
+```
+
+2. Update the IDs of the users you want to remain in the Administrator role after the migration, separated by spaces (**1 is me, 2 is someone else**):
+
+
+```bash
+ADMIN_IDS=(1 2)
+```
+
 ## Export database
 
 `db-export.sh`:
@@ -63,8 +79,8 @@ WP="php -d display_errors=0 -d max_execution_time=0 /usr/local/bin/wp"
 SEARCH="https://dev.example.com"
 REPLACE="https://www.example.com"
 
-# separate users with spaces (4: dev@merakode.com, 6: another user)
-ADMIN_IDS=(4 5)
+# separate users with spaces (1: me, 2: another user)
+ADMIN_IDS=(1 2)
 
 # Check if any variable is empty
 if [[ -z "$SEARCH" || -z "$REPLACE" || ${#ADMIN_IDS[@]} -eq 0 ]]; then
@@ -108,28 +124,29 @@ done
 ```
 [get script](https://gist.github.com/aterchin/dd17d833d335d3178fba18484221e8db)
 
-## Run from a different directory
+## Run from outside WordPress
 
-If you don't want to put this in your main repo—for example, you want to run it from your home user directory—add a variable which tells WP CLI the *path* to your WordPress installation:
+The `--path` directive tells WP CLI where to find your WordPress installation.  When working with other teams, or just for security reasons I put the scripts in my `/home/ubuntu` directory usually.
 
-At the top with the other variables, add: 
+Set a new variable at the top:
 
 ```bash
 WP_PATH="/var/www/example.com"
 ```
 
-Add to the end of EACH `${WP}` command:
+Add `--path` to the end of EACH `${WP}` command:
 
 ```bash
 ${WP} db import "$1" --path="$WP_PATH"
 ```
+
 <Aside variant="error">
 Don't use `PATH` which is a shell environment variable.  Name it `WP_PATH`. That tripped me up the first time.
 </Aside>
 
 ## Optional: exclude tables on export
 
-To skip All-In-One WP Security tables, add to the export line with:
+To exclude certain plugin tables like *All-In-One WP Security*, *Action Scheduler*, etc., add `--exclude_tables` to the export line with:
 
 ```bash wide
 --exclude_tables="$(${WP} db tables 'wp_aiowps_*' 'wp_actionscheduler_*' --all-tables --format=csv)"

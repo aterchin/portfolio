@@ -6,7 +6,7 @@ export function Hero() {
     <section className={styles.hero}>
       <h1 className={styles.heading}>Why am I here?</h1>
       <p className={styles.body}>
-        Fifteen years across LAMP stacks, Drupal, WordPress, Linux servers, and now
+        Fifteen years across LAMP stacks, WordPress, Drupal, React, Linux servers, and now
         Next.js. I work well with teams who know what they want and clients who
         don&apos;t quite know yet.
       </p>

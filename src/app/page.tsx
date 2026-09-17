@@ -3,24 +3,20 @@ import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
+import { SquareText } from "lucide-react";
 import { getNotes, getProjects } from "@/lib/mdx";
-import { Tag } from "@/components/ui/Tag/Tag";
-import { getTopDisplayTags } from "@/lib/tags";
 import styles from "./page.module.css";
 
-const RECENT_NOTE_LIMIT = 6;
-const TAG_PREVIEW_LIMIT = 6;
+const RECENT_NOTE_LIMIT = 5;
 
 const arrowProps = {
   strokeWidth: 1,
 } as const;
 
 export default function Home() {
-  const allNotes = getNotes();
+  const allNotes = getNotes().filter((n) => n.status !== "draft");
   const recentNotes = allNotes.slice(0, RECENT_NOTE_LIMIT);
-  const tags = getTopDisplayTags(TAG_PREVIEW_LIMIT);
   const projects = getProjects();
-  const showAllNotes = allNotes.length > RECENT_NOTE_LIMIT;
 
   return (
     <PageWrapper>
@@ -40,47 +36,31 @@ export default function Home() {
                 }))}
               />
               <Link href="/work" className={styles.viewAll}>
-                View all →
+                View all
+                <span className={styles.arrow} aria-hidden>
+                  <ArrowRight {...arrowProps} />
+                </span>
               </Link>
             </section>
           )}
+        </div>  
+        <aside className={styles.sidebar}>
+          <SectionLabel>Recent notes</SectionLabel>
           {recentNotes.length > 0 && (
-            <section className={styles.section}>
-              <SectionLabel>Notes</SectionLabel>
-              <ContentList
-                items={recentNotes.map((note) => ({
-                  href: `/notes/${note.slug}`,
-                  title: note.title,
-                  subtitle: note.subtitle,
-                  summary: note.summary,
-                  tags: note.tags,
-                  status: note.status,
-                }))}
-              />
-              {showAllNotes ? (
-                <Link href="/notes" className={styles.viewAll}>
-                  View all
-                  <span className={styles.arrow} aria-hidden>
-                    <ArrowRight {...arrowProps} />
-                  </span>
-                </Link>
-              ) : null}
-            </section>
-          )}
-        </div>
-
-        {tags.length > 0 && (
-          <aside className={styles.sidebar}>
-            <SectionLabel>Tags</SectionLabel>
-            <div className={styles.tags}>
-              {tags.map((tag) => (
-                <Tag key={tag} linked>
-                  {tag}
-                </Tag>
+            <ul className={ `${styles.notes} list-stack`}>
+              {recentNotes.map((note) => (
+                <li key={note.slug}>
+                  <Link href={`/notes/${note.slug}`} className={`list-item`}>
+                    <span className={styles.noteIcon} aria-hidden>
+                      <SquareText size={18} strokeWidth={1.5} />
+                    </span>
+                    {note.title}
+                  </Link>
+                </li>
               ))}
-            </div>
-          </aside>
-        )}
+            </ul>
+          )}
+        </aside>
       </div>
     </PageWrapper>
   );
