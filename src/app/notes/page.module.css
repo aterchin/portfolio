@@ -1,6 +1,7 @@
 /* Reuses global .content-layout columns/gap from utils.css (same as
    note detail). Overrides below only cover notes-index specifics. */
 .layout {
+  padding-top: var(--space-12);
   margin-bottom: var(--space-24);
 }
 
@@ -8,6 +9,12 @@
    Extra .content-layout specificity beats utils.css display:none. */
 .layout:global(.content-layout) :global(.content-sidebar) {
   display: block;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    padding-top: 0;
+  }
 }
 
 /* Match ToC sticky-rail; local overrides only below. Sidebar stretches
