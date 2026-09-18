@@ -42,8 +42,6 @@ body {
   line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background var(--duration-base) var(--ease-base),
-              color var(--duration-base) var(--ease-base);
 }
 
 a {
@@ -55,6 +53,25 @@ a {
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
+  }
+
+  /*
+   * Theme toggle only: ThemeProvider adds .theme-transition for one
+   * --duration-base window so every surface fades together (nav + body +
+   * chrome). Kept off by default so hover transitions stay independent.
+   */
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition:
+      background-color var(--duration-base) var(--ease-base),
+      background var(--duration-base) var(--ease-base),
+      color var(--duration-base) var(--ease-base),
+      border-color var(--duration-base) var(--ease-base),
+      fill var(--duration-base) var(--ease-base),
+      stroke var(--duration-base) var(--ease-base),
+      box-shadow var(--duration-base) var(--ease-base) !important;
   }
 }
 

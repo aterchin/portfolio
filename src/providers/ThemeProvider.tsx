@@ -17,6 +17,7 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "portfolio-theme";
+const TRANSITION_CLASS = "theme-transition";
 
 function getThemeFromDom(): Theme {
   const attr = document.documentElement.getAttribute("data-theme");
@@ -32,6 +33,14 @@ function subscribe(onStoreChange: () => void) {
   return () => observer.disconnect();
 }
 
+/** Parse a CSS time token like "200ms" or "0.2s" into milliseconds. */
+function cssTimeToMs(value: string): number {
+  const trimmed = value.trim();
+  if (trimmed.endsWith("ms")) return parseFloat(trimmed) || 0;
+  if (trimmed.endsWith("s")) return (parseFloat(trimmed) || 0) * 1000;
+  return parseFloat(trimmed) || 0;
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   // ThemeScript sets data-theme before paint. useSyncExternalStore reads that
   // DOM attribute as the source of truth — no setState-in-effect sync needed.
@@ -39,8 +48,23 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggleTheme = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
+    const root = document.documentElement;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!reduceMotion) {
+      root.classList.add(TRANSITION_CLASS);
+    }
+
+    root.setAttribute("data-theme", next);
     window.localStorage.setItem(STORAGE_KEY, next);
+
+    if (!reduceMotion) {
+      const duration =
+        cssTimeToMs(getComputedStyle(root).getPropertyValue("--duration-base")) || 200;
+      window.setTimeout(() => {
+        root.classList.remove(TRANSITION_CLASS);
+      }, duration);
+    }
   };
 
   return (
