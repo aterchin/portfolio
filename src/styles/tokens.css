@@ -211,16 +211,16 @@
 [data-theme="dark"] {
 
   /* Foundation */
-  --color-bg:          #060308;
-  --color-bg-2:        #100e15;
-  --color-bg-3:        #1a1721;
+  --color-bg:          #0b0a09;
+  --color-bg-2:        #17150f;
+  --color-bg-3:        #211e17;
 
   --color-ink:         #f2eee5;
   --color-ink-2:       #ded9ce;  /* body text — halfway between ink and former ink-2 */
   --color-ink-3:       #968f83;
 
-  --color-border:      #3d3a43;  /* dividers — was nearly invisible on --color-bg */
-  --color-border-2:    #4f584e;  /* stronger border when needed */
+  --color-border:      #3e352a;  /* dividers — was nearly invisible on --color-bg */
+  --color-border-2:    #4f483e;  /* stronger border when needed */
 
   /* Primary accent — terracotta, brightened for dark bg */
   --color-accent:           #d9854f;
