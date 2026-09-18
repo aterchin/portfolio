@@ -38,6 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="dark"
       className={`${instrumentSans.variable} ${newsreader.variable}`}
       suppressHydrationWarning
     >

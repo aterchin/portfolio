@@ -15,26 +15,25 @@ const arrowProps = {
 } as const;
 
 export default function Home() {
-  const allNotes = getNotes().filter((n) => n.status !== "draft");
-  const recentNotes = allNotes.slice(0, RECENT_NOTE_LIMIT);
-  const projects = getProjects();
+  const notes = getNotes().filter((n) => n.status !== "draft");
+  const recentNotes = notes.slice(0, RECENT_NOTE_LIMIT);
 
   return (
     <PageWrapper>
       <div className={styles.layout}>
         <div className={styles.main}>
           <Hero />
-          {projects.length > 0 && (
+          {notes.length > 0 && (
             <section className={styles.section}>
-              <SectionLabel>Selected work</SectionLabel>
+              <SectionLabel>All notes</SectionLabel>
               <ContentList
-                items={projects.map((project) => ({
-                  href: `/work/${project.slug}`,
-                  title: project.title,
-                  subtitle: project.subtitle,
-                  summary: project.summary,
-                  tags: project.tags,
-                  status: project.status,
+                items={notes.map((item) => ({
+                  href: `/note/${item.slug}`,
+                  title: item.title,
+                  subtitle: item.subtitle,
+                  summary: item.summary,
+                  tags: item.tags,
+                  status: item.status,
                 }))}
               />
               <Link href="/work" className={styles.viewAll}>

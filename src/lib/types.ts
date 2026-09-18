@@ -5,10 +5,10 @@ export interface Project {
   slug: string;
   date: string; // ISO 8601 — YYYY-MM-DD
   updated?: string; // ISO 8601 — YYYY-MM-DD; shown only when after date
-  type: "case-study" | "showcase";
-  status: "published" | "draft";
   tags: string[];
   summary: string;
+  status?: "published" | "draft";
+  type: "case-study" | "showcase";
 }
 
 // Note — code snippet or write-up

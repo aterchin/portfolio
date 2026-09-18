@@ -1,9 +1,10 @@
+import Image from "next/image";
 import styles from "./RollingSkate.module.css";
 
 export function RollingSkate() {
   return (
     <div className={styles.lane} aria-hidden="true">
-      <img
+      <Image
         className={styles.skate}
         src="/images/rollerskate.png"
         alt=""

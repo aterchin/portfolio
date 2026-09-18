@@ -193,8 +193,8 @@
    8. DARK MODE
    Overrides foundation, accent, and shadow tokens where needed.
    Everything else (spacing, type scale, motion, radius) is unchanged.
-   Note: system preference handled in layout via data-theme attribute
-   set by ThemeProvider — matches prefers-color-scheme on first load.
+   Note: default theme is dark (data-theme="dark" on <html>). Light is
+   available via the nav toggle and stored in localStorage.
 ───────────────────────────────────────────────────────────────── */
 
 [data-theme="dark"] {

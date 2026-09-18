@@ -35,7 +35,7 @@ function subscribe(onStoreChange: () => void) {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   // ThemeScript sets data-theme before paint. useSyncExternalStore reads that
   // DOM attribute as the source of truth — no setState-in-effect sync needed.
-  const theme = useSyncExternalStore(subscribe, getThemeFromDom, () => "light" as Theme);
+  const theme = useSyncExternalStore(subscribe, getThemeFromDom, () => "dark" as Theme);
 
   const toggleTheme = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
