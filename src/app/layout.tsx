@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ThemeScript } from "@/providers/ThemeScript";
 import { Nav } from "@/components/layout/Nav/Nav";
 import { Footer } from "@/components/layout/Footer/Footer";
+import { ScrollToTop } from "@/components/layout/ScrollToTop/ScrollToTop";
 import { getSearchIndex } from "@/lib/search";
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          <ScrollToTop />
           <Nav searchItems={searchItems} exampleTags={exampleTags} />
           {children}
           <Footer />
