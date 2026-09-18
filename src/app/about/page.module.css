@@ -19,7 +19,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--space-10);
+  gap: var(--space-8);
   position: sticky;
   top: calc(var(--height-header) + var(--space-12));
   align-self: start;
@@ -27,12 +27,26 @@
 
 .sideSection:not(:first-child) {
   padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* Squiggle section divider — same motif as .squiggle in utils.css */
+.sideSection:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--squiggle-height);
+  background-color: var(--color-border);
+  -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  pointer-events: none;
 }
 
 .sideLabel {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-body);
   font-weight: 500;
   letter-spacing: var(--tracking-wider);
   text-transform: lowercase;

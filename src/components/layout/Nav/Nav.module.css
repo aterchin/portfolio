@@ -7,11 +7,25 @@
   top: 0;
   z-index: 100;
   padding: var(--space-5) var(--layout-gutter);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: none;
   background: var(--color-surface);
   max-width: var(--layout-max);
   margin-inline: auto;
   width: 100%;
+}
+
+/* Squiggle bottom edge — same motif as .squiggle in utils.css */
+.nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--squiggle-height);
+  background-color: var(--color-border);
+  -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  pointer-events: none;
 }
 
 .wordmark {

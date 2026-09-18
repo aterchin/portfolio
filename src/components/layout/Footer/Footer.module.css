@@ -3,15 +3,30 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  position: relative;
   margin-top: auto;
   padding: var(--space-8) var(--layout-gutter);
-  border-top: 1px solid var(--color-border);
+  border-top: none;
   max-width: var(--layout-max);
   margin-inline: auto;
   width: 100%;
   font-family: var(--font-display);
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
+}
+
+/* Squiggle top edge — same motif as .squiggle in utils.css */
+.footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--squiggle-height);
+  background-color: var(--color-border);
+  -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  pointer-events: none;
 }
 
 .contactLink {

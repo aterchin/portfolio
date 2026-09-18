@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
+import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { ChicagoFlag } from "@/components/about/ChicagoFlag/ChicagoFlag";
 import { getAllNormalizedTags, normalizeTag } from "@/lib/tags";
 import styles from "./page.module.css";
@@ -42,6 +43,7 @@ export default function AboutPage() {
 
   return (
     <PageWrapper>
+      <SectionLabel>About</SectionLabel>
       <div className={styles.layout}>
 
         <div className={styles.main}>
