@@ -1,0 +1,29 @@
+.intro {
+  max-width: 42ch;
+  padding-top: var(--space-12);
+  margin-bottom: var(--space-16);
+}
+
+@media (max-width: 768px) {
+  .intro {
+    padding-top: 0;
+  }
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-5);
+}
+
+.body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  color: var(--color-text-secondary);
+}

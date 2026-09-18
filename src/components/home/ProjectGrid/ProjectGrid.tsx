@@ -5,13 +5,14 @@ import styles from "./ProjectGrid.module.css";
 
 interface ProjectGridProps {
   projects: Project[];
+  /** When omitted or empty, the section label is not rendered. */
   label?: string;
 }
 
-export function ProjectGrid({ projects, label = "Selected work" }: ProjectGridProps) {
+export function ProjectGrid({ projects, label }: ProjectGridProps) {
   return (
     <section className={styles.section}>
-      <SectionLabel>{label}</SectionLabel>
+      {label ? <SectionLabel>{label}</SectionLabel> : null}
       <div className={styles.grid}>
         {projects.map((project) => (
           <ProjectCard key={project.slug} {...project} />
