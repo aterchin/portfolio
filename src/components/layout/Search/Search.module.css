@@ -36,6 +36,9 @@
 }
 
 .overlayFilled {
+  /* Pin to the viewport so overflow-y:auto scrolls results;
+     min-height alone lets the panel grow and scroll the page behind. */
+  bottom: 0;
   min-height: 100dvh;
   border-bottom: none;
 }
