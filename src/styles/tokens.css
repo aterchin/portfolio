@@ -137,6 +137,10 @@
   --layout-prose:     680px;   /* max-width for prose/case study columns */
   --layout-narrow:    52ch;    /* hero subhead, tight copy */
   --layout-gutter:    var(--space-6);  /* page horizontal padding */
+  /* Home page two-column recipe — shared by Hero + .layout so the
+     hero links track lines up with the aside. */
+  --layout-home-columns: 1fr minmax(10rem, 18rem);
+  --layout-home-gap:     var(--space-12);
   /* Approx Nav height (padding + label + border). Used for sticky ToC
      offset and scroll-margin on in-page heading anchors. */
   --height-header:    4rem;

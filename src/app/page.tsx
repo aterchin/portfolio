@@ -5,7 +5,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import { Hero } from "@/components/home/Hero/Hero";
 import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import { SquareText } from "lucide-react";
-import { getNotes, getProjects } from "@/lib/mdx";
+import { getNotes } from "@/lib/mdx";
 import styles from "./page.module.css";
 
 const RECENT_NOTE_LIMIT = 5;
@@ -20,15 +20,15 @@ export default function Home() {
 
   return (
     <PageWrapper>
+      <Hero />
       <div className={styles.layout}>
         <div className={styles.main}>
-          <Hero />
           {notes.length > 0 && (
             <section className={styles.section}>
               <SectionLabel>All notes</SectionLabel>
               <ContentList
                 items={notes.map((item) => ({
-                  href: `/note/${item.slug}`,
+                  href: `/notes/${item.slug}`,
                   title: item.title,
                   subtitle: item.subtitle,
                   summary: item.summary,
@@ -36,7 +36,7 @@ export default function Home() {
                   status: item.status,
                 }))}
               />
-              <Link href="/work" className={styles.viewAll}>
+              <Link href="/notes" className={styles.viewAll}>
                 View all
                 <span className={styles.arrow} aria-hidden>
                   <ArrowRight {...arrowProps} />
@@ -44,11 +44,11 @@ export default function Home() {
               </Link>
             </section>
           )}
-        </div>  
+        </div>
         <aside className={styles.sidebar}>
           <SectionLabel>Recent notes</SectionLabel>
           {recentNotes.length > 0 && (
-            <ul className={ `${styles.notes} list-stack`}>
+            <ul className={`${styles.notes} list-stack`}>
               {recentNotes.map((note) => (
                 <li key={note.slug}>
                   <Link href={`/notes/${note.slug}`} className={`list-item`}>

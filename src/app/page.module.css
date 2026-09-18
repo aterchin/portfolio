@@ -1,7 +1,7 @@
 .layout {
   display: grid;
-  grid-template-columns: 1fr minmax(10rem, 18rem);
-  gap: var(--space-12);
+  grid-template-columns: var(--layout-home-columns);
+  gap: var(--layout-home-gap);
   align-items: start;
 }
 
