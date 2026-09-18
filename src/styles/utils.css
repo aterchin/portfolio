@@ -338,14 +338,34 @@
 }
 
 /* Squiggle rule — full-width lightly wavy divider (tokens: --squiggle-*).
-   Use on an <hr>, empty div, or as a recipe for ::before / ::after. */
+   Global on purpose: CSS Modules cannot share paint onto ::before/::after,
+   so call sites use a real <hr> or <div class="squiggle">. */
 .squiggle {
   display: block;
+  width: 100%;
   height: var(--squiggle-height);
+  margin: 0;
   border: none;
-  background-color: var(--color-border-2);
+  background-color: var(--color-border);
   -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
   mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
+  pointer-events: none;
+}
+
+/* Pin to an edge of a positioned parent (nav, footer). */
+.squiggle-top,
+.squiggle-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.squiggle-top {
+  top: 0;
+}
+
+.squiggle-bottom {
+  bottom: 0;
 }
 
 /* Fade-up — used for page/section load-in motion (the only animation pattern used site-wide) */

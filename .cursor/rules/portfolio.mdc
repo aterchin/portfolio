@@ -35,6 +35,15 @@ or ambiguous rather than guessing.
 ## CSS rules
 - One `.module.css` per component, colocated, never styled across component boundaries
 - All values from `tokens.css` — no hardcoded colors, sizes, or font names
+- Shared multi-line recipes: if the same specific settings (more than a few
+  lines) are duplicated across modules, extract them to a global utility in
+  `src/styles/utils.css` and apply via `className` on a real element. Do not
+  copy-paste the recipe into each module, and do not rely on `::before` /
+  `::after` when the paint needs to be shared — CSS Modules cannot attach a
+  global class to another module's pseudo-element. Pattern: tokens for knobs,
+  `.utility` (+ optional modifiers) in `utils.css`, markup uses the class
+  (see `.squiggle` / `.squiggle-top` / `.squiggle-bottom`). Module CSS keeps
+  only layout/positioning unique to that component.
 - `--font-ui` for nav/buttons/inputs/labels/section labels — never `--font-body` for UI
 - `--font-body` for prose/summaries/body copy only
 - `--font-mono` for code only — not labels or eyebrows

@@ -14,20 +14,6 @@
   width: 100%;
 }
 
-/* Squiggle bottom edge — same motif as .squiggle in utils.css */
-.nav::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--squiggle-height);
-  background-color: var(--color-border);
-  -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
-  mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
-  pointer-events: none;
-}
-
 .wordmark {
   display: flex;
   align-items: center;

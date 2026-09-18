@@ -176,8 +176,8 @@
   --stroke-length:  1.75rem;
 
   /* Lightly squiggly full-width rule — SVG used as a mask so the visible
-     color can be any token (usually --color-border). Trial motif for nav /
-     sidebar dividers; easy to yank if it does not stick. */
+     color can be any token (usually --color-border). Applied via the global
+     .squiggle utility in utils.css. */
   --squiggle-height: 4px;
   --squiggle-period: 96px;
   --squiggle-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='4' viewBox='0 0 96 4' fill='none'%3E%3Cpath d='M0 2.1 C 8 1.2 16 3 24 2.1 S 40 1.2 48 2.1 S 64 3 72 2.1 S 88 1.2 96 2.1' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -219,8 +219,8 @@
   --color-ink-2:       #ded9ce;  /* body text — halfway between ink and former ink-2 */
   --color-ink-3:       #968f83;
 
-  --color-border:      #2c2932;
-  --color-border-2:    #3d3a43;
+  --color-border:      #3d3a43;  /* dividers — was nearly invisible on --color-bg */
+  --color-border-2:    #4f584e;  /* stronger border when needed */
 
   /* Primary accent — terracotta, brightened for dark bg */
   --color-accent:           #d9854f;

@@ -106,6 +106,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
         tabIndex={-1}
         onClick={closeMenu}
       />
+      <div className="squiggle squiggle-bottom" aria-hidden="true" />
     </nav>
   );
 }

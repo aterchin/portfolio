@@ -25,25 +25,6 @@
   align-self: start;
 }
 
-.sideSection:not(:first-child) {
-  padding-top: var(--space-6);
-  position: relative;
-}
-
-/* Squiggle section divider — same motif as .squiggle in utils.css */
-.sideSection:not(:first-child)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: var(--squiggle-height);
-  background-color: var(--color-border);
-  -webkit-mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
-  mask: var(--squiggle-mask) repeat-x center / var(--squiggle-period) var(--squiggle-height);
-  pointer-events: none;
-}
-
 .sideLabel {
   font-family: var(--font-display);
   font-size: var(--text-body);

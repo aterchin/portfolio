@@ -140,6 +140,8 @@ export default function AboutPage() {
             </dl>
           </div>
 
+          <hr className="squiggle" />
+
           <div className={styles.sideSection}>
             <h2 className={styles.sideLabel}>Looking for</h2>
             <p className={styles.sideText}>
@@ -149,6 +151,8 @@ export default function AboutPage() {
               Get in touch →
             </Link>
           </div>
+
+          <hr className="squiggle" />
 
           <div className={styles.sideSection}>
             <h2 className={styles.sideLabel}>Elsewhere</h2>
