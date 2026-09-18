@@ -10,11 +10,11 @@ import { useTheme } from "@/providers/ThemeProvider";
 import styles from "./Nav.module.css";
 
 const links = [
-  { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/notes", label: "Notes" },
-  { href: "/contact", label: "contact" },
-];
+  { href: "/work", label: "Work", tone: "accent" },
+  { href: "/about", label: "About", tone: "seafoam" },
+  { href: "/notes", label: "Notes", tone: "yellow" },
+  { href: "/contact", label: "contact", tone: "periwinkle" },
+] as const;
 
 const iconProps = {
   size: 20,
@@ -61,13 +61,22 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
           className={`${styles.menuPanel} ${isOpen ? styles.menuPanelOpen : ""}`}
         >
           <ul className={styles.links}>
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} onClick={closeMenu}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {links.map((link) => {
+              const isActive =
+                pathname === link.href || pathname.startsWith(`${link.href}/`);
+
+              return (
+                <li
+                  key={link.href}
+                  className={`${styles.tab} ${isActive ? styles.tabActive : ""}`}
+                  data-tone={link.tone}
+                >
+                  <Link href={link.href} onClick={closeMenu}>
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 

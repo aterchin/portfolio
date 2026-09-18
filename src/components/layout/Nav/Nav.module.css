@@ -110,7 +110,8 @@
   z-index: 104;
 }
 
-.menuButton {
+/* Beat .icon-button's display:inline-flex (same single-class specificity). */
+.actions .menuButton {
   display: none;
 }
 
@@ -120,63 +121,160 @@
 
 @media (max-width: 768px) {
   .navEnd {
+    position: static;
     gap: var(--space-2);
   }
 
+  /* Transparent stack — individual tabs carry the chrome. */
   .menuPanel {
-    position: absolute;
-    top: calc(100% + var(--space-2));
+    position: fixed;
+    top: calc(var(--space-8) + 2.25rem + var(--space-5) + var(--space-2));
     right: 0;
     z-index: 102;
-    min-width: 10rem;
-    padding: var(--space-4) var(--space-5);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    box-shadow: 0 8px 24px rgb(28 26 23 / 8%);
-    opacity: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-8px);
-    transition:
-      opacity var(--duration-base) var(--ease-out),
-      transform var(--duration-base) var(--ease-out),
-      visibility var(--duration-base) var(--ease-out);
+    /* Hold visibility until bottom-up close stagger finishes (3 * 90ms + slow). */
+    transition: visibility 0s linear calc(var(--duration-slow) + 270ms);
   }
 
   .menuPanelOpen {
-    opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transition-delay: 0s;
   }
 
   .links {
     flex-direction: column;
     align-items: flex-end;
-    gap: var(--space-4);
+    gap: var(--space-2);
   }
 
-  .menuButton {
+  .tab {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+    transition:
+      opacity var(--duration-slow) var(--ease-out),
+      transform var(--duration-slow) var(--ease-out);
+  }
+
+  /* Closed / closing: bottom-up (contact first, work last). */
+  .tab:nth-child(1) { transition-delay: 270ms; }
+  .tab:nth-child(2) { transition-delay: 180ms; }
+  .tab:nth-child(3) { transition-delay: 90ms; }
+  .tab:nth-child(4) { transition-delay: 0ms; }
+
+  .menuPanelOpen .tab {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  /* Open: top-down (work first, contact last). */
+  .menuPanelOpen .tab:nth-child(1) { transition-delay: 0ms; }
+  .menuPanelOpen .tab:nth-child(2) { transition-delay: 90ms; }
+  .menuPanelOpen .tab:nth-child(3) { transition-delay: 180ms; }
+  .menuPanelOpen .tab:nth-child(4) { transition-delay: 270ms; }
+
+  /* Grow left on hover/active — keep the right edge flush (no translate gap). */
+  .menuPanelOpen .tab:hover a,
+  .menuPanelOpen .tabActive a {
+    padding-left: var(--space-8);
+    min-width: 9.5rem;
+  }
+
+  .tab a {
+    display: block;
+    box-sizing: border-box;
+    min-width: 8.5rem;
+    padding: var(--space-3) var(--space-6) var(--space-3) var(--space-6);
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    box-shadow: none;
+    color: inherit;
+    transition:
+      color var(--duration-base) var(--ease-base),
+      padding-left var(--duration-base) var(--ease-out),
+      min-width var(--duration-base) var(--ease-out);
+  }
+
+  .tab a:hover {
+    color: inherit;
+  }
+
+  .tab[data-tone="accent"] {
+    color: var(--color-accent-text);
+  }
+
+  .tab[data-tone="accent"] a {
+    background: var(--color-accent-mute);
+  }
+
+  .tab[data-tone="seafoam"] {
+    color: var(--color-seafoam-text);
+  }
+
+  .tab[data-tone="seafoam"] a {
+    background: var(--color-seafoam-mute);
+  }
+
+  .tab[data-tone="yellow"] {
+    color: var(--color-yellow-text);
+  }
+
+  .tab[data-tone="yellow"] a {
+    background: var(--color-yellow-mute);
+  }
+
+  .tab[data-tone="periwinkle"] {
+    color: var(--color-periwinkle-text);
+  }
+
+  .tab[data-tone="periwinkle"] a {
+    background: var(--color-periwinkle-mute);
+  }
+
+  .actions .menuButton {
     display: inline-flex;
   }
 
-  .backdrop {
+  /* Beat global .backdrop background (same single-class specificity). */
+  .nav .backdrop {
     display: block;
     z-index: 101;
+    background: rgb(11 10 9 / 72%);
   }
 }
 
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   .menuPanel {
-    transform: none;
-    transition:
-      opacity var(--duration-fast) var(--ease-out),
-      visibility var(--duration-fast) var(--ease-out);
+    transition: visibility 0s linear var(--duration-fast);
   }
 
-  .menuPanelOpen {
+  .tab {
     transform: none;
+    transition:
+      opacity var(--duration-fast) var(--ease-out);
+    transition-delay: 0ms;
+  }
+
+  .tab:nth-child(1),
+  .tab:nth-child(2),
+  .tab:nth-child(3),
+  .tab:nth-child(4),
+  .menuPanelOpen .tab,
+  .menuPanelOpen .tab:nth-child(1),
+  .menuPanelOpen .tab:nth-child(2),
+  .menuPanelOpen .tab:nth-child(3),
+  .menuPanelOpen .tab:nth-child(4) {
+    transition-delay: 0ms;
+  }
+
+  .tab a {
+    transition: color var(--duration-fast) var(--ease-out);
   }
 }
 
