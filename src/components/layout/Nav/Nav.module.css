@@ -180,11 +180,10 @@
   .menuPanelOpen .tab:nth-child(3) { transition-delay: 180ms; }
   .menuPanelOpen .tab:nth-child(4) { transition-delay: 270ms; }
 
-  /* Grow left on hover/active — keep the right edge flush (no translate gap). */
-  .menuPanelOpen .tab:hover a,
-  .menuPanelOpen .tabActive a {
+  /* Grow left on hover — keep the right edge flush (no translate gap). */
+  .menuPanelOpen .tab:hover a {
     padding-left: var(--space-8);
-    min-width: 9.5rem;
+    min-width: 12rem;
   }
 
   .tab a {
