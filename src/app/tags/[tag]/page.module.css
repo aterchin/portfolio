@@ -12,28 +12,6 @@
   margin-bottom: var(--space-12);
 }
 
-.groupHeading {
-  position: relative;
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-3);
-}
-
-.groupHeading::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: var(--stroke-length);
-  height: var(--stroke-width);
-  border-radius: var(--radius-full);
-  background: var(--color-accent-mute);
-}
-
 .itemMeta {
   font-family: var(--font-ui);
   font-size: var(--text-xs);

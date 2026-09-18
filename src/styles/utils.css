@@ -434,7 +434,18 @@
   transform: translateX(0.2em);
 }
 
-/* List row type stack — ContentList, tag results, Search */
+/* Short underline mark — SectionLabel and similar eyebrows. Real element
+   so paint is shared (CSS Modules cannot share ::after recipes). */
+.accent-stroke {
+  display: block;
+  width: var(--stroke-length);
+  height: var(--stroke-width);
+  margin-top: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-mute);
+}
+
+/* List row type stack — ContentList, tag results, Card, Search */
 .list-title {
   font-family: var(--font-display);
   font-size: var(--text-h3);
@@ -450,7 +461,8 @@ a.list-title {
   text-decoration: none;
 }
 
-a:hover .list-title,
+/* Hover only for list rows — not every parent <a> (e.g. Card) */
+.list-item:hover .list-title,
 a.list-title:hover {
   color: var(--color-accent);
 }

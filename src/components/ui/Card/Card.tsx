@@ -36,13 +36,17 @@ export function Card({
       {children}
       <h3
         className={
-          status === "draft" ? `${styles.title} draft-title` : styles.title
+          status === "draft"
+            ? `list-title ${styles.title} draft-title`
+            : `list-title ${styles.title}`
         }
       >
         {title}
       </h3>
-      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-      <p className={styles.summary}>{summary}</p>
+      {subtitle && (
+        <p className={`list-subtitle ${styles.subtitle}`}>{subtitle}</p>
+      )}
+      <p className={`list-summary ${styles.summary}`}>{summary}</p>
       <div className={styles.footer}>
         <p className={styles.tags}>{tags.join(" · ")}</p>
         <span className={styles.arrow} aria-hidden>

@@ -7,7 +7,10 @@ interface SectionLabelProps {
 export function SectionLabel({ children }: SectionLabelProps) {
   return (
     <div className={styles.label}>
-      <span>{children}</span>
+      <span>
+        {children}
+        <span className="accent-stroke" aria-hidden="true" />
+      </span>
     </div>
   );
 }
