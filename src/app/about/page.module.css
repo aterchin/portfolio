@@ -156,9 +156,11 @@
 }
 
 .stackLink {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
   transition: color var(--duration-base) var(--ease-base);
 }
 

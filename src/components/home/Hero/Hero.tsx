@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section className={styles.hero}>
       <div className={styles.copy}>
-        <h1 className={styles.heading}>Hey there, I&apos;m Adam.</h1>
+        <h1 className={styles.heading}>Hey, I&apos;m Adam.</h1>
         <p className={styles.body}>
           Fifteen years across LAMP stacks and I needed a place to organize it.
         </p>

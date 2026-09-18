@@ -11,21 +11,3 @@
 .group {
   margin-bottom: var(--space-12);
 }
-
-.itemMeta {
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  color: var(--color-text-tertiary);
-  margin-bottom: var(--space-2);
-}
-
-.itemSummary {
-  max-width: var(--layout-prose);
-  margin-bottom: var(--space-3);
-}
-
-.itemTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}

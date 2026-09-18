@@ -92,7 +92,7 @@
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
     color: var(--color-text-primary);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-5);
   }
 
   .content-subtitle {

@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
+import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
-import { Tag } from "@/components/ui/Tag/Tag";
 import {
   getAllNormalizedTags,
   getContentByTag,
@@ -44,84 +43,34 @@ export default async function TagPage({
 
       {projects.length > 0 && (
         <section className={styles.group}>
-          <ul className="list-stack">
-            {projects.map((project) => (
-              <TagResultItem
-                key={project.slug}
-                href={`/work/${project.slug}`}
-                title={project.title}
-                subtitle={project.subtitle}
-                summary={project.summary}
-                tags={project.tags}
-                meta={project.type === "case-study" ? "Case study" : "Showcase"}
-                status={project.status}
-              />
-            ))}
-          </ul>
+          <ContentList
+            items={projects.map((item) => ({
+              href: `/work/${item.slug}`,
+              title: item.title,
+              subtitle: item.subtitle,
+              summary: item.summary,
+              tags: [],
+              typeLabel:
+                item.type === "case-study" ? "Case study" : "Showcase",
+            }))}
+          />
         </section>
       )}
 
       {notes.length > 0 && (
         <section className={styles.group}>
-          <ul className="list-stack">
-            {notes.map((note) => (
-              <TagResultItem
-                key={note.slug}
-                href={`/notes/${note.slug}`}
-                title={note.title}
-                subtitle={note.subtitle}
-                summary={note.summary}
-                tags={note.tags}
-                meta="Note"
-                status={note.status}
-              />
-            ))}
-          </ul>
+          <ContentList
+            items={notes.map((item) => ({
+              href: `/notes/${item.slug}`,
+              title: item.title,
+              subtitle: item.subtitle,
+              summary: item.summary,
+              tags: [],
+              status: item.status,
+            }))}
+          />
         </section>
       )}
     </PageWrapper>
-  );
-}
-
-// ─── Tag result list item ──────────────────────────────────────────────────────
-
-interface TagResultItemProps {
-  href: string;
-  title: string;
-  subtitle?: string;
-  summary: string;
-  tags: string[];
-  meta: string;
-  status?: "published" | "draft";
-}
-
-function TagResultItem({
-  href,
-  title,
-  subtitle,
-  summary,
-  tags,
-  meta,
-  status,
-}: TagResultItemProps) {
-  return (
-    <li className="list-item">
-      <div className={styles.itemMeta}>{meta}</div>
-      <Link
-        href={href}
-        className={
-          status === "draft" ? "list-title draft-title" : "list-title"
-        }
-      >
-        {title}
-      </Link>
-      {subtitle && <p className="list-subtitle">{subtitle}</p>}
-      <p className={`list-summary ${styles.itemSummary}`}>{summary}</p>
-      <div className={styles.itemTags}>
-        {tags.map((t) => (
-          <Tag key={t} linked>{t}</Tag>
-        ))}
-      </div>
-    </li>
   );
 }

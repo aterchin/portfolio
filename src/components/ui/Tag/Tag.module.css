@@ -1,14 +1,15 @@
 .tag {
   display: inline-block;
   font-family: var(--font-ui);
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-normal);
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
   margin-right: var(--space-2);
   margin-bottom: var(--space-2);
-  background: var(--color-periwinkle-mute);
-  color: var(--color-periwinkle-text);
+  border: 1px solid var(--color-accent);
+  background-color: var(--color-bg-3);
+  color: var(--color-accent-text);
   text-decoration: none;
 }
