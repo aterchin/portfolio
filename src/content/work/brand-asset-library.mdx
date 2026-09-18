@@ -12,6 +12,12 @@ summary: Headless WordPress media library for a pharma aesthetics company — si
 
 Pharma aesthetics client. Six product brands. Lots of media — images, video, social posts, before-and-after shots, in-office materials. All over the place.
 
+<Figure
+  src="/images/brandbox-d.webp"
+  mobileSrc="/images/brandbox-m.webp"
+  alt="Brand asset library screenshot"
+/>
+
 Two audiences:
 
 - **Brand managers** — add content without calling a developer
@@ -22,6 +28,7 @@ Headless WordPress: familiar admin for content entry, React for browsing, REST A
 <Aside variant="info" title="Stack">
   Wordpress on the back-end, React on the front-end.
 </Aside>
+
 
 ## Why WordPress for the backend
 
@@ -70,7 +77,7 @@ Custom REST route in a WordPress plugin instead. Front-end sends the resource po
 4. Streams the zip to the browser with the correct `Content-Type` and `Content-Disposition` headers
 5. Increments a download count field in the post's meta
 
-```php wide
+```php
 $media_ids = get_post_meta($post_id, 'resource_files', true);
 
 foreach ($media_ids as $media_id) {

@@ -11,7 +11,7 @@ export default function WorkPage() {
 
   return (
     <PageWrapper>
-      <ProjectGrid projects={projects} label="Work" />
+      <ProjectGrid projects={projects} label="Selected Work" />
     </PageWrapper>
   );
 }

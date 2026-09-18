@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ChicagoFlag } from "@/components/about/ChicagoFlag/ChicagoFlag";
+import { getAllNormalizedTags, normalizeTag } from "@/lib/tags";
 import styles from "./page.module.css";
 
 export const metadata = {
@@ -10,7 +12,7 @@ export const metadata = {
 const STACK = [
   {
     label: "Languages",
-    items: ["JavaScript", "PHP", "CSS", "SQL"],
+    items: ["JavaScript", "PHP", "CSS"],
   },
   {
     label: "Frameworks",
@@ -18,7 +20,7 @@ const STACK = [
   },
   {
     label: "Infrastructure",
-    items: ["Linux", "Apache", "AWS", "Linode", "MySQL", "MariaDB", "Git"],
+    items: ["Linux", "Apache", "Linode", "MySQL", "Git", "AWS"],
   },
 ];
 
@@ -35,6 +37,9 @@ const TECH_ICONS = [
 ] as const;
 
 export default function AboutPage() {
+  // Set of URL slugs that already have a /tags/[tag] page from content frontmatter.
+  const existingTags = new Set(getAllNormalizedTags());
+
   return (
     <PageWrapper>
       <div className={styles.layout}>
@@ -107,7 +112,27 @@ export default function AboutPage() {
               {STACK.map(({ label, items }) => (
                 <div key={label} className={styles.stackGroup}>
                   <dt className={styles.stackLabel}>{label}</dt>
-                  <dd className={styles.stackItems}>{items.join(", ")}</dd>
+                  <dd className={styles.stackItems}>
+                    {items.map((item, i) => {
+                      const slug = normalizeTag(item);
+                      const href = existingTags.has(slug)
+                        ? `/tags/${slug}`
+                        : null;
+
+                      return (
+                        <Fragment key={item}>
+                          {i > 0 && ", "}
+                          {href ? (
+                            <Link href={href} className={styles.stackLink}>
+                              {item}
+                            </Link>
+                          ) : (
+                            item
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </dd>
                 </div>
               ))}
             </dl>

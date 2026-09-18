@@ -169,6 +169,17 @@
   line-height: var(--leading-normal);
 }
 
+.stackLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  transition: color var(--duration-base) var(--ease-base);
+}
+
+.stackLink:hover {
+  color: var(--color-accent-text);
+}
+
 /* ── Looking for ───────────────────────────────────────────── */
 
 .sideText {

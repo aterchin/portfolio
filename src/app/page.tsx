@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
+import { Hero } from "@/components/home/Hero/Hero";
 import { ArrowRight } from "@/components/ui/ArrowRight/ArrowRight";
 import { SquareText } from "lucide-react";
 import { getNotes, getProjects } from "@/lib/mdx";
@@ -22,6 +23,7 @@ export default function Home() {
     <PageWrapper>
       <div className={styles.layout}>
         <div className={styles.main}>
+          <Hero />
           {projects.length > 0 && (
             <section className={styles.section}>
               <SectionLabel>Selected work</SectionLabel>
