@@ -21,11 +21,12 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  /* Closed-state timing (exit): ease-in so it eases away instead of shooting up */
   transition:
-    transform var(--duration-slow) var(--ease-out),
-    min-height var(--duration-slow) var(--ease-out),
-    opacity var(--duration-base) var(--ease-out),
-    visibility var(--duration-slow) var(--ease-out);
+    transform var(--duration-slow) var(--ease-in),
+    min-height var(--duration-slow) var(--ease-in),
+    opacity var(--duration-slow) var(--ease-in),
+    visibility var(--duration-slow) var(--ease-in);
 }
 
 .overlayOpen {
@@ -33,6 +34,12 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  /* Open-state timing (enter): ease-out for a soft landing */
+  transition:
+    transform var(--duration-slow) var(--ease-out),
+    min-height var(--duration-slow) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
 }
 
 .overlayFilled {
@@ -79,21 +86,6 @@
 .clear {
   flex-shrink: 0;
   margin-bottom: var(--space-2);
-  padding: 0;
-  background: none;
-  border: none;
-  font-family: var(--font-ui);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-text-tertiary);
-  cursor: pointer;
-  transition: color var(--duration-base) var(--ease-base);
-}
-
-.clear:hover {
-  color: var(--color-text-primary);
 }
 
 .input::placeholder {
@@ -133,12 +125,16 @@
   .overlay {
     transform: none;
     transition:
-      opacity var(--duration-fast) var(--ease-out),
-      visibility var(--duration-fast) var(--ease-out),
-      min-height var(--duration-fast) var(--ease-out);
+      opacity var(--duration-fast) var(--ease-in),
+      visibility var(--duration-fast) var(--ease-in),
+      min-height var(--duration-fast) var(--ease-in);
   }
 
   .overlayOpen {
     transform: none;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      visibility var(--duration-fast) var(--ease-out),
+      min-height var(--duration-fast) var(--ease-out);
   }
 }

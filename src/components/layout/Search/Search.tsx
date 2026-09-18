@@ -10,7 +10,7 @@ import {
   type ChangeEvent,
 } from "react";
 import Fuse from "fuse.js";
-import { Search as SearchLucide, X } from "lucide-react";
+import { Search as SearchLucide, Trash, TrashOff, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ContentList } from "@/components/ui/ContentList/ContentList";
 import type { SearchItem, SearchItemType } from "@/lib/search";
@@ -20,6 +20,10 @@ const TYPE_LABELS: Record<SearchItemType, string> = {
   note: "Note",
   work: "Work",
 };
+
+const CLEAR_FEEDBACK_MS = 600;
+/* Keep in sync with --duration-slow on the overlay exit transition */
+const OVERLAY_EXIT_MS = 350;
 
 const iconProps = {
   size: 20,
@@ -38,9 +42,12 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
   const [query, setQuery] = useState("");
   const [placeholder, setPlaceholder] = useState(exampleTags[0] ?? "CSS");
   const [openedAtPath, setOpenedAtPath] = useState<string | null>(null);
+  const [justCleared, setJustCleared] = useState(false);
   const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const clearTimeoutRef = useRef<number | null>(null);
+  const scrollUnlockTimeoutRef = useRef<number | null>(null);
   const listId = useId();
 
   if (menuOpen && openedAtPath !== null) {
@@ -76,6 +83,11 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
 
   const closePanel = useCallback(() => {
     setOpenedAtPath(null);
+    setJustCleared(false);
+    if (clearTimeoutRef.current !== null) {
+      window.clearTimeout(clearTimeoutRef.current);
+      clearTimeoutRef.current = null;
+    }
     triggerRef.current?.focus();
   }, []);
 
@@ -108,24 +120,59 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
   }, [isOpen, closePanel]);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const previousBody = document.body.style.overflow;
-    const previousHtml = document.documentElement.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previousBody;
-      document.documentElement.style.overflow = previousHtml;
-    };
+    if (isOpen) {
+      if (scrollUnlockTimeoutRef.current !== null) {
+        window.clearTimeout(scrollUnlockTimeoutRef.current);
+        scrollUnlockTimeoutRef.current = null;
+      }
+      const previousBody = document.body.style.overflow;
+      const previousHtml = document.documentElement.style.overflow;
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      return () => {
+        scrollUnlockTimeoutRef.current = window.setTimeout(() => {
+          document.body.style.overflow = previousBody;
+          document.documentElement.style.overflow = previousHtml;
+          scrollUnlockTimeoutRef.current = null;
+        }, OVERLAY_EXIT_MS);
+      };
+    }
   }, [isOpen]);
 
+  useEffect(() => {
+    return () => {
+      if (clearTimeoutRef.current !== null) {
+        window.clearTimeout(clearTimeoutRef.current);
+      }
+      if (scrollUnlockTimeoutRef.current !== null) {
+        window.clearTimeout(scrollUnlockTimeoutRef.current);
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+      }
+    };
+  }, []);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (justCleared) {
+      setJustCleared(false);
+      if (clearTimeoutRef.current !== null) {
+        window.clearTimeout(clearTimeoutRef.current);
+        clearTimeoutRef.current = null;
+      }
+    }
     setQuery(event.target.value);
   };
 
   const clearQuery = () => {
     setQuery("");
-    inputRef.current?.focus();
+    setJustCleared(true);
+    if (clearTimeoutRef.current !== null) {
+      window.clearTimeout(clearTimeoutRef.current);
+    }
+    clearTimeoutRef.current = window.setTimeout(() => {
+      setJustCleared(false);
+      inputRef.current?.focus();
+    }, CLEAR_FEEDBACK_MS);
   };
 
   return (
@@ -181,13 +228,19 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
               aria-label="Search site content"
               aria-autocomplete="list"
             />
-            {query.length > 0 && (
+            {(query.length > 0 || justCleared) && (
               <button
                 type="button"
-                className={styles.clear}
+                className={`icon-button ${styles.clear}`}
                 onClick={clearQuery}
+                aria-label="Clear search"
+                disabled={justCleared}
               >
-                Clear
+                {justCleared ? (
+                  <TrashOff {...iconProps} />
+                ) : (
+                  <Trash {...iconProps} />
+                )}
               </button>
             )}
           </div>
