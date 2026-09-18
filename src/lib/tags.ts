@@ -85,6 +85,35 @@ export interface TaggedContent {
   notes: Note[];
 }
 
+export interface NotesByTag {
+  tag: string;
+  notes: Note[];
+}
+
+// Notes grouped under each unique tag, alpha-sorted by display name.
+// Notes with multiple tags appear in multiple groups. Order within a
+// group follows getNotes() (newest first).
+export function getNotesGroupedByTag(): NotesByTag[] {
+  const notes = getNotes();
+  const groups = new Map<string, { tag: string; notes: Note[] }>();
+
+  for (const note of notes) {
+    for (const tag of note.tags) {
+      const key = normalizeTag(tag);
+      const entry = groups.get(key);
+      if (entry) {
+        entry.notes.push(note);
+      } else {
+        groups.set(key, { tag, notes: [note] });
+      }
+    }
+  }
+
+  return [...groups.values()].sort((a, b) =>
+    a.tag.localeCompare(b.tag, undefined, { sensitivity: "base" })
+  );
+}
+
 // All content matching a normalized tag, grouped by type.
 export function getContentByTag(normalizedTag: string): TaggedContent {
   return {

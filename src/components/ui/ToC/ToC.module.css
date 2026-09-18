@@ -13,8 +13,6 @@
   letter-spacing: var(--tracking-wider);
   text-transform: lowercase;
   color: var(--color-text-tertiary);
-  border-left: var(--stroke-width) solid var(--color-accent-mute);
-  padding-left: var(--space-4);
   margin-bottom: var(--space-4);
 }
 
