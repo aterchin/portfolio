@@ -109,7 +109,7 @@ export default function AboutPage() {
         <aside className={styles.sidebar}>
 
           <div className={styles.sideSection}>
-            <h2 className={styles.sideLabel}>Currently working with</h2>
+            <h2 className="side-label">Currently working with</h2>
             <dl className={styles.stack}>
               {STACK.map(({ label, items }) => (
                 <div key={label} className={styles.stackGroup}>
@@ -143,7 +143,7 @@ export default function AboutPage() {
           <hr className="squiggle" />
 
           <div className={styles.sideSection}>
-            <h2 className={styles.sideLabel}>Looking for</h2>
+            <h2 className="side-label">Looking for</h2>
             <p className={styles.sideText}>
               Full-time role in New York or remote. Open to contract work.
             </p>
@@ -155,7 +155,7 @@ export default function AboutPage() {
           <hr className="squiggle" />
 
           <div className={styles.sideSection}>
-            <h2 className={styles.sideLabel}>Elsewhere</h2>
+            <h2 className="side-label">Elsewhere</h2>
             <ul className={styles.links}>
               {LINKS.map(({ label, href }) => (
                 <li key={label}>

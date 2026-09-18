@@ -39,8 +39,8 @@ export function ToC({ headings }: ToCProps) {
   if (items.length === 0) return null;
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>Table of Contents</h2>
+    <div className="sticky-rail">
+      <h2 className="side-label">Table of Contents</h2>
       <nav className={styles.nav}>
         <ul className={styles.toc}>
           {items.map(({ id, title, level, children }) => (

@@ -29,7 +29,7 @@ function ContentListItem({
 }: ContentListItemProps) {
   return (
     <li>
-      <Link href={href} className={`list-item ${styles.link}`}>
+      <Link href={href} className="list-item">
         {typeLabel && (
           <div className={styles.meta}>
             <span className={styles.type}>{typeLabel}</span>
@@ -37,13 +37,13 @@ function ContentListItem({
         )}
         <h3
           className={
-            status === "draft" ? `${styles.title} draft-title` : styles.title
+            status === "draft" ? "list-title draft-title" : "list-title"
           }
         >
           {title}
         </h3>
-        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-        <p className={styles.summary}>{summary}</p>
+        {subtitle && <p className="list-subtitle">{subtitle}</p>}
+        <p className="list-summary">{summary}</p>
         {tags.length > 0 && (
           <p className={styles.tags}>{tags.join(" · ")}</p>
         )}

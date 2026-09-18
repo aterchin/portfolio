@@ -42,8 +42,8 @@ export default function NotesPage() {
         </div>
 
         <aside className={`content-sidebar ${styles.sidebar}`}>
-          <div className={styles.sideInner}>
-            <p className={styles.sideLabel}>Tags</p>
+          <div className={`sticky-rail ${styles.sideInner}`}>
+            <p className="side-label">Tags</p>
             <ul className={styles.tagList}>
               {groups.map(({ tag, notes }) => {
                 const id = normalizeTag(tag);

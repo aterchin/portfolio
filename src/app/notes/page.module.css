@@ -10,16 +10,9 @@
   display: block;
 }
 
-/* Match ToC.wrapper padding + sticky offset so the rail lines up
-   with the detail-page ToC when you click through. Sidebar stretches
+/* Match ToC sticky-rail; local overrides only below. Sidebar stretches
    with the main column (content-layout align-items: stretch) so the
    sticky element has a full-height track. */
-.sideInner {
-  padding: var(--space-5);
-  position: sticky;
-  top: calc(var(--height-header) + var(--space-12));
-}
-
 @media (max-width: 1023px) {
   .sidebar {
     /* Single-column content-layout — pull tags above the sections. */
@@ -31,16 +24,6 @@
     position: static;
     padding: 0;
   }
-}
-
-.sideLabel {
-  font-family: var(--font-display);
-  font-size: var(--text-body);
-  font-weight: 500;
-  letter-spacing: var(--tracking-wider);
-  text-transform: lowercase;
-  color: var(--color-text-tertiary);
-  margin-bottom: var(--space-4);
 }
 
 .tagList {

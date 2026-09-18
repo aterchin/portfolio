@@ -130,7 +130,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
       <button
         ref={triggerRef}
         type="button"
-        className={styles.trigger}
+        className="icon-button"
         onClick={openPanel}
         aria-expanded={isOpen}
         aria-controls={listId}
@@ -141,7 +141,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
 
       <button
         type="button"
-        className={`${styles.backdrop} ${isOpen ? styles.backdropOpen : ""}`}
+        className={`backdrop ${styles.backdrop} ${isOpen ? "backdrop-open" : ""}`}
         aria-hidden="true"
         tabIndex={-1}
         onClick={closePanel}
@@ -160,7 +160,7 @@ export function Search({ items, exampleTags, menuOpen = false, onActivate }: Sea
           <div className={styles.toolbar}>
             <button
               type="button"
-              className={styles.close}
+              className="icon-button"
               onClick={closePanel}
               aria-label="Close search"
             >

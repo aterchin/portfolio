@@ -36,9 +36,9 @@ export default function Home() {
                   status: item.status,
                 }))}
               />
-              <Link href="/notes" className={styles.viewAll}>
+              <Link href="/notes" className={`text-cta ${styles.viewAll}`}>
                 View all
-                <span className={styles.arrow} aria-hidden>
+                <span className={`text-cta-arrow ${styles.viewAllArrow}`} aria-hidden>
                   <ArrowRight {...arrowProps} />
                 </span>
               </Link>

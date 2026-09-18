@@ -80,7 +80,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
           />
           <button
             type="button"
-            className={styles.menuButton}
+            className={`icon-button ${styles.menuButton}`}
             onClick={() => setOpenedAtPath(isOpen ? null : pathname)}
             aria-expanded={isOpen}
             aria-controls={menuId}
@@ -90,7 +90,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
           </button>
           <button
             type="button"
-            className={styles.themeToggle}
+            className={`icon-button ${styles.themeToggle}`}
             onClick={toggleTheme}
             aria-label="Toggle dark mode"
           >
@@ -101,7 +101,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
 
       <button
         type="button"
-        className={`${styles.backdrop} ${isOpen ? styles.backdropOpen : ""}`}
+        className={`backdrop ${styles.backdrop} ${isOpen ? "backdrop-open" : ""}`}
         aria-hidden="true"
         tabIndex={-1}
         onClick={closeMenu}

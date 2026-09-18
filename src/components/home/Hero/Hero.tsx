@@ -19,15 +19,15 @@ export function Hero() {
         </p>
       </div>
       <nav className={styles.links} aria-label="Hero">
-        <Link href="/work" className={styles.link}>
+        <Link href="/work" className="text-cta">
           View work
-          <span className={styles.arrow} aria-hidden>
+          <span className="text-cta-arrow" aria-hidden>
             <ArrowRight {...arrowProps} />
           </span>
         </Link>
-        <Link href="/contact" className={styles.link}>
+        <Link href="/contact" className="text-cta">
           Get in touch
-          <span className={styles.arrow} aria-hidden>
+          <span className="text-cta-arrow" aria-hidden>
             <ArrowRight {...arrowProps} />
           </span>
         </Link>

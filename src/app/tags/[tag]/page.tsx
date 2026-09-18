@@ -110,15 +110,13 @@ function TagResultItem({
       <Link
         href={href}
         className={
-          status === "draft"
-            ? `${styles.itemTitle} draft-title`
-            : styles.itemTitle
+          status === "draft" ? "list-title draft-title" : "list-title"
         }
       >
         {title}
       </Link>
-      {subtitle && <p className={styles.itemSubtitle}>{subtitle}</p>}
-      <p className={styles.itemSummary}>{summary}</p>
+      {subtitle && <p className="list-subtitle">{subtitle}</p>}
+      <p className={`list-summary ${styles.itemSummary}`}>{summary}</p>
       <div className={styles.itemTags}>
         {tags.map((t) => (
           <Tag key={t} linked>{t}</Tag>
