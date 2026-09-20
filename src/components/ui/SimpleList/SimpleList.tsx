@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/cn";
 import styles from "./SimpleList.module.css";
 
 
@@ -34,9 +35,9 @@ export interface SimpleListProps {
 const SimpleListItem = ({ href, title, className, children }: SimpleListItemProps) => {
   if (href) {
     return (
-      <li className={`${styles['list-item']} ${className}`}>
+      <li className={cn(styles["list-item"], className)}>
         <Link href={href}>
-          <span className={`${styles['list-arrow']}`} aria-hidden>
+          <span className={styles["list-arrow"]} aria-hidden>
             <ChevronRight {...chevronProps} />
           </span>
           {title}
@@ -46,7 +47,7 @@ const SimpleListItem = ({ href, title, className, children }: SimpleListItemProp
   }
 
   return (
-    <li className={`${styles['list-item']} ${className}`}>
+    <li className={cn(styles["list-item"], className)}>
       {title && <span>{title}</span>}
       {children}
     </li>
@@ -55,7 +56,7 @@ const SimpleListItem = ({ href, title, className, children }: SimpleListItemProp
 
 export function SimpleList({ items, className }: SimpleListProps) {
   return (
-    <ul className={`${styles['list-simple']} ${className}`}>
+    <ul className={cn(styles["list-simple"], className)}>
       {items.map((item, index) => (
         <SimpleListItem key={index} {...item} />
       ))}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/cn";
 import styles from "./ContentList.module.css";
 
 export interface ContentListItemProps {
@@ -54,7 +55,7 @@ function ContentListItem({
 
 export function ContentList({ items, className }: ContentListProps) {
   return (
-    <ul className={className ? `list-stack ${className}` : "list-stack"}>
+    <ul className={cn("list-stack", className)}>
       {items.map((item) => (
         <ContentListItem key={item.href} {...item} />
       ))}

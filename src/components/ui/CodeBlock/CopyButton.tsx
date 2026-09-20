@@ -2,6 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/cn";
 import styles from "./CopyButton.module.css";
 
 export interface CopyButtonProps {
@@ -44,7 +45,7 @@ export function CopyButton({ code, className }: CopyButtonProps) {
   return (
     <button
       type="button"
-      className={`${styles.button} ${className ?? ""}`}
+      className={cn(styles.button, className)}
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy code"}
     >
