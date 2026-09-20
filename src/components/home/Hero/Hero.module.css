@@ -41,7 +41,7 @@
   justify-content: center;
   min-width: 0;
   padding-left: var(--space-6);
-  border-left: var(--stroke-width) solid var(--color-accent);
+  border-left: var(--stroke-width) solid var(--color-accent-mute);
 }
 
 @media (max-width: 768px) {
@@ -50,6 +50,6 @@
   }
 
   .links {
-    display: none;
+
   }
 }

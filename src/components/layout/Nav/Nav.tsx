@@ -51,6 +51,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
 
   return (
     <nav className={styles.nav}>
+      <div className={styles.navInner}>
       <Link href="/" className={`${styles.wordmark} typewriter`}>
         <span>reallyslowwebsites<span>.com</span></span>
       </Link>
@@ -115,6 +116,7 @@ export function Nav({ searchItems, exampleTags }: NavProps) {
         tabIndex={-1}
         onClick={closeMenu}
       />
+      </div>
       <div className="squiggle squiggle-bottom" aria-hidden="true" />
     </nav>
   );

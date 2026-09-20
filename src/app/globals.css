@@ -42,6 +42,20 @@ body {
   line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  width: 480%;
+  height: 100%;
+  display: block;
+  background: var(--gradient-radial-accent);
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: -1;
 }
 
 a {
