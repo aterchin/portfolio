@@ -1,0 +1,17 @@
+.list-item {
+  padding: var(--space-1) var(--space-1);
+  list-style: none;
+}
+
+.list-item a {
+  display: flex;
+  gap: var(--space-2) ;
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.list-item a:hover {
+  color: var(--color-accent-text);
+}

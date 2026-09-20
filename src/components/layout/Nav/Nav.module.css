@@ -63,8 +63,8 @@
   position: relative;
   animation: 
     blur-in 1s linear backwards,
-    typing 8s steps(20, end) forwards,
-    hide-caret 0s 8s forwards;
+    typing 4s steps(20, end) forwards,
+    hide-caret 0s 4s forwards;
   }
 
 @keyframes typing {

@@ -217,7 +217,7 @@
   --gradient-radial-accent: radial-gradient(
     circle,
     transparent 81%,
-    color-mix(in srgb, var(--color-accent) 25%, transparent) 81%,
+    color-mix(in srgb, var(--color-accent) 15%, transparent) 81%,
     var(--color-surface) 100%
   );
 
