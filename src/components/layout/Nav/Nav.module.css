@@ -204,7 +204,7 @@
   /* Grow left on hover — keep the right edge flush (no translate gap). */
   .menuPanelOpen .tab:hover a {
     padding-left: var(--space-8);
-    min-width: 12rem;
+    min-width: 10rem;
   }
 
   .tab a {
@@ -264,7 +264,7 @@
   /* Beat global .backdrop background (same single-class specificity). */
   .nav .backdrop {
     display: block;
-    z-index: 101;
+    z-index: 0;
     background: rgb(11 10 9 / 72%);
   }
 }
