@@ -1,0 +1,22 @@
+---
+title: Phone-test the Next.js dev server on LAN
+slug: allowed-dev-origins-lan-phone
+date: 2026-09-20
+tags: [Next.js]
+summary: Allow your phone's LAN host in next.config so client JS works on device.
+---
+
+A feature working on my laptop for dev at the normal `http://localhost:3000` was not working when I loaded up the network url for testing.  However the production build was fine.
+
+When you open `http://192.168.x.x:3000` from a phone, Next may block `/_next` dev resources. CSS still loads; React handlers often do not.
+
+Add the LAN host and restart the dev server:
+
+```ts
+const nextConfig: NextConfig = {
+  // ...
+  allowedDevOrigins: ["192.168.1.154"],
+};
+```
+
+Use your machine's actual LAN IP.
