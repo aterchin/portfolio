@@ -50,6 +50,24 @@
   }
 
   .links {
+    padding-left: 0;
+    border-left: none;
+    gap: var(--space-3);
+  }
 
+  /* Mobile-only: same Link + text-cta type, larger tap row.
+     Desktop keeps plain text-cta (no rules on .cta above this query). */
+  .cta {
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    border: var(--stroke-width) solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .cta:hover {
+    border-color: var(--color-accent-mute);
+    color: var(--color-accent-text);
   }
 }
