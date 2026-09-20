@@ -45,6 +45,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
+  margin-bottom: var(--space-24);
 
   .content-main {
     min-width: 0;

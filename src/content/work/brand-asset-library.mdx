@@ -52,19 +52,9 @@ No page reloads. The REST API is fast enough that it feels native even with bigg
 
 ## The download
 
-Each tile has a download button. One resource can have multiple files — image, PDF spec sheet, video version. Expected behavior: one click, one zip.
+Each tile has a download button. One resource can have multiple files — image, PDF spec sheet, video.
 
-Client-side zipping from WordPress media URLs is fragile.
-
-<Aside variant="warning" title="Why not zip in the browser?">
-  Public media URLs open in a tab — that does not mean JavaScript can `fetch` them. CORS often blocks it.
-
-  Even when it works, every file has to load into browser memory before the zip exists. Image + PDF + video on one resource adds up fast.
-
-  Worse: files travel server -> browser to build the zip, then browser -> user to download it. The server already has them on disk.
-</Aside>
-
-I made a custom REST route in a WordPress plugin instead. Front-end sends the resource post ID. The plugin:
+I made a custom REST route in a WordPress plugin. Front-end sends the resource post ID. The plugin:
 
 1. Retrieves all media attached to that post
 2. Fetches each file from the filesystem
@@ -85,12 +75,11 @@ Server-side streaming = normal file download. One request, one response.
 
 ## What I'd do differently
 
-Download count increments in the same request as the zip. 
-Failed or interrupted downloads still bump the count.
+Download count increments in the same request as the zip. Failed or interrupted downloads still bump the count.
 
 Better: a separate lightweight endpoint the front-end hits only after the download finishes. Fine for rough internal usage tracking. Not fine if you need accurate analytics.
 
-That being said, we did add Google Analytics to track downloads as well as the modal popup which triggers a preview of the video or image resource which was fine with the client.
+That being said, we did add Google Analytics to track downloads and other events, and they ended up getting rid of the front-facing count tally.
 
 ## Bonus! Demo
 

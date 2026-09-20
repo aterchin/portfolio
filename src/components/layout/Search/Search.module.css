@@ -100,7 +100,8 @@
   appearance: none;
 }
 
-.hint {
+.hint,
+.empty {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-style: italic;
@@ -108,13 +109,6 @@
   text-align: center;
   line-height: var(--leading-normal);
   padding: var(--space-8) var(--space-4) var(--space-4);
-}
-
-.empty {
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  color: var(--color-text-secondary);
-  padding: var(--space-6) 0 var(--space-2);
 }
 
 .results {

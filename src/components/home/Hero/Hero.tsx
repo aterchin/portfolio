@@ -19,6 +19,12 @@ export function Hero() {
         </p>
       </div>
       <nav className={styles.links} aria-label="Hero">
+        <Link href="/notes" className={`text-cta ${styles.cta}`}>
+          All notes
+          <span className="text-cta-arrow" aria-hidden>
+            <ArrowRight {...arrowProps} />
+          </span>
+        </Link>
         <Link href="/work" className={`text-cta ${styles.cta}`}>
           View work
           <span className="text-cta-arrow" aria-hidden>
