@@ -5,12 +5,12 @@ date: 2023-06-01
 type: case-study
 status: published
 tags: [React, Laravel, Google Maps, MySQL]
-summary: A location-based physician finder for a specialty pharmaceutical product — with a geocoding pipeline designed to survive a nightly database truncation.
+summary: A location-based physician finder + messy CSV data  = geocoding pipeline built to survive a nightly import.
 ---
 
 ## Context
 
-Pharma client needed a public tool to help patients find physicians who prescribe a specific specialty neurological product. Search by location, results on a map, switch to a list. Data came from a CSV of names and addresses, re-imported every night.
+Pharma client needed physician finder for their website. Your basic search-by-location, plot results on a map, switch to a list. Data came from a CSV of names and addresses, re-imported every night.
 
 Front-end was the easy part.
 
@@ -27,22 +27,21 @@ Front-end was the easy part.
 
 ## The problem
 
-Every night the client's system dropped a fresh CSV on the server. Instruction: truncate the physicians table and re-import from scratch.
+Every night the client's system dropped a fresh CSV on the server. Instruction: truncate the physicians table and re-import from scratch.  As I was building it out (and testing), I realized this was going to be an expensive geocoding problem.
 
-I pushed back. A CRUD interface would keep data stable and auditable. Short of that: diff-based import, or a geocode cache table that never gets truncated. They wanted the nightly wipe anyway.
-
-<Aside variant="error" title="Same geocoding every night">
-  Truncating every night meant the database had no memory between runs — and
-  an expensive geocoding problem.
+<Aside variant="warning" title="Same calls each run">
+Google Geocoding charges per request. Re-import 800 physicians, you don't want 800 geocode calls every night.
 </Aside>
 
-Google Geocoding charges per request. Re-import 800 physicians, you don't want 800 geocode calls every night.
+I tried to push back at first, maybe a CRUD interface to keep data stable and auditable.  They said, "Unfortunately, we just have a sales guy who needs to upload a CSV somewhere.""
+
+So:
 
 - Most addresses haven't changed
 - Some physicians share an office
 - Some CSV rows look different but resolve to the same coordinates
 
-The constraint wasn't mine. The solution had to work around it.
+I had to work around it and made a seeder which checks for existing geocodes.
 
 ## The seeder
 
@@ -68,7 +67,11 @@ $location_id = DB::table('locations')
     ->value('id');
 ```
 
-One more check before inserting a new location: does the geocoding API's formatted address already exist in the database? Catches typos and abbreviations that still resolve to the same real-world address.
+One more check before inserting a new location: does the geocoding API's formatted address already exist in the database? Catches typos and abbreviations (Rd / Road, East, NE) that still resolve to the same real-world address.
+
+<Aside variant="warning" title="ZIP codes starting with 0">
+Reminder to save your zip codes as strings versus integers in the dtatabase. Databases will most likely strip away that that leading zero (e.g., `02108` for Boston becomes `2108`).
+</Aside>
 
 ```php
 // Geocoding API returned a canonical address —
@@ -79,19 +82,21 @@ $location_id = DB::table('locations')
 ```
 
 <Aside variant="success" title="Outcome">
-  Most nightly reimports hit the location hash cache — geocoding only ran for genuinely new addresses.
+  Geocoding only ran for genuinely new addresses.
 </Aside>
 
-Typical nightly run: fewer than 5% of records hit the geocoding API. The rest match an existing hash and pass through.
+Typical nightly cron run: fewer than 5% of records hit the geocoding API. The rest match an existing hash and pass through.
 
 ## What I'd do differently
 
-Nightly truncation was inherited, not designed. Diff-based import would have made most of the seeder unnecessary.
+Nightly truncation was inherited, not designed. Diff-based import would have made most of the seeder unnecessary. Either way, works well within the constraint.
 
-Works well within the constraint. Didn't need to be one.
+## Bonus! Demo
 
-## Demo
+Look ma, I built a map.  
 
-Production runs for a pharma client and isn't public. I rebuilt the same front end with ~20 bars in my neighborhood so there's something to click through.
+Production runs for a pharma client and isn't public. I rebuilt the same front end with ~20 bars in my neighborhood so there's something to click through. 
 
-[View demo →](https://locator.adamterchin.com) — username: `visitor` / password: `drive-arrive5`
+Spoiler alert:  It's not going to blow your mind.  
+
+[View demo](https://locator.reallyslowwebsites.com)

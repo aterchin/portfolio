@@ -41,7 +41,7 @@ export function ChicagoFlag() {
         role="img"
         aria-label="Flag of Chicago"
       >
-        <rect width="300" height="200" fill="#fff" />
+        <rect width="300" height="200" fill="var(--color-bg)" />
         {/* Blue bars: each 1/6 of flag height, per municipal proportions */}
         <rect
           y={200 / 6}
