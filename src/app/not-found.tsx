@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { PageWrapper } from "@/components/layout/PageWrapper/PageWrapper";
-import { RollingSkate } from "@/components/not-found/RollingSkate";
+import { Spyder } from "@/components/not-found/Spyder";
 import { SectionLabel } from "@/components/ui/SectionLabel/SectionLabel";
 import styles from "./not-found.module.css";
 
@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <PageWrapper>
+    <PageWrapper className={styles.page}>
       <SectionLabel>404</SectionLabel>
       <div className={styles.content}>
         <blockquote className={styles.quote}>
@@ -24,7 +24,7 @@ export default function NotFound() {
           Go home. Go.
         </Link>
       </div>
-      <RollingSkate />
+      <Spyder />
     </PageWrapper>
   );
 }
