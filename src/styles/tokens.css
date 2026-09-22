@@ -10,7 +10,9 @@
  *   4. Layout — max widths, breakpoints (as reference comments)
  *   5. Motion — duration, easing
  *   6. Radius
- *   7. Dark mode overrides
+ *   7. Shadows
+ *   8. Gradients
+ *   9. Dark mode overrides
  */
 
 /* ─────────────────────────────────────────────────────────────────
@@ -19,36 +21,36 @@
 
 :root {
 
-  /* Foundation — slightly warm near-white / near-black, never pure */
-  --color-bg:          #fffef9;  /* page background */
-  --color-bg-2:        #f2ede2;  /* card, code block, input background */
-  --color-bg-3:        #e8e0d0;  /* deeper surface, hover states on bg-2 */
+  /* Foundation — warm mid-gray paper, never pure white */
+  --color-bg:          #d8d6cc;  /* page background */
+  --color-bg-2:        #e4e0d4;  /* card, code block, input background — raised above bg */
+  --color-bg-3:        #d7d1c0;  /* deeper surface, hover states on bg-2 */
 
   --color-ink:         #1c1a17;  /* primary text, headings */
   --color-ink-2:       #2f2c28;  /* body text — halfway between ink and former ink-2 */
   --color-ink-3:       #6b665d;  /* labels, meta, captions — never below 0.9rem */
 
-  --color-border:      #d8d3c9;  /* dividers, card outlines, input borders */
-  --color-border-2:    #c8c2b8;  /* stronger border when needed */
+  --color-border:      #c4bfb3;  /* dividers, card outlines, input borders */
+  --color-border-2:    #aea89c;  /* stronger border when needed */
 
   /* Primary accent — terracotta */
   --color-accent:           #b56330;  /* primary use: buttons, active states, accent text on light bg */
-  --color-accent-mute:      #f4bf9a;  /* background for tags, highlights */
+  --color-accent-mute:      #e0b090;  /* background for tags, highlights — dulled for mid-tone bg */
   --color-accent-text:      #8a3f1c;  /* text on --color-accent-mute (AA contrast confirmed) */
 
   /* Supporting accent — faded seafoam */
   --color-seafoam:          #7fab9f;
-  --color-seafoam-mute:     #bce1d8;
+  --color-seafoam-mute:     #a8c9c0;
   --color-seafoam-text:     #2c5249;  /* text on --color-seafoam-mute */
 
   /* Supporting accent — aged yellow */
   --color-yellow:           #b59c4c;
-  --color-yellow-mute:      #f1dc8a;
+  --color-yellow-mute:      #d9c882;
   --color-yellow-text:      #5c4a14;  /* text on --color-yellow-mute */
 
   /* Supporting accent — washed periwinkle */
   --color-periwinkle:       #7c87b3;
-  --color-periwinkle-mute:  #b6c0e4;
+  --color-periwinkle-mute:  #a3accf;
   --color-periwinkle-text:  #353c5e;  /* text on --color-periwinkle-mute */
 
   /* City of Chicago municipal flag — https://design.chicago.gov/all
@@ -64,8 +66,11 @@
   --color-surface-raised:   var(--color-bg-2);
 
   /* Code blocks — surfaces pair with scoped hljs themes in hljs-themes.css */
-  --color-code-bg:     #f9f9f9;
-  --color-code-border: #e0dbd4;
+  --color-code-bg:     #e5e1d6;
+  --color-code-border: #c9c4b8;
+
+  /* Tag pills — same quiet fill as code blocks in light; dark overrides below */
+  --color-tag-bg:      var(--color-code-bg);
 
 
 /* ─────────────────────────────────────────────────────────────────
@@ -190,7 +195,7 @@
   --shadow-card:
     0 1px 2px rgba(0, 0, 0, 0.04),
     0 4px 12px rgba(0, 0, 0, 0.02),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    inset 0 1px 0 rgba(255, 250, 240, 0.35);
 
   --shadow-card-hover:
     0 4px 6px -1px rgba(110, 105, 90, 0.05),
@@ -264,6 +269,9 @@
   --color-periwinkle:       #8c97c4;
   --color-periwinkle-mute:  #3a4060;
   --color-periwinkle-text:  #b3b9dc;
+
+  /* Tag pills — keep the quiet raised surface that already works in dark */
+  --color-tag-bg:      var(--color-bg-3);
 
   /* Code blocks — Atom One Dark surface (hljs-themes.css) */
   --color-code-bg:     #1d1d1d;
