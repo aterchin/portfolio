@@ -23,7 +23,7 @@ or ambiguous rather than guessing.
   (no third webfont — `ui-monospace` / Menlo / Consolas fallbacks in `tokens.css`)
 
 ## Colors
-- Foundation: dark mode warm near-black `#0b0a09` / light mode is warm near-white `#fffef9`
+- Foundation: dark mode warm near-black `#0b0a09` / light mode is warm near-white `#d8d6cc`
 - Primary accent: terracotta (`--color-accent`)
 - Supporting accents: seafoam, aged yellow, washed periwinkle
 - Tags: periwinkle only, uniform across all sections — no per-project colors

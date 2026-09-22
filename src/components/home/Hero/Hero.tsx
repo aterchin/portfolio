@@ -18,14 +18,14 @@ export function Hero() {
         </p>
       </div>
       <nav className={styles.links} aria-label="Hero">
-        <Link href="/notes" className={`text-cta ${styles.cta}`}>
-          <strong>My notebook</strong>
+        <Link href="/work" className={`text-cta ${styles.cta}`}>
+          View work
           <span className="text-cta-arrow" aria-hidden>
             <ArrowRight {...arrowProps} />
           </span>
         </Link>
-        <Link href="/work" className={`text-cta ${styles.cta}`}>
-          View work
+        <Link href="/notes" className={`text-cta ${styles.cta}`}>
+          <strong>My notebook</strong>
           <span className="text-cta-arrow" aria-hidden>
             <ArrowRight {...arrowProps} />
           </span>
